@@ -1428,7 +1428,11 @@
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
     stored.push(submission);
     localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
-
+ fetch('https://script.google.com/macros/s/AKfycbwz0NxgS-WsdhsNu-4OpCCjzS-pTAruGMq7wjNFIchYOpz6fzPrfjqM85CUxrUkG96qFg/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: new URLSearchParams(submission)
+  });
     document.getElementById('section-' + currentSection).classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
