@@ -980,18 +980,24 @@
     <div class="field-group">
       <label>Sparkling Wine / Champagne <span class="required">*</span></label>
       <div class="option-group">
+        <div class="option-pill"><input type="radio" name="sparklingWine" id="sw-you" value="Let Pathfinder choose" /><label for="sw-you">Let Pathfinder choose the style</label></div>
         <div class="option-pill"><input type="radio" name="sparklingWine" id="sw-yes" value="Yes" /><label for="sw-yes">Yes please</label></div>
         <div class="option-pill"><input type="radio" name="sparklingWine" id="sw-no" value="No" /><label for="sw-no">No thank you</label></div>
-        <div class="option-pill"><input type="radio" name="sparklingWine" id="sw-you" value="Let Pathfinder choose" /><label for="sw-you">Let Pathfinder choose the style</label></div>
+      </div>
+      <div id="sw-detail-wrap" style="display:none; margin-top:12px;">
+        <input type="text" id="sparklingDetail" placeholder="e.g. Veuve Clicquot, Prosecco, Cava, Moët…" />
       </div>
     </div>
 
     <div class="field-group">
       <label>Rosé Wine <span class="required">*</span></label>
       <div class="option-group">
+        <div class="option-pill"><input type="radio" name="roseWine" id="rw-you" value="Let Pathfinder choose" /><label for="rw-you">Let Pathfinder choose</label></div>
         <div class="option-pill"><input type="radio" name="roseWine" id="rw-yes" value="Yes" /><label for="rw-yes">Yes please</label></div>
         <div class="option-pill"><input type="radio" name="roseWine" id="rw-no" value="No" /><label for="rw-no">No thank you</label></div>
-        <div class="option-pill"><input type="radio" name="roseWine" id="rw-you" value="Let Pathfinder choose" /><label for="rw-you">Let Pathfinder choose</label></div>
+      </div>
+      <div id="rw-detail-wrap" style="display:none; margin-top:12px;">
+        <input type="text" id="roseDetail" placeholder="e.g. Whispering Angel, Miraval, a dry Provence style…" />
       </div>
     </div>
 
@@ -999,9 +1005,12 @@
       <label>White Wine <span class="required">*</span></label>
       <span class="field-hint" style="margin-bottom:10px; display:block;">Typical varietals: Sauvignon Blanc, Pinot Grigio, Chardonnay</span>
       <div class="option-group">
+        <div class="option-pill"><input type="radio" name="whiteWine" id="ww-you" value="Let Pathfinder choose varietal" /><label for="ww-you">Let Pathfinder choose the varietal</label></div>
         <div class="option-pill"><input type="radio" name="whiteWine" id="ww-yes" value="Yes" /><label for="ww-yes">Yes please</label></div>
         <div class="option-pill"><input type="radio" name="whiteWine" id="ww-no" value="No" /><label for="ww-no">No thank you</label></div>
-        <div class="option-pill"><input type="radio" name="whiteWine" id="ww-you" value="Let Pathfinder choose varietal" /><label for="ww-you">Let Pathfinder choose the varietal</label></div>
+      </div>
+      <div id="ww-detail-wrap" style="display:none; margin-top:12px;">
+        <input type="text" id="whiteDetail" placeholder="e.g. Kim Crawford Sauvignon Blanc, Rombauer Chardonnay…" />
       </div>
     </div>
 
@@ -1009,9 +1018,12 @@
       <label>Red Wine <span class="required">*</span></label>
       <span class="field-hint" style="margin-bottom:10px; display:block;">Typical varietals: Cabernet Sauvignon, Red Blend, Malbec, Pinot Noir</span>
       <div class="option-group">
+        <div class="option-pill"><input type="radio" name="redWine" id="red-you" value="Let Pathfinder choose varietal" /><label for="red-you">Let Pathfinder choose the varietal</label></div>
         <div class="option-pill"><input type="radio" name="redWine" id="red-yes" value="Yes" /><label for="red-yes">Yes please</label></div>
         <div class="option-pill"><input type="radio" name="redWine" id="red-no" value="No" /><label for="red-no">No thank you</label></div>
-        <div class="option-pill"><input type="radio" name="redWine" id="red-you" value="Let Pathfinder choose varietal" /><label for="red-you">Let Pathfinder choose the varietal</label></div>
+      </div>
+      <div id="red-detail-wrap" style="display:none; margin-top:12px;">
+        <input type="text" id="redDetail" placeholder="e.g. Jordan Cabernet, The Prisoner Red Blend, Meiomi Pinot Noir…" />
       </div>
     </div>
 
@@ -1329,6 +1341,34 @@
     });
   });
 
+  document.querySelectorAll('input[name="sparklingWine"]').forEach(el => {
+    el.addEventListener('change', () => {
+      document.getElementById('sw-detail-wrap').style.display =
+        el.value === 'Yes' && el.checked ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('input[name="roseWine"]').forEach(el => {
+    el.addEventListener('change', () => {
+      document.getElementById('rw-detail-wrap').style.display =
+        el.value === 'Yes' && el.checked ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('input[name="whiteWine"]').forEach(el => {
+    el.addEventListener('change', () => {
+      document.getElementById('ww-detail-wrap').style.display =
+        el.value === 'Yes' && el.checked ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('input[name="redWine"]').forEach(el => {
+    el.addEventListener('change', () => {
+      document.getElementById('red-detail-wrap').style.display =
+        el.value === 'Yes' && el.checked ? 'block' : 'none';
+    });
+  });
+
   document.querySelectorAll('input[name="seltzers"]').forEach(el => {
     el.addEventListener('change', () => {
       const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked;
@@ -1370,9 +1410,13 @@
       seltzers: getChecked('seltzers'),
       seltzerDetail: val('seltzerDetail'),
       sparklingWine: getChecked('sparklingWine'),
+      sparklingDetail: val('sparklingDetail'),
       roseWine: getChecked('roseWine'),
+      roseDetail: val('roseDetail'),
       whiteWine: getChecked('whiteWine'),
+      whiteDetail: val('whiteDetail'),
       redWine: getChecked('redWine'),
+      redDetail: val('redDetail'),
       tableWine: getChecked('tableWine'),
       otherDrinks: val('otherDrinks'),
       deliveryWindow: getChecked('delivery'),
