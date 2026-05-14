@@ -792,8 +792,8 @@
     </div>
 
     <div class="field-group">
-      <label>Venue &amp; County / City <span class="required">*</span></label>
-      <input type="text" id="venue" placeholder="Venue name and county or city" />
+      <label>Venue &amp; City / County <span class="required">*</span></label>
+      <input type="text" id="venue" placeholder="Venue name and city or county" />
     </div>
 
     <div class="field-group">
@@ -936,7 +936,7 @@
 
     <div class="field-group" id="liquor-detail-wrap" style="display:none;">
       <label>Which liquors would you like included?</label>
-      <input type="text" id="liquorDetail" placeholder="e.g. Tito's Vodka, Hendrick's Gin, Bulleit Bourbon, Don Julio Tequila..." />
+      <input type="text" id="liquorDetail" placeholder="e.g. Tito's Vodka, Beltrones Blanco Tequila, Woodford Reserve Bourbon..." />
     </div>
 
     <!-- ── Beer ── -->
@@ -968,7 +968,7 @@
 
     <div class="field-group" id="seltzer-detail-wrap" style="display:none;">
       <label>Any preferred seltzer brands or flavours?</label>
-      <input type="text" id="seltzerDetail" placeholder="e.g. White Claw, Truly, High Noon..." />
+      <input type="text" id="seltzerDetail" placeholder="e.g. White Claw, Truly, High Noon, Two Chicks..." />
     </div>
 
     <!-- ── Wine ── -->
@@ -985,7 +985,7 @@
         <div class="option-pill"><input type="radio" name="sparklingWine" id="sw-no" value="No" /><label for="sw-no">No thank you</label></div>
       </div>
       <div id="sw-detail-wrap" style="display:none; margin-top:12px;">
-        <input type="text" id="sparklingDetail" placeholder="e.g. Veuve Clicquot, Prosecco, Cava, Moët…" />
+        <input type="text" id="sparklingDetail" placeholder="e.g. Andre Clouet Champagne, Perelada Cava, Cremant, Prosecco…" />
       </div>
     </div>
 
@@ -997,7 +997,7 @@
         <div class="option-pill"><input type="radio" name="roseWine" id="rw-no" value="No" /><label for="rw-no">No thank you</label></div>
       </div>
       <div id="rw-detail-wrap" style="display:none; margin-top:12px;">
-        <input type="text" id="roseDetail" placeholder="e.g. Whispering Angel, Miraval, a dry Provence style…" />
+        <input type="text" id="roseDetail" placeholder="e.g. Dry Provence Rosé, La Flor Rosé, Brooks Rosé…" />
       </div>
     </div>
 
@@ -1010,7 +1010,7 @@
         <div class="option-pill"><input type="radio" name="whiteWine" id="ww-no" value="No" /><label for="ww-no">No thank you</label></div>
       </div>
       <div id="ww-detail-wrap" style="display:none; margin-top:12px;">
-        <input type="text" id="whiteDetail" placeholder="e.g. Kim Crawford Sauvignon Blanc, Rombauer Chardonnay…" />
+        <input type="text" id="whiteDetail" placeholder="e.g. Silver Moki Sauvignon Blanc, Shannon Ridge Chardonnay…" />
       </div>
     </div>
 
@@ -1023,7 +1023,7 @@
         <div class="option-pill"><input type="radio" name="redWine" id="red-no" value="No" /><label for="red-no">No thank you</label></div>
       </div>
       <div id="red-detail-wrap" style="display:none; margin-top:12px;">
-        <input type="text" id="redDetail" placeholder="e.g. Jordan Cabernet, The Prisoner Red Blend, Meiomi Pinot Noir…" />
+        <input type="text" id="redDetail" placeholder="e.g. McNab Cabernet, Riglos Malbec, Hunter Chaps Pinot Noir…" />
       </div>
     </div>
 
@@ -1428,11 +1428,7 @@
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
     stored.push(submission);
     localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
- fetch('https://script.google.com/macros/s/AKfycbwz0NxgS-WsdhsNu-4OpCCjzS-pTAruGMq7wjNFIchYOpz6fzPrfjqM85CUxrUkG96qFg/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: new URLSearchParams(submission)
-  });
+
     document.getElementById('section-' + currentSection).classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
