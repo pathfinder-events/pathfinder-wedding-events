@@ -1433,11 +1433,20 @@
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
 
-    console.log('📋 Pathfinder Submission:', submission);
-  }
+    console.log('Pathfinder Submission:', submission);
 
-  updateProgress();
-</script>
-
+    // This part sends the data to your Google Sheet
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyyo344qUdVaxnxuyZywnZM7AISqyFBA8vxJyRqzT0o8dfk3_L3oHcu19E34RTTRK1R5Q/exec';
+    
+    fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors', // Important for Google Apps Script
+      cache: 'no-cache',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(submission)
+    })
+    .then(() => console.log('Success! Data sent to Sheet.'))
+    .catch(error => console.error('Error!', error.message));
+  } // This closes your submission function
 </body>
 </html>
