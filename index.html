@@ -1378,76 +1378,73 @@
 
   function submitForm() {
     const submission = {
-      timestamp: new Date().toLocaleString(),
-      fullName: val('fullName'),
-      email: val('email'),
-      phone: val('phone'),
-      referral: getChecked('referral'),
-      referralOther: val('referralOther'),
-      eventDate: val('eventDate'),
-      eventStart: val('eventStart'),
-      barOpen: val('barOpen'),
-      barClose: val('barClose'),
-      venue: val('venue'),
-      guestCount: val('guestCount'),
-      rehearsal: getChecked('rehearsal'),
-      rehearsalGuests: val('rehearsalGuests'),
-      hasCoordinator: getChecked('hasCoord'),
-      coordinatorDetails: val('coordDetails'),
-      budget: val('budget'),
-      foodMenu: val('foodMenu'),
-      cocktailHour: getChecked('cocktailHour'),
-      arrivalDrinks: getChecked('arrivalDrinks'),
-      arrivalDrinksDetail: val('arrivalDrinksDetail'),
-      toast: getChecked('toast'),
-      signatureCocktails: getChecked('sigCocktail'),
-      signatureCocktailDetail: val('sigCocktailDetail'),
-      barStyle: getChecked('barStyle'),
-      liquorPreference: getChecked('liquorPref'),
-      liquorDetail: val('liquorDetail'),
-      beerPreference: getChecked('beerPref'),
-      beerDetail: val('beerDetail'),
-      seltzers: getChecked('seltzers'),
-      seltzerDetail: val('seltzerDetail'),
-      sparklingWine: getChecked('sparklingWine'),
-      sparklingDetail: val('sparklingDetail'),
-      roseWine: getChecked('roseWine'),
-      roseDetail: val('roseDetail'),
-      whiteWine: getChecked('whiteWine'),
-      whiteDetail: val('whiteDetail'),
-      redWine: getChecked('redWine'),
-      redDetail: val('redDetail'),
-      tableWine: getChecked('tableWine'),
-      otherDrinks: val('otherDrinks'),
-      deliveryWindow: getChecked('delivery'),
-      deliveryAddress: val('deliveryAddress'),
-      additionalNotes: val('additionalNotes'),
-      contactPreference: getChecked('contactPref'),
+      "Timestamp":                new Date().toLocaleString(),
+      "Full Name":                val('fullName'),
+      "Email Address":            val('email'),
+      "Cell Phone":               val('phone'),
+      "How Heard About Us":       getChecked('referral'),
+      "Referral Other":           val('referralOther'),
+      "Event Date":               val('eventDate'),
+      "Event Start Time":         val('eventStart'),
+      "Bar Opens At":             val('barOpen'),
+      "Bar Closes At":            val('barClose'),
+      "Venue & County":           val('venue'),
+      "Guest Count":              val('guestCount'),
+      "Rehearsal Dinner?":        getChecked('rehearsal'),
+      "Rehearsal Guests":         val('rehearsalGuests'),
+      "Coordinator?":             getChecked('hasCoord'),
+      "Coordinator Details":      val('coordDetails'),
+      "Budget":                   val('budget'),
+      "Food Menu":                val('foodMenu'),
+      "Cocktail Hour":            getChecked('cocktailHour'),
+      "Arrival Drinks":           getChecked('arrivalDrinks'),
+      "Arrival Drinks Detail":    val('arrivalDrinksDetail'),
+      "Toast":                    getChecked('toast'),
+      "Signature Cocktails":      getChecked('sigCocktail'),
+      "Signature Cocktail Detail": val('sigCocktailDetail'),
+      "Bar Style":                getChecked('barStyle'),
+      "Liquor Preference":        getChecked('liquorPref'),
+      "Liquor Detail":            val('liquorDetail'),
+      "Beer Preference":          getChecked('beerPref'),
+      "Beer Detail":              val('beerDetail'),
+      "Seltzers":                 getChecked('seltzers'),
+      "Seltzer Detail":           val('seltzerDetail'),
+      "Sparkling Wine":           getChecked('sparklingWine'),
+      "Sparkling Detail":         val('sparklingDetail'),
+      "Rose Wine":                getChecked('roseWine'),
+      "Rose Detail":              val('roseDetail'),
+      "White Wine":               getChecked('whiteWine'),
+      "White Detail":             val('whiteDetail'),
+      "Red Wine":                 getChecked('redWine'),
+      "Red Detail":               val('redDetail'),
+      "Table Wine":               getChecked('tableWine'),
+      "Other Drinks":             val('otherDrinks'),
+      "Delivery Window":          getChecked('delivery'),
+      "Delivery Address":         val('deliveryAddress'),
+      "Additional Notes":         val('additionalNotes'),
+      "Contact Preference":       getChecked('contactPref'),
     };
 
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
     stored.push(submission);
     localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
-
     document.getElementById('section-' + currentSection).classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
-
     console.log('Pathfinder Submission:', submission);
 
-    // This part sends the data to your Google Sheet
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyyo344qUdVaxnxuyZywnZM7AISqyFBA8vxJyRqzT0o8dfk3_L3oHcu19E34RTTRK1R5Q/exec';
-    
+
     fetch(scriptURL, {
       method: 'POST',
-      mode: 'no-cors', // Important for Google Apps Script
+      mode: 'no-cors',
       cache: 'no-cache',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(submission)
     })
     .then(() => console.log('Success! Data sent to Sheet.'))
     .catch(error => console.error('Error!', error.message));
-  } // This closes your submission function
-<?script>
+  }
+</script>
 </body>
 </html>
