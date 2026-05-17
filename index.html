@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  const EMAILJS_PUBLIC_KEY  = 'ByFK_a5HhNXCMl1ob';
-  const EMAILJS_SERVICE_ID  = 'service_rmhjmme';
-  const EMAILJS_TEMPLATE_ID = 'template_ie2xktr';
-  const EMAILJS_ACTIVE = true;
-  if (EMAILJS_ACTIVE) { (function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })(); }
-</script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pathfinder — Event Bar Consultation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>Pathfinder - Event Bar Consultation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    const EMAILJS_PUBLIC_KEY = 'ByFK_a5HhNXCMl1ob';
+    const EMAILJS_SERVICE_ID = 'service_rmhjmme';
+    const EMAILJS_TEMPLATE_ID = 'template_ie2xktr';
+    const EMAILJS_ACTIVE = true;
+    
+    if (EMAILJS_ACTIVE) { 
+      (function() { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })(); 
+    }
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -25,13 +30,15 @@
       --sage: #8a9e8c;
       --gold: #c9a96e;
       --gold-light: #e8d5b0;
-      --ink: #2e2520;
+      --ink: #222520;
       --ink-soft: #5c4d47;
       --border: #ddd0c4;
     }
 
     html { scroll-behavior: smooth; }
-
+    
+  </style>
+</head>
     body {
       background-color: var(--cream);
       font-family: 'Jost', sans-serif;
@@ -1390,7 +1397,142 @@
     });
   });
 
-   async function submitForm() {
+  function buildConfirmationEmail() {
+    const s = {
+      fullName:    document.getElementById('fullName')?.value || '',
+      email:       document.getElementById('email')?.value || '',
+      phone:       document.getElementById('phone')?.value || '',
+      eventDate:   document.getElementById('eventDate')?.value || '',
+      venue:       document.getElementById('venue')?.value || '',
+      guestCount:  document.getElementById('guestCount')?.value || '',
+      budget:      document.getElementById('budget')?.value || '',
+      foodMenu:    document.getElementById('foodMenu')?.value || '',
+      barStyle:    [...document.querySelectorAll('input[name="barStyle"]:checked')].map(e=>e.value).join(', '),
+      liquorPref:  [...document.querySelectorAll('input[name="liquorPref"]:checked')].map(e=>e.value).join(', '),
+      liquorDetail:document.getElementById('liquorDetail')?.value || '',
+      beerPref:    [...document.querySelectorAll('input[name="beerPref"]:checked')].map(e=>e.value).join(', '),
+      beerDetail:  document.getElementById('beerDetail')?.value || '',
+      sparkling:   [...document.querySelectorAll('input[name="sparklingWine"]:checked')].map(e=>e.value).join(', '),
+      sparklingDetail: document.getElementById('sparklingDetail')?.value || '',
+      rose:        [...document.querySelectorAll('input[name="roseWine"]:checked')].map(e=>e.value).join(', '),
+      roseDetail:  document.getElementById('roseDetail')?.value || '',
+      white:       [...document.querySelectorAll('input[name="whiteWine"]:checked')].map(e=>e.value).join(', '),
+      whiteDetail: document.getElementById('whiteDetail')?.value || '',
+      red:         [...document.querySelectorAll('input[name="redWine"]:checked')].map(e=>e.value).join(', '),
+      redDetail:   document.getElementById('redDetail')?.value || '',
+      tableWine:   [...document.querySelectorAll('input[name="tableWine"]:checked')].map(e=>e.value).join(', '),
+      delivery:    [...document.querySelectorAll('input[name="delivery"]:checked')].map(e=>e.value).join(', '),
+      deliveryAddress: document.getElementById('deliveryAddress')?.value || '',
+      notes:       document.getElementById('additionalNotes')?.value || '',
+      contactPref: [...document.querySelectorAll('input[name="contactPref"]:checked')].map(e=>e.value).join(', '),
+    };
+
+    const row = (label, value) => value ? `
+      <tr>
+        <td style="padding:7px 12px;font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;border-bottom:1px solid #ede3d8;width:40%;vertical-align:top;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">${label}</td>
+        <td style="padding:7px 12px;font-size:12px;color:#2e2520;font-family:Georgia,serif;border-bottom:1px solid #ede3d8;vertical-align:top;">${value}</td>
+      </tr>` : '';
+
+    const section = (title, rows) => rows ? `
+      <tr><td colspan="2" style="padding:12px 12px 5px;background:#f5ece0;">
+        <span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a96e;font-family:Arial,sans-serif;font-weight:700;">${title}</span>
+      </td></tr>${rows}` : '';
+
+    return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"/></head>
+<body style="margin:0;padding:0;background:#fdf7f0;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf7f0;padding:24px 0;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #ddd0c4;border-radius:8px;overflow:hidden;">
+
+  <tr><td style="background:linear-gradient(135deg,#c4857a,#c9a96e);padding:32px;text-align:center;">
+    <div style="font-family:Georgia,serif;font-size:30px;font-weight:300;letter-spacing:0.16em;color:#ffffff;text-transform:uppercase;">Pathfinder</div>
+    <div style="font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(255,255,255,0.85);margin-top:5px;">Wine &amp; Beverage Curation</div>
+    <div style="height:1px;width:36px;background:rgba(255,255,255,0.4);margin:16px auto 14px;"></div>
+    <div style="font-family:Georgia,serif;font-size:16px;font-style:italic;color:rgba(255,255,255,0.95);">Your Consultation Request — Confirmed</div>
+  </td></tr>
+
+  <tr><td style="padding:20px 28px 14px;background:#fdf7f0;text-align:center;border-bottom:1px solid #ede3d8;">
+    <p style="font-family:Georgia,serif;font-size:14px;font-style:italic;color:#5c4d47;margin:0 0 6px;">Thank you, ${s.fullName || 'there'}.</p>
+    <p style="font-family:Arial,sans-serif;font-size:11px;color:#5c4d47;font-weight:300;line-height:1.7;margin:0;">I've received your consultation request and will be in touch shortly with your custom bar estimate. Here's a summary of what you shared.</p>
+  </td></tr>
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+    ${section('Your Details', [
+      row('Name', s.fullName),
+      row('Email', s.email),
+      row('Phone', s.phone),
+    ].join(''))}
+    ${section('Event Information', [
+      row('Event Date', s.eventDate),
+      row('Venue', s.venue),
+      row('Guest Count', s.guestCount),
+      row('Budget', s.budget),
+      row('Food Being Served', s.foodMenu),
+    ].join(''))}
+    ${section('Bar Style &amp; Spirits', [
+      row('Bar Style', s.barStyle),
+      row('Liquor', s.liquorPref + (s.liquorDetail ? ': ' + s.liquorDetail : '')),
+      row('Beer', s.beerPref + (s.beerDetail ? ': ' + s.beerDetail : '')),
+    ].join(''))}
+    ${section('Wine Selections', [
+      row('Sparkling', s.sparkling + (s.sparklingDetail ? ': ' + s.sparklingDetail : '')),
+      row('Rosé', s.rose + (s.roseDetail ? ': ' + s.roseDetail : '')),
+      row('White Wine', s.white + (s.whiteDetail ? ': ' + s.whiteDetail : '')),
+      row('Red Wine', s.red + (s.redDetail ? ': ' + s.redDetail : '')),
+      row('Wine at Tables', s.tableWine),
+    ].join(''))}
+    ${section('Delivery &amp; Logistics', [
+      row('Delivery Window', s.delivery),
+      row('Delivery Address', s.deliveryAddress),
+      row('Preferred Contact', s.contactPref),
+      row('Additional Notes', s.notes),
+    ].join(''))}
+  </table>
+
+  <tr><td style="padding:20px 28px;background:#f5ece0;border-top:3px solid #c4857a;">
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a96e;font-family:Arial,sans-serif;font-weight:700;margin-bottom:12px;">Next Steps &amp; Logistics</div>
+    <table width="100%" cellpadding="0" cellspacing="0">
+      <tr><td style="padding:7px 0;border-bottom:1px solid #ddd0c4;vertical-align:top;">
+        <span style="font-family:Georgia,serif;font-size:18px;color:#e8d5b0;float:left;margin-right:10px;">A</span>
+        <div style="margin-left:26px;"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#2e2520;font-family:Arial,sans-serif;">Pricing</strong>
+        <p style="font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;font-weight:300;line-height:1.6;margin:2px 0 0;">Credit card pricing applies to estimates. ✽ Case purchases receive case discounts. Pay in-store with debit or cash for an additional 5% off.</p></div>
+      </td></tr>
+      <tr><td style="padding:7px 0;border-bottom:1px solid #ddd0c4;vertical-align:top;">
+        <span style="font-family:Georgia,serif;font-size:18px;color:#e8d5b0;float:left;margin-right:10px;">B</span>
+        <div style="margin-left:26px;"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#2e2520;font-family:Arial,sans-serif;">Confirmation &amp; Payment</strong>
+        <p style="font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;font-weight:300;line-height:1.6;margin:2px 0 0;">Confirmation and full payment due the week before the event. ✽ Pay in-store with debit or over the phone with a credit card.</p></div>
+      </td></tr>
+      <tr><td style="padding:7px 0;border-bottom:1px solid #ddd0c4;vertical-align:top;">
+        <span style="font-family:Georgia,serif;font-size:18px;color:#e8d5b0;float:left;margin-right:10px;">C</span>
+        <div style="margin-left:26px;"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#2e2520;font-family:Arial,sans-serif;">Delivery</strong>
+        <p style="font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;font-weight:300;line-height:1.6;margin:2px 0 0;">Mon–Sat: 10am–12pm, 12–2pm, 2–4pm, 4–6pm. Fee from $25 + $1/case (~$45 total). Sunday delivery available the day before your event.</p></div>
+      </td></tr>
+      <tr><td style="padding:7px 0;border-bottom:1px solid #ddd0c4;vertical-align:top;">
+        <span style="font-family:Georgia,serif;font-size:18px;color:#e8d5b0;float:left;margin-right:10px;">D</span>
+        <div style="margin-left:26px;"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#2e2520;font-family:Arial,sans-serif;">Returns</strong>
+        <p style="font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;font-weight:300;line-height:1.6;margin:2px 0 0;">One month after event to return pristine items. 10% restocking fee. Any Spec's location. Receipt kept on file.</p></div>
+      </td></tr>
+      <tr><td style="padding:7px 0;vertical-align:top;">
+        <span style="font-family:Georgia,serif;font-size:18px;color:#e8d5b0;float:left;margin-right:10px;">E</span>
+        <div style="margin-left:26px;"><strong style="font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:#2e2520;font-family:Arial,sans-serif;">Reminders</strong>
+        <p style="font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;font-weight:300;line-height:1.6;margin:2px 0 0;">Reminder emails sent the week before each step is due.</p></div>
+      </td></tr>
+    </table>
+  </td></tr>
+
+  <tr><td style="padding:20px 28px;background:linear-gradient(135deg,#c4857a,#c9a96e);text-align:center;">
+    <div style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.9);font-family:Arial,sans-serif;margin-bottom:5px;">Trevor Loomis &nbsp;·&nbsp; Pathfinder Wine &amp; Beverage Curation</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.85);font-family:Arial,sans-serif;">📱 510-637-9001 &nbsp;·&nbsp; ✉️ Trevorloomis@specsonline.com</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:8px;font-family:Arial,sans-serif;">I'll be in touch with your custom estimate soon.</div>
+  </td></tr>
+
+</table>
+</td></tr></table>
+</body></html>`;
+  }
+
+  async function submitForm() {
     const submission = {
       "Timestamp":                new Date().toLocaleString(),
       "Full Name":                val('fullName'),
@@ -1402,7 +1544,7 @@
       "Event Start Time":         val('eventStart'),
       "Bar Opens At":             val('barOpen'),
       "Bar Closes At":            val('barClose'),
-      "Venue & County":           val('venue'),
+      "Venue & City/County":      val('venue'),
       "Guest Count":              val('guestCount'),
       "Rehearsal Dinner?":        getChecked('rehearsal'),
       "Rehearsal Guests":         val('rehearsalGuests'),
@@ -1410,57 +1552,45 @@
       "Coordinator Details":      val('coordDetails'),
       "Budget":                   val('budget'),
       "Food Being Served":        val('foodMenu'),
-      "Cocktail Hour?":            getChecked('cocktailHour'),
-      "Arrival Drinks?":           getChecked('arrivalDrinks'),
+      "Cocktail Hour?":           getChecked('cocktailHour'),
+      "Arrival Drinks?":          getChecked('arrivalDrinks'),
       "Arrival Drink Types":      val('arrivalDrinksDetail'),
-      "Toast / Sparkling?":        getChecked('toast'),
-      "Signature Cocktails?":      getChecked('sigCocktail'),
+      "Toast / Sparkling?":       getChecked('toast'),
+      "Signature Cocktails?":     getChecked('sigCocktail'),
       "Cocktail Details":         val('sigCocktailDetail'),
       "Bar Style":                getChecked('barStyle'),
       "Liquor Preference":        getChecked('liquorPref'),
-      "Liquor Details":            val('liquorDetail'),
+      "Liquor Details":           val('liquorDetail'),
       "Beer Preference":          getChecked('beerPref'),
-      "Beer Details":              val('beerDetail'),
+      "Beer Details":             val('beerDetail'),
       "Seltzers":                 getChecked('seltzers'),
-      "Seltzer Details":           val('seltzerDetail'),
+      "Seltzer Details":          val('seltzerDetail'),
       "Sparkling Wine":           getChecked('sparklingWine'),
-      "Sparkling Details":         val('sparklingDetail'),
+      "Sparkling Details":        val('sparklingDetail'),
       "Rose Wine":                getChecked('roseWine'),
-      "Rose Details":              val('roseDetail'),
+      "Rose Details":             val('roseDetail'),
       "White Wine":               getChecked('whiteWine'),
-      "White Details":             val('whiteDetail'),
+      "White Details":            val('whiteDetail'),
       "Red Wine":                 getChecked('redWine'),
-      "Red Details":               val('redDetail'),
+      "Red Details":              val('redDetail'),
       "Wine at Tables?":          getChecked('tableWine'),
-      "Other Drinks/Mixers":       val('otherDrinks'),
-      "Coordinator?":              getChecked('hasCoord'),
-      "Coordinator Details":      val('coordDetails'),
+      "Other Drinks/Mixers":      val('otherDrinks'),
       "Delivery Window":          getChecked('delivery'),
       "Delivery Address":         val('deliveryAddress'),
       "Additional Notes":         val('additionalNotes'),
       "Contact Preference":       getChecked('contactPref'),
-      if (EMAILJS_ACTIVE && document.getElementById('email').value) {
-  try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email: document.getElementById('email').value,
-      to_name: document.getElementById('fullName').value || 'there',
-      subject: 'Pathfinder — Your Bar Consultation Request Confirmed',
-      html_content: buildConfirmationEmail(),
-    });
-  } catch(err) { console.warn('Email error:', err); }
-}
     };
 
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
     stored.push(submission);
     localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
+
     document.getElementById('section-' + currentSection).classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
     console.log('Pathfinder Submission:', submission);
 
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyfNzz_oCTeFkMav_cP0qZZOmrT99OXkSlPDqz-y8TPozcvsu2mWfmb-NKIXsnK3Jnzlg/exec';
-
     fetch(scriptURL, {
       method: 'POST',
       mode: 'no-cors',
@@ -1470,8 +1600,19 @@
     })
     .then(() => console.log('Success! Data sent to Sheet.'))
     .catch(error => console.error('Error!', error.message));
+
+    if (EMAILJS_ACTIVE && document.getElementById('email').value) {
+      try {
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_email: document.getElementById('email').value,
+          to_name: document.getElementById('fullName').value || 'there',
+          subject: 'Pathfinder — Your Bar Consultation Request Confirmed',
+          html_content: buildConfirmationEmail(),
+        });
+        console.log('✉️ Confirmation email sent.');
+      } catch(err) { console.warn('Email send error:', err); }
+    }
   }
-  buildConfirmationEmail()
 </script>
 </body>
 </html>
