@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  const EMAILJS_PUBLIC_KEY  = 'ByFK_a5HhNXCMl1ob';
+  const EMAILJS_SERVICE_ID  = 'service_rmhjmme';
+  const EMAILJS_TEMPLATE_ID = 'template_ie2xktr';
+  const EMAILJS_ACTIVE = true;
+  if (EMAILJS_ACTIVE) { (function(){ emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); })(); }
+</script>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1382,7 +1390,7 @@
     });
   });
 
-   function submitForm() {
+   async function submitForm() {
     const submission = {
       "Timestamp":                new Date().toLocaleString(),
       "Full Name":                val('fullName'),
@@ -1431,6 +1439,16 @@
       "Delivery Address":         val('deliveryAddress'),
       "Additional Notes":         val('additionalNotes'),
       "Contact Preference":       getChecked('contactPref'),
+      if (EMAILJS_ACTIVE && document.getElementById('email').value) {
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: document.getElementById('email').value,
+      to_name: document.getElementById('fullName').value || 'there',
+      subject: 'Pathfinder — Your Bar Consultation Request Confirmed',
+      html_content: buildConfirmationEmail(),
+    });
+  } catch(err) { console.warn('Email error:', err); }
+}
     };
 
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
@@ -1453,6 +1471,7 @@
     .then(() => console.log('Success! Data sent to Sheet.'))
     .catch(error => console.error('Error!', error.message));
   }
+  buildConfirmationEmail()
 </script>
 </body>
 </html>
