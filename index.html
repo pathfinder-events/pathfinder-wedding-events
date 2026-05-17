@@ -1163,6 +1163,12 @@
     <div class="modal-divider"></div>
 
     <div class="testimonial-card">
+      <div class="testimonial-quote">I have worked with Trevor for several years on various sizes of events and he is always the best resource for our bar needs. I know I can rely on Trevor to make the best recommendations within my client's budget and preferences. I am sure he manages multiple requests any given day and I appreciate that his response time is consistently prompt. Every detail is important in planning an event and I'm grateful that I have a partner like Trevor to help execute a seamless experience for my clients.</div>
+      <div class="testimonial-author">— Jodi Wycoff</div>
+      <div class="testimonial-event">Event Producer + Designer, 36th Street Events</div>
+    </div>
+
+    <div class="testimonial-card">
       <div class="testimonial-quote">Trevor at Spec's is an absolute pro when it comes to wedding bar planning. He consistently nails the estimates for beer, wine, spirits, and mixers, taking so much guesswork (and stress) off our plates. His recommendations are thoughtful, efficient, and tailored to each event, helping our clients stay on budget without ever feeling underprepared. I always trust Trevor to get it right, and he's become a go-to resource for ensuring a seamless, well-stocked bar every time.</div>
       <div class="testimonial-author">— Kimberly Sweat</div>
       <div class="testimonial-event">Founder, K Laine + Co.</div>
@@ -1378,75 +1384,66 @@
 
   function submitForm() {
     const submission = {
-      "Timestamp":                new Date().toLocaleString(),
-      "Full Name":                val('fullName'),
-      "Email Address":            val('email'),
-      "Cell Phone":               val('phone'),
-      "How Heard About Us":       getChecked('referral'),
-      "Referral Other":           val('referralOther'),
-      "Event Date":               val('eventDate'),
-      "Event Start Time":         val('eventStart'),
-      "Bar Opens At":             val('barOpen'),
-      "Bar Closes At":            val('barClose'),
-      "Venue & County":           val('venue'),
-      "Guest Count":              val('guestCount'),
-      "Rehearsal Dinner?":        getChecked('rehearsal'),
-      "Rehearsal Guests":         val('rehearsalGuests'),
-      "Coordinator?":             getChecked('hasCoord'),
-      "Coordinator Details":      val('coordDetails'),
-      "Budget":                   val('budget'),
-      "Food Being Served":        val('foodMenu'),
-      "Cocktail Hour?":            getChecked('cocktailHour'),
-      "Arrival Drinks?":           getChecked('arrivalDrinks'),
-      "Arrival Drink Types":      val('arrivalDrinksDetail'),
-      "Toast / Sparkling?":        getChecked('toast'),
-      "Signature Cocktails?":      getChecked('sigCocktail'),
-      "Cocktail Details":         val('sigCocktailDetail'),
-      "Bar Style":                getChecked('barStyle'),
-      "Liquor Preference":        getChecked('liquorPref'),
-      "Liquor Details":            val('liquorDetail'),
-      "Beer Preference":          getChecked('beerPref'),
-      "Beer Details":              val('beerDetail'),
-      "Seltzers":                 getChecked('seltzers'),
-      "Seltzer Details":           val('seltzerDetail'),
-      "Sparkling Wine":           getChecked('sparklingWine'),
-      "Sparkling Details":         val('sparklingDetail'),
-      "Rose Wine":                getChecked('roseWine'),
-      "Rose Details":              val('roseDetail'),
-      "White Wine":               getChecked('whiteWine'),
-      "White Details":             val('whiteDetail'),
-      "Red Wine":                 getChecked('redWine'),
-      "Red Details":               val('redDetail'),
-      "Wine at Tables?":          getChecked('tableWine'),
-      "Other Drinks/Mixers":             val('otherDrinks'),
-      "Coordinator?":              getChecked('hasCoord'),
-      "Coordinator Details":      val('coordDetails'),
-      "Delivery Window":          getChecked('delivery'),
-      "Delivery Address":         val('deliveryAddress'),
-      "Additional Notes":         val('additionalNotes'),
-      "Contact Preference":       getChecked('contactPref'),
+      timestamp: new Date().toLocaleString(),
+      fullName: val('fullName'),
+      email: val('email'),
+      phone: val('phone'),
+      referral: getChecked('referral'),
+      referralOther: val('referralOther'),
+      eventDate: val('eventDate'),
+      eventStart: val('eventStart'),
+      barOpen: val('barOpen'),
+      barClose: val('barClose'),
+      venue: val('venue'),
+      guestCount: val('guestCount'),
+      rehearsal: getChecked('rehearsal'),
+      rehearsalGuests: val('rehearsalGuests'),
+      hasCoordinator: getChecked('hasCoord'),
+      coordinatorDetails: val('coordDetails'),
+      budget: val('budget'),
+      foodMenu: val('foodMenu'),
+      cocktailHour: getChecked('cocktailHour'),
+      arrivalDrinks: getChecked('arrivalDrinks'),
+      arrivalDrinksDetail: val('arrivalDrinksDetail'),
+      toast: getChecked('toast'),
+      signatureCocktails: getChecked('sigCocktail'),
+      signatureCocktailDetail: val('sigCocktailDetail'),
+      barStyle: getChecked('barStyle'),
+      liquorPreference: getChecked('liquorPref'),
+      liquorDetail: val('liquorDetail'),
+      beerPreference: getChecked('beerPref'),
+      beerDetail: val('beerDetail'),
+      seltzers: getChecked('seltzers'),
+      seltzerDetail: val('seltzerDetail'),
+      sparklingWine: getChecked('sparklingWine'),
+      sparklingDetail: val('sparklingDetail'),
+      roseWine: getChecked('roseWine'),
+      roseDetail: val('roseDetail'),
+      whiteWine: getChecked('whiteWine'),
+      whiteDetail: val('whiteDetail'),
+      redWine: getChecked('redWine'),
+      redDetail: val('redDetail'),
+      tableWine: getChecked('tableWine'),
+      otherDrinks: val('otherDrinks'),
+      deliveryWindow: getChecked('delivery'),
+      deliveryAddress: val('deliveryAddress'),
+      additionalNotes: val('additionalNotes'),
+      contactPreference: getChecked('contactPref'),
     };
 
     const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
     stored.push(submission);
     localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
+
     document.getElementById('section-' + currentSection).classList.remove('active');
     document.querySelector('.progress-wrap').style.display = 'none';
     document.getElementById('thankyou').style.display = 'block';
-    console.log('Pathfinder Submission:', submission);
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyyo344qUdVaxnxuyZywnZM7AISqyFBA8vxJyRqzT0o8dfk3_L3oHcu19E34RTTRK1R5Q/exec';
-
-    fetch(scriptURL, {
-      method: 'POST',
-      mode: 'no-cors',
-      cache: 'no-cache',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(submission)
-    })
-    .then(() => console.log('Success! Data sent to Sheet.'))
-    .catch(error => console.error('Error!', error.message));
+    console.log('📋 Pathfinder Submission:', submission);
   }
+
+  updateProgress();
 </script>
+
 </body>
 </html>
