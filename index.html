@@ -1612,34 +1612,47 @@
     }
   }
  // Direct Button Override
-  window.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('continue-btn');
-    if (btn) {
-      // Clone the button to strip away any hidden event listeners fighting us
-      const secureBtn = btn.cloneNode(true);
-      btn.parentNode.replaceChild(secureBtn, btn);
-
-      secureBtn.addEventListener('click', function(e) {
+  document.addEventListener('DOMContentLoaded', () => {
+    const continueBtn = document.getElementById('continue-btn');
+    if (continueBtn) {
+      continueBtn.addEventListener('click', function(e) {
+        // 1. Target the mandatory input fields
         const fullName = document.getElementById('fullName');
         const email = document.getElementById('email');
         const phone = document.getElementById('phone');
         
         let isValid = true;
 
-        // Clear previous red borders
-        [fullName, email, phone].forEach(el => { if(el) el.style.borderColor = ''; });
+        // 2. Clear out any previous red error borders
+        [fullName, email, phone].forEach(field => {
+          if (field) field.style.borderColor = '';
+        });
 
-        // Check fields
-        if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
-        if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
-        if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
-
-        if (!isValid) {
-          alert("Please fill out all required contact fields before continuing.");
-          return;
+        // 3. Check Full Name
+        if (fullName && !fullName.value.trim()) {
+          isValid = false;
+          fullName.style.borderColor = '#ff4d4d';
         }
 
-        // If valid, manually trigger your slider transition
+        // 4. Check Email Address
+        if (email && !email.value.trim()) {
+          isValid = false;
+          email.style.borderColor = '#ff4d4d';
+        }
+
+        // 5. Check Cell Phone
+        if (phone && !phone.value.trim()) {
+          isValid = false;
+          phone.style.borderColor = '#ff4d4d';
+        }
+
+        // 6. If any fields are empty, stop right here
+        if (!isValid) {
+          alert("Please fill out all required contact fields before continuing.");
+          return; 
+        }
+
+        // 7. SUCCESS: Move to Step 02 smoothly
         const currentSection = document.getElementById('section-1');
         const nextSection = document.getElementById('section-2');
         if (currentSection && nextSection) {
@@ -1650,6 +1663,3 @@
       });
     }
   });
-</script>
-</body>
-</html>
