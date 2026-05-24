@@ -1613,48 +1613,79 @@
   }
  // Direct Button Override
   document.addEventListener('DOMContentLoaded', () => {
-    const continueBtn = document.getElementById('continue-btn');
-    if (continueBtn) {
-      continueBtn.addEventListener('click', function(e) {
-        // 1. Target the mandatory input fields
+    // ==========================================
+    // STEP 1 VALIDATION (Contact Details)
+    // ==========================================
+    const continueBtn1 = document.getElementById('continue-btn');
+    if (continueBtn1) {
+      continueBtn1.addEventListener('click', function(e) {
         const fullName = document.getElementById('fullName');
         const email = document.getElementById('email');
         const phone = document.getElementById('phone');
         
         let isValid = true;
 
-        // 2. Clear out any previous red error borders
         [fullName, email, phone].forEach(field => {
           if (field) field.style.borderColor = '';
         });
 
-        // 3. Check Full Name
-        if (fullName && !fullName.value.trim()) {
-          isValid = false;
-          fullName.style.borderColor = '#ff4d4d';
-        }
+        if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
+        if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
+        if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
 
-        // 4. Check Email Address
-        if (email && !email.value.trim()) {
-          isValid = false;
-          email.style.borderColor = '#ff4d4d';
-        }
-
-        // 5. Check Cell Phone
-        if (phone && !phone.value.trim()) {
-          isValid = false;
-          phone.style.borderColor = '#ff4d4d';
-        }
-
-        // 6. If any fields are empty, stop right here
         if (!isValid) {
           alert("Please fill out all required contact fields before continuing.");
           return; 
         }
 
-        // 7. SUCCESS: Move to Step 02 smoothly
         const currentSection = document.getElementById('section-1');
         const nextSection = document.getElementById('section-2');
+        if (currentSection && nextSection) {
+          currentSection.classList.remove('active');
+          nextSection.classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+
+    // ==========================================
+    // STEP 2 VALIDATION (Event Info)
+    // ==========================================
+    // Note: Double check if your second button ID is exactly 'continue-btn-2'
+    const continueBtn2 = document.getElementById('continue-btn-2'); 
+    if (continueBtn2) {
+      continueBtn2.addEventListener('click', function(e) {
+        // Target the main Event Info elements (e.g., event date, location/venue)
+        const eventDate = document.getElementById('eventDate');
+        const eventVenue = document.getElementById('eventVenue');
+        
+        let isValid = true;
+
+        // Clear previous red borders
+        [eventDate, eventVenue].forEach(field => {
+          if (field) field.style.borderColor = '';
+        });
+
+        // Check Event Date
+        if (eventDate && !eventDate.value.trim()) {
+          isValid = false;
+          eventDate.style.borderColor = '#ff4d4d';
+        }
+
+        // Check Event Venue/Location
+        if (eventVenue && !eventVenue.value.trim()) {
+          isValid = false;
+          eventVenue.style.borderColor = '#ff4d4d';
+        }
+
+        if (!isValid) {
+          alert("Please fill out the required event details before continuing.");
+          return; // Blocks the slider from moving to Step 3
+        }
+
+        // SUCCESS: Move to Step 03 smoothly
+        const currentSection = document.getElementById('section-2');
+        const nextSection = document.getElementById('section-3');
         if (currentSection && nextSection) {
           currentSection.classList.remove('active');
           nextSection.classList.add('active');
