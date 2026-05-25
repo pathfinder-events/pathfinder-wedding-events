@@ -1715,6 +1715,33 @@ function goToValidated(n) {
       el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
     }
   }
+  if (currentSection === 4) {
+    const textFields = [
+      { id: 'deliveryAddress', label: 'Delivery Address' },
+    ];
+    textFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      el.style.borderColor = '';
+      el.style.boxShadow = '';
+      if (!el.value.trim()) {
+        errors.push(f.label);
+        el.style.borderColor = '#c4857a';
+        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
+      }
+    });
+    if (!getChecked('delivery')) {
+      errors.push('Preferred Delivery Window');
+      document.querySelectorAll('input[name="delivery"]').forEach(el => {
+        el.closest('.option-pill').querySelector('label').style.borderColor = '#c4857a';
+      });
+    }
+    if (!getChecked('contactPref')) {
+      errors.push('Preferred Contact Method');
+      document.querySelectorAll('input[name="contactPref"]').forEach(el => {
+        el.closest('.option-pill').querySelector('label').style.borderColor = '#c4857a';
+      });
+    }
+  }
   if (errors.length > 0) {
     const first = document.querySelector('#section-' + currentSection + ' [style*="border-color: rgb(196"]');
     if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
