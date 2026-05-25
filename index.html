@@ -1614,55 +1614,48 @@
  // Direct Button Override
  document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
-    // STEP 1 VALIDATION (Contact Details)
+    // TOTAL BULLETPROOF VALIDATION (No IDs Required)
     // ==========================================
-    const continueBtn1 = document.getElementById('continue-btn');
+    
+    // Find the button by its ID, OR by looking for a button containing the word "CONTINUE"
+    const continueBtn1 = document.getElementById('continue-btn') || 
+                         Array.from(document.querySelectorAll('button')).find(el => el.textContent.toUpperCase().includes('CONTINUE'));
+
     if (continueBtn1) {
       continueBtn1.addEventListener('click', function(e) {
         
-        // BULLETPROOF FIELDS: Finds them by ID, type, or placeholder text automatically
+        // Find fields by any smart identifier available
         const fullName = document.getElementById('fullName') || document.querySelector('input[placeholder*="name"]');
         const email = document.getElementById('email') || document.querySelector('input[type="email"]') || document.querySelector('input[placeholder*="@"]');
         const phone = document.getElementById('phone') || document.querySelector('input[type="tel"]') || document.querySelector('input[placeholder*="000"]');
         
         let isValid = true;
 
-        // Reset any previous red borders
         if (fullName) fullName.style.borderColor = '';
         if (email) email.style.borderColor = '';
         if (phone) phone.style.borderColor = '';
 
-        // Check Full Name
-        if (fullName && !fullName.value.trim()) {
-          isValid = false;
-          fullName.style.borderColor = '#ff4d4d';
-        }
+        // Check Fields
+        if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
+        if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
+        if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
 
-        // Check Email Address
-        if (email && !email.value.trim()) {
-          isValid = false;
-          email.style.borderColor = '#ff4d4d';
-        }
-
-        // Check Cell Phone
-        if (phone && !phone.value.trim()) {
-          isValid = false;
-          phone.style.borderColor = '#ff4d4d';
-        }
-
-        // If any fields are empty, stop right here and alert
         if (!isValid) {
           alert("Please fill out all required contact fields before continuing.");
           return; 
         }
 
-        // SUCCESS: Move to Step 02 smoothly
-        const currentSection = document.getElementById('section-1');
-        const nextSection = document.getElementById('section-2');
+        // Move to Step 2 - Look for section-1/section-2 OR find sections by class/structure
+        const currentSection = document.getElementById('section-1') || document.querySelector('.step-section') || document.querySelector('fieldset');
+        const nextSection = document.getElementById('section-2') || (currentSection ? currentSection.nextElementSibling : null);
+        
         if (currentSection && nextSection) {
           currentSection.classList.remove('active');
           nextSection.classList.add('active');
           window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // Ultimate fallback if your sections use a different multi-step plugin/setup
+          console.log("Validation passed, handing over to theme navigation.");
         }
       });
     }
