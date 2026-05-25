@@ -1612,64 +1612,57 @@
     }
   }
  // Direct Button Override
- document.addEventListener('DOMContentLoaded', () => {
-    // ==========================================
-    // STEP 1 VALIDATION (Contact Details)
-    // ==========================================
-    const continueBtn1 = document.getElementById('continue-btn');
-    if (continueBtn1) {
-      continueBtn1.addEventListener('click', function(e) {
-        // Prevent the theme from automatically sliding forward if validation fails
-        e.preventDefault();
+  document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================
+  // BULLETPROOF STEP 1 VALIDATION
+  // ==========================================
+  
+  // 1. Find the button by ID OR by looking for the actual text "CONTINUE"
+  const continueBtn1 = document.getElementById('continue-btn') || 
+                       Array.from(document.querySelectorAll('button')).find(el => el.textContent.toUpperCase().includes('CONTINUE'));
 
-        // Target your exact HTML elements
-        const fullName = document.getElementById('fullName');
-        const email = document.getElementById('email');
-        const phone = document.getElementById('phone');
-        
-        let isValid = true;
+  if (continueBtn1) {
+    continueBtn1.addEventListener('click', function(e) {
+      e.preventDefault();
 
-        // Clear out any previous red error borders
-        [fullName, email, phone].forEach(field => {
-          if (field) field.style.borderColor = '';
-        });
+      // Target your exact HTML elements
+      const fullName = document.getElementById('fullName');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+      
+      let isValid = true;
 
-        // Check Full Name
-        if (fullName && !fullName.value.trim()) {
-          isValid = false;
-          fullName.style.borderColor = '#ff4d4d';
-        }
-
-        // Check Email Address
-        if (email && !email.value.trim()) {
-          isValid = false;
-          email.style.borderColor = '#ff4d4d';
-        }
-
-        // Check Cell Phone
-        if (phone && !phone.value.trim()) {
-          isValid = false;
-          phone.style.borderColor = '#ff4d4d';
-        }
-
-        // If any fields are empty, stop right here
-        if (!isValid) {
-          alert("Please fill out all required contact fields before continuing.");
-          return; 
-        }
-
-        // SUCCESS: Manually move from section-1 to section-2
-        const currentSection = document.getElementById('section-1');
-        const nextSection = document.getElementById('section-2');
-        if (currentSection && nextSection) {
-          currentSection.classList.remove('active');
-          nextSection.classList.add('active');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          
-          // Update your progress bar display if your theme tracks it
-          const stepCount = document.getElementById('step-count');
-          if (stepCount) stepCount.textContent = '2 of 4';
-        }
+      // Clear out previous red borders
+      [fullName, email, phone].forEach(field => {
+        if (field) field.style.borderColor = '';
       });
-    }
-  });
+
+      // Check Fields
+      if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
+      if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
+      if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
+
+      if (!isValid) {
+        alert("Please fill out all required contact fields before continuing.");
+        return; 
+      }
+
+      // 2. Find Section 1 and Section 2 flexibly
+      const currentSection = document.getElementById('section-1') || document.querySelector('.section.active');
+      
+      // Find Section 2 by ID or by grabbing the very next element block in the HTML
+      const nextSection = document.getElementById('section-2') || (currentSection ? currentSection.nextElementSibling : null);
+
+      if (currentSection && nextSection) {
+        currentSection.classList.remove('active');
+        nextSection.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        const stepCount = document.getElementById('step-count');
+        if (stepCount) stepCount.textContent = '2 of 4';
+      } else {
+        console.log("Form validated, but could not find the next section element structure.");
+      }
+    });
+  }
+});
