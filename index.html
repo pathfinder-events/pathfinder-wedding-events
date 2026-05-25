@@ -1666,3 +1666,81 @@
     });
   }
 });
+function goToValidated(n) {
+  if (n < currentSection) { goTo(n); return; }
+  let errors = [];
+  if (currentSection === 1) {
+    const fields = [
+      { id: 'fullName', label: 'Full Name' },
+      { id: 'email', label: 'Email Address' },
+      { id: 'phone', label: 'Cell Phone' },
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      el.style.borderColor = '';
+      if (!el.value.trim()) {
+        errors.push(f.label);
+        el.style.borderColor = '#c4857a';
+        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
+      }
+    });
+  }
+  if (currentSection === 2) {
+    const textFields = [
+      { id: 'eventDate', label: 'Event Date' },
+      { id: 'eventStart', label: 'Event Start Time' },
+      { id: 'barOpen', label: 'Bar Opens At' },
+      { id: 'barClose', label: 'Bar Closes At' },
+      { id: 'venue', label: 'Venue & City / County' },
+      { id: 'guestCount', label: 'Number of Guests' },
+    ];
+    textFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      el.style.borderColor = '';
+      el.style.boxShadow = '';
+      if (!el.value.trim()) {
+        errors.push(f.label);
+        el.style.borderColor = '#c4857a';
+        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
+      }
+    });
+  }
+  if (currentSection === 3) {
+    const el = document.getElementById('foodMenu');
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+    if (!el.value.trim()) {
+      errors.push('Food Being Served');
+      el.style.borderColor = '#c4857a';
+      el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
+    }
+  }
+  if (errors.length > 0) {
+    const first = document.querySelector('#section-' + currentSection + ' [style*="border-color: rgb(196"]');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showValidationBanner(errors);
+    return;
+  }
+  clearValidationBanner();
+  goTo(n);
+}
+
+function showValidationBanner(errors) {
+  let banner = document.getElementById('validation-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'validation-banner';
+    banner.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2e2520;color:#fdf7f0;padding:14px 24px;border-radius:4px;font-family:Jost,sans-serif;font-size:0.82rem;letter-spacing:0.04em;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.3);border-left:3px solid #c4857a;max-width:420px;text-align:center;line-height:1.6;';
+    document.body.appendChild(banner);
+  }
+  const list = errors.map(e => '<strong>' + e + '</strong>').join(', ');
+  banner.innerHTML = 'Please complete: ' + list;
+  banner.style.display = 'block';
+  clearTimeout(banner._timeout);
+  banner._timeout = setTimeout(() => { banner.style.display = 'none'; }, 5000);
+}
+
+function clearValidationBanner() {
+  const banner = document.getElementById('validation-banner');
+  if (banner) banner.style.display = 'none';
+}
