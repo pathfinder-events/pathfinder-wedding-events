@@ -1612,80 +1612,53 @@
     }
   }
  // Direct Button Override
-  document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // STEP 1 VALIDATION (Contact Details)
     // ==========================================
     const continueBtn1 = document.getElementById('continue-btn');
     if (continueBtn1) {
       continueBtn1.addEventListener('click', function(e) {
-        const fullName = document.getElementById('fullName');
-        const email = document.getElementById('email');
-        const phone = document.getElementById('phone');
+        
+        // BULLETPROOF FIELDS: Finds them by ID, type, or placeholder text automatically
+        const fullName = document.getElementById('fullName') || document.querySelector('input[placeholder*="name"]');
+        const email = document.getElementById('email') || document.querySelector('input[type="email"]') || document.querySelector('input[placeholder*="@"]');
+        const phone = document.getElementById('phone') || document.querySelector('input[type="tel"]') || document.querySelector('input[placeholder*="000"]');
         
         let isValid = true;
 
-        [fullName, email, phone].forEach(field => {
-          if (field) field.style.borderColor = '';
-        });
+        // Reset any previous red borders
+        if (fullName) fullName.style.borderColor = '';
+        if (email) email.style.borderColor = '';
+        if (phone) phone.style.borderColor = '';
 
-        if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
-        if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
-        if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
+        // Check Full Name
+        if (fullName && !fullName.value.trim()) {
+          isValid = false;
+          fullName.style.borderColor = '#ff4d4d';
+        }
 
+        // Check Email Address
+        if (email && !email.value.trim()) {
+          isValid = false;
+          email.style.borderColor = '#ff4d4d';
+        }
+
+        // Check Cell Phone
+        if (phone && !phone.value.trim()) {
+          isValid = false;
+          phone.style.borderColor = '#ff4d4d';
+        }
+
+        // If any fields are empty, stop right here and alert
         if (!isValid) {
           alert("Please fill out all required contact fields before continuing.");
           return; 
         }
 
+        // SUCCESS: Move to Step 02 smoothly
         const currentSection = document.getElementById('section-1');
         const nextSection = document.getElementById('section-2');
-        if (currentSection && nextSection) {
-          currentSection.classList.remove('active');
-          nextSection.classList.add('active');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
-    }
-
-    // ==========================================
-    // STEP 2 VALIDATION (Event Info)
-    // ==========================================
-    // Note: Double check if your second button ID is exactly 'continue-btn-2'
-    const continueBtn2 = document.getElementById('continue-btn-2'); 
-    if (continueBtn2) {
-      continueBtn2.addEventListener('click', function(e) {
-        // Target the main Event Info elements (e.g., event date, location/venue)
-        const eventDate = document.getElementById('eventDate');
-        const eventVenue = document.getElementById('eventVenue');
-        
-        let isValid = true;
-
-        // Clear previous red borders
-        [eventDate, eventVenue].forEach(field => {
-          if (field) field.style.borderColor = '';
-        });
-
-        // Check Event Date
-        if (eventDate && !eventDate.value.trim()) {
-          isValid = false;
-          eventDate.style.borderColor = '#ff4d4d';
-        }
-
-        // Check Event Venue/Location
-        if (eventVenue && !eventVenue.value.trim()) {
-          isValid = false;
-          eventVenue.style.borderColor = '#ff4d4d';
-        }
-
-        if (!isValid) {
-          alert("Please fill out the required event details before continuing.");
-          return; // Blocks the slider from moving to Step 3
-        }
-
-        // SUCCESS: Move to Step 03 smoothly
-        const currentSection = document.getElementById('section-2');
-        const nextSection = document.getElementById('section-3');
         if (currentSection && nextSection) {
           currentSection.classList.remove('active');
           nextSection.classList.add('active');
