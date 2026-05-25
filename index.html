@@ -1722,6 +1722,7 @@ function goToValidated(n) {
     return;
   }
   clearValidationBanner();
+  if (n === 5) { submitForm(); return; }
   goTo(n);
 }
 
