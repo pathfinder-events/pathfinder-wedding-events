@@ -1668,6 +1668,7 @@
 });
 function goToValidated(n) {
   if (n < currentSection) { goTo(n); return; }
+  if (n > currentSection + 1) { n = currentSection + 1; }
   let errors = [];
   if (currentSection === 1) {
     const fields = [
