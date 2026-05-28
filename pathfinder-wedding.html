@@ -68,17 +68,18 @@
     /* ── Header ── */
     header {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 0;
       animation: fadeUp 0.9s ease both;
     }
 
     /* ── Header hero image ── */
     .header-hero {
       position: relative;
-      border-radius: 8px;
+      border-radius: 0;
       overflow: hidden;
-      margin-bottom: 32px;
+      margin-bottom: 0;
       padding: 52px 32px 44px;
+      width: 100%;
     }
     .header-hero-bg {
       position: absolute;
@@ -88,9 +89,20 @@
       background-position: center 40%;
       opacity: 0.22;
     }
+    .header-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+      pointer-events: none;
+      z-index: 1;
+    }
     .header-hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
     }
 
     .brand-ornament {
@@ -155,6 +167,12 @@
       padding: 20px 24px;
       margin-top: 28px;
       text-align: left;
+    }
+
+    .header-content-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
     }
     .expertise-badge .badge-icon {
       font-size: 1.6rem;
@@ -673,10 +691,10 @@
   </g>
 </svg>
 
-<div class="page-wrap">
-
   <!-- ══ Header ══ -->
   <header>
+
+<div class="page-wrap">
     <div class="header-hero">
       <div class="header-hero-bg"></div>
       <div class="header-hero-content">
@@ -695,6 +713,7 @@
       </div>
     </div>
 
+    <div class="header-content-wrap">
     <div class="expertise-badge">
       <div class="badge-icon">🍷</div>
       <div class="badge-text">
@@ -706,11 +725,14 @@
 
     <div class="steps-overview">
       <div class="step-item active" id="step-tab-1" onclick="goTo(1)" style="cursor:pointer;"><div class="step-num">Step 01</div><div class="step-name">Your Details</div></div>
-      <div class="step-item" id="step-tab-2" onclick="goToValidated(2)" style="cursor:pointer;"><div class="step-num">Step 02</div><div class="step-name">Event Info</div></div>
-      <div class="step-item" id="step-tab-3" onclick="goToValidated(3)" style="cursor:pointer;"><div class="step-num">Step 03</div><div class="step-name">Drinks Package</div></div>
-      <div class="step-item" id="step-tab-4" onclick="goToValidated(4)" style="cursor:pointer;"><div class="step-num">Step 04</div><div class="step-name">Next Steps</div></div>
+      <div class="step-item" id="step-tab-2" onclick="goTo(2)" style="cursor:pointer;"><div class="step-num">Step 02</div><div class="step-name">Event Info</div></div>
+      <div class="step-item" id="step-tab-3" onclick="goTo(3)" style="cursor:pointer;"><div class="step-num">Step 03</div><div class="step-name">Drinks Package</div></div>
+      <div class="step-item" id="step-tab-4" onclick="goTo(4)" style="cursor:pointer;"><div class="step-num">Step 04</div><div class="step-name">Next Steps</div></div>
+    </div>
     </div>
   </header>
+
+<div class="page-wrap" style="padding-top: 0;">
 
   <!-- ══ Progress ══ -->
   <div class="progress-wrap">
@@ -769,7 +791,7 @@
 
     <div class="nav-row">
       <span></span>
-      <button class="btn btn-primary" onclick="goToValidated(2)">Continue →</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Continue →</button>
     </div>
   </div>
 
@@ -843,7 +865,7 @@
 
     <div class="nav-row">
       <button class="btn btn-ghost" onclick="goTo(1)">← Back</button>
-      <button class="btn btn-primary" onclick="goToValidated(3)">Continue →</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Continue →</button>
     </div>
   </div>
 
@@ -1056,7 +1078,7 @@
 
     <div class="nav-row">
       <button class="btn btn-ghost" onclick="goTo(2)">← Back</button>
-      <button class="btn btn-primary" onclick="goToValidated(4)">Continue →</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Continue →</button>
     </div>
   </div>
 
@@ -1139,7 +1161,7 @@
 
     <div class="nav-row">
       <button class="btn btn-ghost" onclick="goTo(3)">← Back</button>
-      <button class="btn btn-primary btn-submit" onclick="goToValidated(5)">Submit ✦</button>
+      <button class="btn btn-primary btn-submit" onclick="submitForm()">Submit ✦</button>
     </div>
 
     <div style="text-align:center; margin-top:28px; padding-top:24px; border-top:1px solid var(--border);">
@@ -1611,168 +1633,6 @@
       } catch(err) { console.warn('Email send error:', err); }
     }
   }
- // Direct Button Override
-  document.addEventListener('DOMContentLoaded', () => {
-  // ==========================================
-  // BULLETPROOF STEP 1 VALIDATION
-  // ==========================================
-  
-  // 1. Find the button by ID OR by looking for the actual text "CONTINUE"
-  const continueBtn1 = document.getElementById('continue-btn') || 
-                       Array.from(document.querySelectorAll('button')).find(el => el.textContent.toUpperCase().includes('CONTINUE'));
-
-  if (continueBtn1) {
-    continueBtn1.addEventListener('click', function(e) {
-      e.preventDefault();
-
-      // Target your exact HTML elements
-      const fullName = document.getElementById('fullName');
-      const email = document.getElementById('email');
-      const phone = document.getElementById('phone');
-      
-      let isValid = true;
-
-      // Clear out previous red borders
-      [fullName, email, phone].forEach(field => {
-        if (field) field.style.borderColor = '';
-      });
-
-      // Check Fields
-      if (fullName && !fullName.value.trim()) { isValid = false; fullName.style.borderColor = '#ff4d4d'; }
-      if (email && !email.value.trim()) { isValid = false; email.style.borderColor = '#ff4d4d'; }
-      if (phone && !phone.value.trim()) { isValid = false; phone.style.borderColor = '#ff4d4d'; }
-
-      if (!isValid) {
-        alert("Please fill out all required contact fields before continuing.");
-        return; 
-      }
-
-      // 2. Find Section 1 and Section 2 flexibly
-      const currentSection = document.getElementById('section-1') || document.querySelector('.section.active');
-      
-      // Find Section 2 by ID or by grabbing the very next element block in the HTML
-      const nextSection = document.getElementById('section-2') || (currentSection ? currentSection.nextElementSibling : null);
-
-      if (currentSection && nextSection) {
-        currentSection.classList.remove('active');
-        nextSection.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        const stepCount = document.getElementById('step-count');
-        if (stepCount) stepCount.textContent = '2 of 4';
-      } else {
-        console.log("Form validated, but could not find the next section element structure.");
-      }
-    });
-  }
-});
-function goToValidated(n) {
-  if (n < currentSection) { goTo(n); return; }
-  if (n > currentSection + 1) { n = currentSection + 1; }
-  let errors = [];
-  if (currentSection === 1) {
-    const fields = [
-      { id: 'fullName', label: 'Full Name' },
-      { id: 'email', label: 'Email Address' },
-      { id: 'phone', label: 'Cell Phone' },
-    ];
-    fields.forEach(f => {
-      const el = document.getElementById(f.id);
-      el.style.borderColor = '';
-      if (!el.value.trim()) {
-        errors.push(f.label);
-        el.style.borderColor = '#c4857a';
-        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
-      }
-    });
-  }
-  if (currentSection === 2) {
-    const textFields = [
-      { id: 'eventDate', label: 'Event Date' },
-      { id: 'eventStart', label: 'Event Start Time' },
-      { id: 'barOpen', label: 'Bar Opens At' },
-      { id: 'barClose', label: 'Bar Closes At' },
-      { id: 'venue', label: 'Venue & City / County' },
-      { id: 'guestCount', label: 'Number of Guests' },
-    ];
-    textFields.forEach(f => {
-      const el = document.getElementById(f.id);
-      el.style.borderColor = '';
-      el.style.boxShadow = '';
-      if (!el.value.trim()) {
-        errors.push(f.label);
-        el.style.borderColor = '#c4857a';
-        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
-      }
-    });
-  }
-  if (currentSection === 3) {
-    const el = document.getElementById('foodMenu');
-    el.style.borderColor = '';
-    el.style.boxShadow = '';
-    if (!el.value.trim()) {
-      errors.push('Food Being Served');
-      el.style.borderColor = '#c4857a';
-      el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
-    }
-  }
-  if (currentSection === 4) {
-    const textFields = [
-      { id: 'deliveryAddress', label: 'Delivery Address' },
-    ];
-    textFields.forEach(f => {
-      const el = document.getElementById(f.id);
-      el.style.borderColor = '';
-      el.style.boxShadow = '';
-      if (!el.value.trim()) {
-        errors.push(f.label);
-        el.style.borderColor = '#c4857a';
-        el.style.boxShadow = '0 0 0 3px rgba(196,133,122,0.25)';
-      }
-    });
-    if (!getChecked('delivery')) {
-      errors.push('Preferred Delivery Window');
-      document.querySelectorAll('input[name="delivery"]').forEach(el => {
-        el.closest('.option-pill').querySelector('label').style.borderColor = '#c4857a';
-      });
-    }
-    if (!getChecked('contactPref')) {
-      errors.push('Preferred Contact Method');
-      document.querySelectorAll('input[name="contactPref"]').forEach(el => {
-        el.closest('.option-pill').querySelector('label').style.borderColor = '#c4857a';
-      });
-    }
-  }
-  if (errors.length > 0) {
-    const first = document.querySelector('#section-' + currentSection + ' [style*="border-color: rgb(196"]');
-    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    showValidationBanner(errors);
-    return;
-  }
-  clearValidationBanner();
-  if (n === 5) { submitForm(); return; }
-  goTo(n);
-}
-
-function showValidationBanner(errors) {
-  let banner = document.getElementById('validation-banner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'validation-banner';
-    banner.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2e2520;color:#fdf7f0;padding:14px 24px;border-radius:4px;font-family:Jost,sans-serif;font-size:0.82rem;letter-spacing:0.04em;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.3);border-left:3px solid #c4857a;max-width:420px;text-align:center;line-height:1.6;';
-    document.body.appendChild(banner);
-  }
-  const list = errors.map(e => '<strong>' + e + '</strong>').join(', ');
-  banner.innerHTML = 'Please complete: ' + list;
-  banner.style.display = 'block';
-  clearTimeout(banner._timeout);
-  banner._timeout = setTimeout(() => { banner.style.display = 'none'; }, 5000);
-}
-
-function clearValidationBanner() {
-  const banner = document.getElementById('validation-banner');
-  if (banner) banner.style.display = 'none';
-}
 </script>
 </body>
 </html>
