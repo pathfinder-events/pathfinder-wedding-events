@@ -48,7 +48,6 @@
       object-fit: cover; object-position: center top; display: block;
       filter: brightness(0.50) saturate(0.80);
     }
-    /* Dark overlay top, dissolving to white at bottom */
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
@@ -106,7 +105,6 @@
       max-width: 540px; margin: 0 auto;
     }
 
-    /* CREDENTIAL BAND — no top border, flows from hero fade */
     .credential-band {
       background: var(--white);
       border-bottom: 1px solid var(--border);
@@ -163,15 +161,12 @@
     .step-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
     .step-tab.done   { color: var(--accent); border-bottom-color: var(--accent); }
 
-    /* ── FORM WRAPPER — open layout like wedding site ── */
     .form-wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
 
-    /* ── STEP SECTION — matching wedding site's open layout ── */
     .step-page { display: none; }
     .step-page.active { display: block; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
 
-    /* Step top strip: "GETTING STARTED  ·  1 OF 4" */
     .step-strip {
       display: flex; justify-content: space-between; align-items: center;
       padding: 28px 0 12px;
@@ -180,7 +175,6 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 28px;
     }
-
     .step-label {
       font-size: 11px; letter-spacing: 2.5px;
       text-transform: uppercase; color: var(--blue);
@@ -192,11 +186,7 @@
       font-weight: 300; color: var(--navy);
       margin-bottom: 4px; line-height: 1.15;
     }
-    .step-rule {
-      height: 1px;
-      background: var(--border);
-      margin: 16px 0 20px;
-    }
+    .step-rule { height: 1px; background: var(--border); margin: 16px 0 20px; }
     .step-desc {
       font-size: 14px; font-weight: 300;
       font-style: italic; color: var(--muted);
@@ -233,10 +223,8 @@
     @media (max-width: 500px) { .two-col { grid-template-columns: 1fr; } }
     .field-note { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; font-style: italic; }
 
-    /* ── PILL BUBBLES — matching wedding site ── */
-    .pill-group {
-      display: flex; flex-wrap: wrap; gap: 10px;
-    }
+    /* ── PILLS ── */
+    .pill-group { display: flex; flex-wrap: wrap; gap: 10px; }
     .pill {
       display: inline-flex; align-items: center;
       padding: 9px 18px;
@@ -249,45 +237,29 @@
       transition: border-color 0.18s, background 0.18s, color 0.18s;
       user-select: none;
     }
-    .pill:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-      background: var(--blue-pale);
-    }
-    .pill.selected {
-      border-color: var(--blue);
-      background: var(--blue-pale);
-      color: var(--blue);
-      font-weight: 400;
-    }
-    /* Hidden actual radio/checkbox inputs */
+    .pill:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-pale); }
+    .pill.selected { border-color: var(--blue); background: var(--blue-pale); color: var(--blue); font-weight: 400; }
     .pill input { display: none; }
 
-    /* ── TIP / EXPERT PANELS ── */
+    /* ── PANELS ── */
     .tip-panel {
-      background: var(--blue-pale);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 18px; margin-bottom: 24px;
+      background: var(--blue-pale); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 18px; margin-bottom: 24px;
     }
     .tip-panel p { font-size: 13.5px; font-weight: 300; color: var(--slate); line-height: 1.65; }
     .tip-panel strong { font-weight: 500; color: var(--navy); }
-
     .expert-panel {
-      background: var(--blue-pale);
-      border: 1px solid rgba(26,95,168,0.18);
-      border-radius: var(--radius);
-      padding: 16px 18px; margin-bottom: 24px;
+      background: var(--blue-pale); border: 1px solid rgba(26,95,168,0.18);
+      border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px;
     }
     .expert-panel .panel-title {
-      font-size: 10px; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--blue);
-      font-weight: 600; margin-bottom: 6px;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--blue); font-weight: 600; margin-bottom: 6px;
     }
     .expert-panel p { font-size: 13px; font-weight: 300; color: var(--slate); line-height: 1.65; }
     .expert-panel em { font-style: italic; color: var(--blue-mid); }
 
-    /* ── INFO BLOCKS (Step 4) ── */
+    /* ── INFO BLOCKS ── */
     .info-blocks { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
     .info-block {
       display: flex; gap: 18px; align-items: flex-start;
@@ -302,8 +274,7 @@
     .info-block-body { font-size: 13px; font-weight: 300; color: var(--slate); line-height: 1.65; }
     .info-block-body strong {
       display: block; color: var(--navy); font-weight: 600;
-      font-size: 10px; letter-spacing: 1.5px;
-      text-transform: uppercase; margin-bottom: 4px;
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px;
     }
 
     /* ── CONTACT CHIPS ── */
@@ -323,33 +294,15 @@
       font-family: 'Jost', sans-serif;
       font-size: 11px; font-weight: 500;
       letter-spacing: 2.5px; text-transform: uppercase;
-      padding: 14px 32px;
-      border-radius: var(--radius-pill);
-      cursor: pointer; border: none; outline: none;
-      transition: all 0.2s;
+      padding: 14px 32px; border-radius: var(--radius-pill);
+      cursor: pointer; border: none; outline: none; transition: all 0.2s;
     }
-    /* Primary — matching wedding's dark filled pill */
-    .btn-primary {
-      background: var(--navy); color: #fff;
-    }
-    .btn-primary:hover {
-      background: var(--slate);
-      box-shadow: 0 4px 16px rgba(13,34,64,0.25);
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid rgba(13,34,64,0.25);
-      color: var(--muted);
-    }
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-primary:hover { background: var(--slate); box-shadow: 0 4px 16px rgba(13,34,64,0.25); }
+    .btn-secondary { background: transparent; border: 1px solid rgba(13,34,64,0.25); color: var(--muted); }
     .btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
-    .btn-submit {
-      background: var(--blue); color: #fff;
-      padding: 14px 38px;
-    }
-    .btn-submit:hover {
-      background: var(--accent);
-      box-shadow: 0 4px 16px rgba(10,132,200,0.3);
-    }
+    .btn-submit { background: var(--blue); color: #fff; padding: 14px 38px; }
+    .btn-submit:hover { background: var(--accent); box-shadow: 0 4px 16px rgba(10,132,200,0.3); }
 
     /* ── CONDITIONAL ── */
     .conditional { display: none; }
@@ -358,14 +311,32 @@
     /* ── THANK YOU ── */
     #thank-you { display: none; text-align: center; padding: 60px 32px; }
     #thank-you .ty-icon { font-size: 44px; margin-bottom: 20px; }
-    #thank-you h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px; font-weight: 300; color: var(--navy); margin-bottom: 14px;
-    }
+    #thank-you h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--navy); margin-bottom: 14px; }
     #thank-you p { font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 480px; margin: 0 auto 16px; }
     #thank-you .ty-sig { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--blue); margin-top: 28px; }
     #thank-you .ty-contact { font-size: 13px; color: var(--muted); margin-top: 8px; }
     #thank-you .ty-contact a { color: var(--blue); text-decoration: none; }
+
+    /* ── VALIDATION ERRORS ── */
+    .step-errors {
+      display: none;
+      background: #fff2f0;
+      border: 1px solid rgba(180,40,30,0.25);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #8b2020;
+      line-height: 1.65;
+    }
+    .step-errors strong { display: block; font-weight: 600; margin-bottom: 6px; color: #7a1a1a; }
+    .step-errors ul { padding-left: 18px; margin: 0; }
+    .step-errors li { margin-bottom: 3px; }
+    input.field-error, select.field-error, textarea.field-error {
+      border-color: rgba(180,40,30,0.7) !important;
+      box-shadow: 0 0 0 3px rgba(180,40,30,0.10) !important;
+    }
+    .pill-group-error { outline: 2px solid rgba(180,40,30,0.40); outline-offset: 5px; border-radius: 6px; }
 
     /* ── FOOTER ── */
     .form-footer {
@@ -408,7 +379,6 @@
 </head>
 <body>
 
-<!-- HERO with bottom fade into page bg -->
 <header class="hero">
   <div class="hero-bg"><img src="corporate-header.jpg" alt="" aria-hidden="true" /></div>
   <div class="hero-overlay"></div>
@@ -426,7 +396,6 @@
   </div>
 </header>
 
-<!-- CREDENTIAL BAND -->
 <section class="credential-band">
   <div class="credential-inner">
     <div class="credential-icon">&#127870;</div>
@@ -436,51 +405,31 @@
   </div>
 </section>
 
-<!-- STEP TABS -->
 <nav class="step-tabs" id="step-tabs">
   <div class="step-tabs-inner">
-    <div class="step-tab active" id="tab-1"><span>01</span>Your Details</div>
-    <div class="step-tab" id="tab-2"><span>02</span>Event Info</div>
-    <div class="step-tab" id="tab-3"><span>03</span>Drinks Package</div>
-    <div class="step-tab" id="tab-4"><span>04</span>Next Steps</div>
+    <div class="step-tab active" id="tab-1" onclick="goStep(1)" style="cursor:pointer;"><span>01</span>Your Details</div>
+    <div class="step-tab" id="tab-2" onclick="goStep(2)" style="cursor:pointer;"><span>02</span>Event Info</div>
+    <div class="step-tab" id="tab-3" onclick="goStep(3)" style="cursor:pointer;"><span>03</span>Drinks Package</div>
+    <div class="step-tab" id="tab-4" onclick="goStep(4)" style="cursor:pointer;"><span>04</span>Next Steps</div>
   </div>
 </nav>
 
-<!-- FORM -->
 <main class="form-wrap">
 
   <!-- STEP 1 -->
   <div class="step-page active" id="step-1">
-    <div class="step-strip">
-      <span>Getting Started</span>
-      <span>1 of 4</span>
-    </div>
+    <div class="step-strip"><span>Getting Started</span><span>1 of 4</span></div>
     <p class="step-label">Step 01</p>
     <h2 class="step-title">Your Contact Details</h2>
     <div class="step-rule"></div>
     <p class="step-desc">Let's start with the basics so I can reach you personally to go over your estimate.</p>
 
-    <div class="field">
-      <label for="full-name">Full Name *</label>
-      <input type="text" id="full-name" placeholder="Your full name" />
-    </div>
-    <div class="field">
-      <label for="company">Company / Organisation *</label>
-      <input type="text" id="company" placeholder="Your company or organisation name" />
-    </div>
-    <div class="field">
-      <label for="job-title">Your Title / Role</label>
-      <input type="text" id="job-title" placeholder="e.g. Events Manager, Office Manager, CEO" />
-    </div>
+    <div class="field"><label for="full-name">Full Name *</label><input type="text" id="full-name" placeholder="Your full name" /></div>
+    <div class="field"><label for="company">Company / Organisation *</label><input type="text" id="company" placeholder="Your company or organisation name" /></div>
+    <div class="field"><label for="job-title">Your Title / Role</label><input type="text" id="job-title" placeholder="e.g. Events Manager, Office Manager, CEO" /></div>
     <div class="two-col">
-      <div class="field">
-        <label for="email">Email Address *</label>
-        <input type="email" id="email" placeholder="you@example.com" />
-      </div>
-      <div class="field">
-        <label for="phone">Cell Phone *</label>
-        <input type="tel" id="phone" placeholder="+1 (000) 000-0000" />
-      </div>
+      <div class="field"><label for="email">Email Address *</label><input type="email" id="email" placeholder="you@example.com" /></div>
+      <div class="field"><label for="phone">Cell Phone *</label><input type="tel" id="phone" placeholder="+1 (000) 000-0000" /></div>
     </div>
 
     <div class="field">
@@ -501,17 +450,15 @@
       <input type="text" id="heard-other-text" placeholder="How you found Pathfinder..." />
     </div>
 
+    <div class="step-errors" id="errors-1"></div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="goStep(2)">Continue &rarr;</button>
+      <button class="btn btn-primary" onclick="continueStep(2)">Continue &rarr;</button>
     </div>
   </div>
 
   <!-- STEP 2 -->
   <div class="step-page" id="step-2">
-    <div class="step-strip">
-      <span>Event Information</span>
-      <span>2 of 4</span>
-    </div>
+    <div class="step-strip"><span>Event Information</span><span>2 of 4</span></div>
     <p class="step-label">Step 02</p>
     <h2 class="step-title">Event Information</h2>
     <div class="step-rule"></div>
@@ -577,18 +524,16 @@
       <input type="text" id="coord-name" placeholder="Name and best number to reach them" />
     </div>
 
+    <div class="step-errors" id="errors-2"></div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(1)">&larr; Back</button>
-      <button class="btn btn-primary" onclick="goStep(3)">Continue &rarr;</button>
+      <button class="btn btn-primary" onclick="continueStep(3)">Continue &rarr;</button>
     </div>
   </div>
 
   <!-- STEP 3 -->
   <div class="step-page" id="step-3">
-    <div class="step-strip">
-      <span>Drinks Package</span>
-      <span>3 of 4</span>
-    </div>
+    <div class="step-strip"><span>Drinks Package</span><span>3 of 4</span></div>
     <p class="step-label">Step 03</p>
     <h2 class="step-title">Designing Your Bar</h2>
     <div class="step-rule"></div>
@@ -785,18 +730,16 @@
       <textarea id="other-requests" rows="3" placeholder="e.g. sparkling water, sodas, juices, specific mixers, mocktails for non-drinkers..."></textarea>
     </div>
 
+    <div class="step-errors" id="errors-3"></div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(2)">&larr; Back</button>
-      <button class="btn btn-primary" onclick="goStep(4)">Continue &rarr;</button>
+      <button class="btn btn-primary" onclick="continueStep(4)">Continue &rarr;</button>
     </div>
   </div>
 
   <!-- STEP 4 -->
   <div class="step-page" id="step-4">
-    <div class="step-strip">
-      <span>Next Steps</span>
-      <span>4 of 4</span>
-    </div>
+    <div class="step-strip"><span>Next Steps</span><span>4 of 4</span></div>
     <p class="step-label">Step 04</p>
     <h2 class="step-title">Next Steps &amp; Logistics</h2>
     <div class="step-rule"></div>
@@ -892,29 +835,121 @@
 <script>
   var currentStep = 1;
 
-  function goStep(n) {
-    document.getElementById('step-' + currentStep).classList.remove('active');
-    document.getElementById('tab-' + currentStep).classList.remove('active');
-    document.getElementById('tab-' + currentStep).classList.add('done');
-    if (n > 4) {
-      document.getElementById('step-4').classList.remove('active');
-      document.getElementById('tab-4').classList.add('done');
-      document.getElementById('thank-you').style.display = 'block';
-      document.getElementById('step-tabs').style.display = 'none';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-      return;
+  function updateTabs() {
+    for (var i = 1; i <= 4; i++) {
+      var tab = document.getElementById('tab-' + i);
+      tab.classList.remove('active', 'done');
+      if (i === currentStep)    tab.classList.add('active');
+      else if (i < currentStep) tab.classList.add('done');
     }
-    currentStep = n;
-    document.getElementById('step-' + n).classList.add('active');
-    document.getElementById('tab-' + n).classList.remove('done');
-    document.getElementById('tab-' + n).classList.add('active');
-    document.querySelector('.form-wrap').scrollIntoView({behavior: 'smooth', block: 'start'});
   }
 
-  function submitForm() { goStep(5); }
+  function goStep(n) {
+    if (n < 1 || n > 4) return;
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step-' + n).classList.add('active');
+    updateTabs();
+    document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function continueStep(n) {
+    if (!validateStep(currentStep)) return;
+    goStep(n);
+  }
+
+  function submitForm() {
+    document.getElementById('step-4').classList.remove('active');
+    document.getElementById('step-tabs').style.display = 'none';
+    document.getElementById('thank-you').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function toggleChip(el) { el.classList.toggle('selected'); }
 
-  // Pill selection highlighting
+  var stepRequirements = {
+    1: [
+      { id: 'full-name', label: 'Full Name' },
+      { id: 'company',   label: 'Company / Organisation' },
+      { id: 'email',     label: 'Email Address' },
+      { id: 'phone',     label: 'Cell Phone' }
+    ],
+    2: [
+      { name: 'event-type',  label: 'Event Type' },
+      { id: 'event-date',    label: 'Event Date' },
+      { id: 'event-start',   label: 'Event Start Time' },
+      { id: 'bar-open',      label: 'Bar Opens At' },
+      { id: 'bar-close',     label: 'Bar Closes At' },
+      { id: 'venue',         label: 'Venue & City / County' },
+      { id: 'guests',        label: 'Number of Guests' },
+      { name: 'coordinator', label: 'Event Coordinator (Yes / No)' }
+    ],
+    3: [
+      { id: 'food-detail',      label: 'Food description' },
+      { name: 'food-style',     label: 'Food Service Style' },
+      { name: 'cocktail-hour',  label: 'Cocktail Hour (Yes / No)' },
+      { name: 'arrival-drinks', label: 'Drinks on arrival (Yes / No)' },
+      { name: 'toast',          label: 'Toast with Sparkling Wine' },
+      { name: 'sig-cocktail',   label: 'Signature / Branded Cocktails' },
+      { name: 'bar-style',      label: 'Bar Style' },
+      { name: 'sparkling',      label: 'Sparkling Wine / Champagne' },
+      { name: 'rose',           label: 'Rosé Wine' },
+      { name: 'white',          label: 'White Wine' },
+      { name: 'red',            label: 'Red Wine' },
+      { name: 'wine-service',   label: 'Wine Service (tables / bar)' }
+    ],
+    4: []
+  };
+
+  function validateStep(stepNum) {
+    clearErrors(stepNum);
+    var reqs = stepRequirements[stepNum] || [];
+    var missing = [];
+    reqs.forEach(function(req) {
+      var isEmpty = false;
+      if (req.id) {
+        var el = document.getElementById(req.id);
+        if (!el || !el.value.trim()) { isEmpty = true; if (el) el.classList.add('field-error'); }
+      } else if (req.name) {
+        var checked = document.querySelector('input[name="' + req.name + '"]:checked');
+        if (!checked) {
+          isEmpty = true;
+          var anyInput = document.querySelector('input[name="' + req.name + '"]');
+          if (anyInput) { var pg = anyInput.closest('.pill-group'); if (pg) pg.classList.add('pill-group-error'); }
+        }
+      }
+      if (isEmpty) missing.push(req.label);
+    });
+    if (missing.length > 0) {
+      var errEl = document.getElementById('errors-' + stepNum);
+      if (errEl) {
+        errEl.innerHTML = '<strong>Please complete the following required fields before continuing:</strong><ul>'
+          + missing.map(function(m){ return '<li>' + m + '</li>'; }).join('') + '</ul>';
+        errEl.style.display = 'block';
+        errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      return false;
+    }
+    return true;
+  }
+
+  function clearErrors(stepNum) {
+    var errEl = document.getElementById('errors-' + stepNum);
+    if (errEl) errEl.style.display = 'none';
+    document.querySelectorAll('.field-error').forEach(function(el){ el.classList.remove('field-error'); });
+    document.querySelectorAll('.pill-group-error').forEach(function(el){ el.classList.remove('pill-group-error'); });
+  }
+
+  document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], textarea').forEach(function(el) {
+    el.addEventListener('input', function() { this.classList.remove('field-error'); });
+  });
+  document.querySelectorAll('.pill input').forEach(function(input) {
+    input.addEventListener('change', function() {
+      var pg = this.closest('.pill-group');
+      if (pg) pg.classList.remove('pill-group-error');
+    });
+  });
+
   document.querySelectorAll('.pill-group').forEach(function(group) {
     group.querySelectorAll('.pill input').forEach(function(input) {
       input.addEventListener('change', function() {
@@ -924,7 +959,6 @@
     });
   });
 
-  // Conditional fields
   function watchPill(name, val, fieldId) {
     document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
       r.addEventListener('change', function() {
