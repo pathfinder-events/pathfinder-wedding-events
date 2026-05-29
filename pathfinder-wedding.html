@@ -1303,7 +1303,62 @@
     'Next steps'
   ];
 
+  // Checks required fields before allowing progress
+  function validateSection(n) {
+    let isValid = true;
+
+    // Helper to check standard text/date/time fields
+    function checkInput(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        if (!el.value.trim()) {
+          el.style.borderColor = 'red';
+          isValid = false;
+        } else {
+          el.style.borderColor = ''; // reset to normal CSS
+        }
+      }
+    }
+
+    // Helper to check your custom pill options
+    function checkRadio(name) {
+      const isChecked = document.querySelector(`input[name="${name}"]:checked`);
+      const labels = document.querySelectorAll(`input[name="${name}"] + label`);
+      
+      if (!isChecked) {
+        isValid = false;
+        labels.forEach(lbl => lbl.style.borderColor = 'red');
+      } else {
+        labels.forEach(lbl => lbl.style.borderColor = '');
+      }
+    }
+
+    // Validate fields based on the active section
+    if (n === 1) {
+      ['fullName', 'email', 'phone'].forEach(checkInput);
+    } else if (n === 2) {
+      ['eventDate', 'eventStart', 'barOpen', 'barClose', 'venue', 'guestCount'].forEach(checkInput);
+      ['hasCoord'].forEach(checkRadio);
+    } else if (n === 3) {
+      ['foodMenu'].forEach(checkInput);
+      ['cocktailHour', 'arrivalDrinks', 'toast', 'sigCocktail', 'barStyle', 'sparklingWine', 'roseWine', 'whiteWine', 'redWine', 'tableWine'].forEach(checkRadio);
+    }
+
+    if (!isValid) {
+      alert("Please fill out all required fields (marked in red) before proceeding.");
+    }
+    return isValid;
+  }
+
+  // Updated navigation function
   function goTo(n) {
+    // If trying to move forward, run the validation check first
+    if (n > currentSection) {
+      if (!validateSection(currentSection)) {
+        return; // Stops the function and prevents moving forward
+      }
+    }
+
     document.getElementById('section-' + currentSection).classList.remove('active');
     currentSection = n;
     document.getElementById('section-' + currentSection).classList.add('active');
