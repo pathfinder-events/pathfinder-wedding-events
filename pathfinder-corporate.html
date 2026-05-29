@@ -101,7 +101,7 @@
     }
     .hero-body {
       font-size: clamp(13px, 1.5vw, 14.5px); font-weight: 300;
-      color: rgba(20,40,70,0.88); line-height: 1.8;
+      color: rgba(255,255,255,0.88); line-height: 1.8;
       max-width: 540px; margin: 0 auto;
     }
 
@@ -986,7 +986,7 @@
     fetch(webAppUrl, {
       method: "POST",
       mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain" },
       body: JSON.stringify(payload)
     })
     .then(() => console.log("Form data successfully transmitted."))
