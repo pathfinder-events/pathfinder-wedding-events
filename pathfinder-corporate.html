@@ -45,17 +45,18 @@
     .hero-bg { position: absolute; inset: 0; overflow: hidden; }
     .hero-bg img {
       width: 100%; height: 100%;
-      object-fit: cover; object-position: center center; display: block;
+      object-fit: cover; object-position: center top; display: block;
       filter: brightness(0.50) saturate(0.80);
     }
+    /* Dark overlay top, dissolving to white at bottom */
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(255,255,255,0.00) 0%,
-        rgba(255,255,255,0.00) 78%,
-        rgba(255,255,255,0.12) 85%,
-        rgba(255,255,255,0.45) 92%,
+        rgba(10,25,50,0.10) 0%,
+        rgba(10,25,50,0.45) 35%,
+        rgba(255,255,255,0.55) 75%,
+        rgba(255,255,255,0.92) 90%,
         rgba(255,255,255,1.00) 100%
       );
     }
@@ -366,31 +367,6 @@
     #thank-you .ty-contact { font-size: 13px; color: var(--muted); margin-top: 8px; }
     #thank-you .ty-contact a { color: var(--blue); text-decoration: none; }
 
-    /* ── VALIDATION ERRORS ── */
-    .step-errors {
-      display: none;
-      background: #fff2f0;
-      border: 1px solid rgba(180,40,30,0.25);
-      border-radius: var(--radius);
-      padding: 14px 18px;
-      margin-bottom: 24px;
-      font-size: 13px;
-      color: #8b2020;
-      line-height: 1.65;
-    }
-    .step-errors strong { display: block; font-weight: 600; margin-bottom: 6px; color: #7a1a1a; }
-    .step-errors ul { padding-left: 18px; margin: 0; }
-    .step-errors li { margin-bottom: 3px; }
-    input.field-error, select.field-error, textarea.field-error {
-      border-color: rgba(180,40,30,0.65) !important;
-      box-shadow: 0 0 0 3px rgba(180,40,30,0.10) !important;
-    }
-    .pill-group-error {
-      outline: 2px solid rgba(180,40,30,0.40);
-      outline-offset: 5px;
-      border-radius: 6px;
-    }
-
     /* ── FOOTER ── */
     .form-footer {
       text-align: center; padding: 22px 16px 32px;
@@ -463,10 +439,10 @@
 <!-- STEP TABS -->
 <nav class="step-tabs" id="step-tabs">
   <div class="step-tabs-inner">
-    <div class="step-tab active" id="tab-1" onclick="goStep(1)" style="cursor:pointer;"><span>01</span>Your Details</div>
-    <div class="step-tab" id="tab-2" onclick="goStep(2)" style="cursor:pointer;"><span>02</span>Event Info</div>
-    <div class="step-tab" id="tab-3" onclick="goStep(3)" style="cursor:pointer;"><span>03</span>Drinks Package</div>
-    <div class="step-tab" id="tab-4" onclick="goStep(4)" style="cursor:pointer;"><span>04</span>Next Steps</div>
+    <div class="step-tab active" id="tab-1"><span>01</span>Your Details</div>
+    <div class="step-tab" id="tab-2"><span>02</span>Event Info</div>
+    <div class="step-tab" id="tab-3"><span>03</span>Drinks Package</div>
+    <div class="step-tab" id="tab-4"><span>04</span>Next Steps</div>
   </div>
 </nav>
 
@@ -525,7 +501,6 @@
       <input type="text" id="heard-other-text" placeholder="How you found Pathfinder..." />
     </div>
 
-    <div class="step-errors" id="errors-1"></div>
     <div class="btn-row">
       <button class="btn btn-primary" onclick="goStep(2)">Continue &rarr;</button>
     </div>
@@ -602,7 +577,6 @@
       <input type="text" id="coord-name" placeholder="Name and best number to reach them" />
     </div>
 
-    <div class="step-errors" id="errors-2"></div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(1)">&larr; Back</button>
       <button class="btn btn-primary" onclick="goStep(3)">Continue &rarr;</button>
@@ -811,7 +785,6 @@
       <textarea id="other-requests" rows="3" placeholder="e.g. sparkling water, sodas, juices, specific mixers, mocktails for non-drinkers..."></textarea>
     </div>
 
-    <div class="step-errors" id="errors-3"></div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(2)">&larr; Back</button>
       <button class="btn btn-primary" onclick="goStep(4)">Continue &rarr;</button>
@@ -920,19 +893,25 @@
   const totalSteps = 4;
   let currentStep = 1;
 
+  /* ── HELPERS ── */
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+  const field = id   => document.getElementById(id)?.value?.trim() || "";
+  const chips = ()   => [...document.querySelectorAll('.contact-chip.selected')].map(c => c.textContent).join(', ');
+
+  /* ── TABS ── */
   function updateTabs() {
     for (let i = 1; i <= totalSteps; i++) {
       const tab = document.getElementById('tab-' + i);
       if (!tab) continue;
       tab.classList.remove('active', 'done');
-      if (i === currentStep)      tab.classList.add('active');
-      else if (i < currentStep)   tab.classList.add('done');
+      if (i === currentStep)    tab.classList.add('active');
+      else if (i < currentStep) tab.classList.add('done');
     }
   }
 
+  /* ── NAVIGATION ── */
   function goStep(n) {
     if (n < 1 || n > totalSteps) return;
-    // Validate before allowing forward navigation
     if (n > currentStep) {
       if (!validateStep(currentStep)) return;
     }
@@ -943,74 +922,73 @@
     document.querySelector('.form-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  /* ── SUBMIT — collects data then posts to Google Sheet ── */
   function submitForm() {
+    const webAppUrl = "https://script.google.com/macros/s/AKfycby00JbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlM03RfznDWX2fh0RBNKNGSL/exec";
+
+    const payload = {
+      "Full Name":                             field('full-name'),
+      "Company / Organisation":                field('company'),
+      "Your Title / Role":                     field('job-title'),
+      "Email Address":                         field('email'),
+      "Cell Phone":                            field('phone'),
+      "How Heard About Me":                    radio('heard'),
+      "How Heard (Other Details)":             field('heard-other-text'),
+      "Event Type":                            radio('event-type'),
+      "Event Type (Other Details)":            field('event-other-text'),
+      "Event Date":                            field('event-date'),
+      "Event Start Time":                      field('event-start'),
+      "Bar Opens At":                          field('bar-open'),
+      "Bar Closes At":                         field('bar-close'),
+      "Venue & City / County":                 field('venue'),
+      "Guest Count":                           field('guests'),
+      "Attendee Profile":                      radio('attendee'),
+      "Recurring Annual Event?":               radio('recurring'),
+      "Event Coordinator?":                    radio('coordinator'),
+      "Coordinator Name & Cell Phone":         field('coord-name'),
+      "Approximate Budget":                    field('budget'),
+      "Food Being Served":                     field('food-detail'),
+      "Food Service Style":                    radio('food-style'),
+      "Cocktail Hour?":                        radio('cocktail-hour'),
+      "Arrival Drinks?":                       radio('arrival-drinks'),
+      "Arrival Drinks (Details)":              field('arrival-drinks-text'),
+      "Toast with Sparkling Wine?":            radio('toast'),
+      "Signature / Branded Cocktails?":        radio('sig-cocktail'),
+      "Signature Cocktails (Details)":         field('sig-cocktail-text'),
+      "Bar Style":                             radio('bar-style'),
+      "Liquor Preferences":                    radio('liquor-pref'),
+      "Liquor (Specific Requests)":            field('liquor-detail'),
+      "Beer Preferences":                      radio('beer-pref'),
+      "Beer (Specific Requests)":              field('beer-detail'),
+      "Seltzers Included?":                    radio('seltzer'),
+      "Seltzers (Brand / Flavour Requests)":   field('seltzer-detail'),
+      "Sparkling Wine / Champagne":            radio('sparkling'),
+      "Rose Wine":                             radio('rose'),
+      "White Wine":                            radio('white'),
+      "Red Wine":                              radio('red'),
+      "Wine Served at Tables?":                radio('wine-service'),
+      "Other Drinks / Mixers / Non-Alcoholic": field('other-requests'),
+      "Preferred Delivery Window":             radio('delivery'),
+      "Delivery Address":                      field('delivery-address'),
+      "Questions or Additional Notes":         field('questions'),
+      "Preferred Way to Connect":              chips()
+    };
+
+    fetch(webAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(() => console.log("Form data successfully transmitted."))
+    .catch(err => console.error("Transmission error:", err));
+
+    // Show thank-you screen
     document.getElementById('step-4').classList.remove('active');
     document.getElementById('step-tabs').style.display = 'none';
     document.getElementById('thank-you').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-   // 1. Your Google Apps Script Web App Endpoint
-    const webAppUrl = "https://script.google.com/macros/s/AKfycby00JbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlM03RfznDWX2fh0RBNKNGSL/exec";
-
-    // 2. Gather form element values dynamically based on their HTML IDs
-    const payload = {
-        "Full Name": document.getElementById('full-name')?.value || "",
-        "Company / Organisation": document.getElementById('company')?.value || "",
-        "Your Title / Role": document.getElementById('title')?.value || "", // Double-check if your HTML input ID is 'title'
-        "Email Address": document.getElementById('email')?.value || "",
-        "Cell Phone": document.getElementById('phone')?.value || "",
-        "How Heard About Me": document.getElementById('how-heard')?.value || "",
-        "How did you hear (Other details)": document.getElementById('how-heard-other')?.value || "",
-        "Event Type": document.getElementById('event-type')?.value || "",
-        "Event Type (Others details)": document.getElementById('event-type-other')?.value || "",
-        "Event Date": document.getElementById('event-date')?.value || "",
-        "Event Start Time": document.getElementById('event-start')?.value || "",
-        "Bar Opens At": document.getElementById('bar-open')?.value || "",
-        "Bar Closes At": document.getElementById('bar-close')?.value || "",
-        "Venue & City / County": document.getElementById('venue')?.value || "",
-        "Guest Count": document.getElementById('guests')?.value || "",
-        "Attendee Profile": document.getElementById('attendee-profile')?.value || "",
-        "Recurring Annual Event?": document.getElementById('recurring')?.value || "",
-        "Event Coordinator?": document.getElementById('coordinator')?.value || "",
-        "Coordinator Name & Cell Phone": document.getElementById('coordinator-details')?.value || "",
-        "Approximate Budget": document.getElementById('budget')?.value || "",
-        "Food Being Served": document.getElementById('food-detail')?.value || "",
-        "Food Service Style": document.getElementById('food-style')?.value || "",
-        "Cocktail Hour?": document.getElementById('cocktail-hour')?.value || "",
-        "Arrival Drinks?": document.getElementById('arrival-drinks')?.value || "",
-        "Arrival Drinks (Details)": document.getElementById('arrival-details')?.value || "",
-        "Toast wuth Sparkling Wine?": document.getElementById('toast')?.value || "",
-        "Signature / Branded Cocktails?": document.getElementById('sig-cocktail')?.value || "",
-        "Signature Cocktails (Details)": document.getElementById('sig-details')?.value || "",
-        "Bar Style": document.getElementById('bar-style')?.value || "",
-        "Liquor Preferences": document.getElementById('liquor-pref')?.value || "",
-        "Liquor (Specific Requests)": document.getElementById('liquor-specific')?.value || "",
-        "Beer Preferences": document.getElementById('beer-pref')?.value || "",
-        "Beer (Specific Requests)": document.getElementById('beer-specific')?.value || "",
-        "Seltzers Included?": document.getElementById('seltzers')?.value || "",
-        "Selzters (Brand/Flavor requests)": document.getElementById('seltzers-brand')?.value || "",
-        "Sparkling Wine / Champagne": document.getElementById('sparkling')?.value || "",
-        "Rose Wine": document.getElementById('rose')?.value || "",
-        "White Details": document.getElementById('white')?.value || "",
-        "Red Wine": document.getElementById('red')?.value || "",
-        "Wine Served at Tables?": document.getElementById('wine-service')?.value || "",
-        "Other Drinks / Mixers / Non-alcoholic": document.getElementById('mixers-na')?.value || "",
-        "Other Drinks/Mixers": document.getElementById('additional-mixers')?.value || "",
-        "Preferred Delivery Window": document.getElementById('delivery-window')?.value || "",
-        "Delivery Address": document.getElementById('delivery-address')?.value || "",
-        "Questions or Additional Notes": document.getElementById('notes')?.value || "",
-        "Preferred Way to Connect": document.getElementById('connect-pref')?.value || ""
-    };
-
-    // 3. Post payload background-to-background right to your Google Sheet
-    fetch(webAppUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    })
-    .then(() => console.log("Form data successfully transmitted."))
-    .catch(err => console.error("Transmission error:", err));
 
   function toggleChip(el) { el.classList.toggle('selected'); }
 
@@ -1053,29 +1031,21 @@
     clearStepErrors(n);
     const reqs = stepRequirements[n] || [];
     const missing = [];
-
     reqs.forEach(req => {
       let empty = false;
       if (req.id) {
         const el = document.getElementById(req.id);
-        if (!el || !el.value.trim()) {
-          empty = true;
-          if (el) el.classList.add('field-error');
-        }
+        if (!el || !el.value.trim()) { empty = true; if (el) el.classList.add('field-error'); }
       } else if (req.name) {
         const checked = document.querySelector(`input[name="${req.name}"]:checked`);
         if (!checked) {
           empty = true;
           const any = document.querySelector(`input[name="${req.name}"]`);
-          if (any) {
-            const grp = any.closest('.pill-group');
-            if (grp) grp.classList.add('pill-group-error');
-          }
+          if (any) { const grp = any.closest('.pill-group'); if (grp) grp.classList.add('pill-group-error'); }
         }
       }
       if (empty) missing.push(req.label);
     });
-
     if (missing.length > 0) {
       const errEl = document.getElementById('errors-' + n);
       if (errEl) {
@@ -1096,7 +1066,6 @@
     document.querySelectorAll('.pill-group-error').forEach(el => el.classList.remove('pill-group-error'));
   }
 
-  // Auto-clear errors on input
   document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], input[type="number"], textarea').forEach(el => {
     el.addEventListener('input', function() { this.classList.remove('field-error'); });
   });
