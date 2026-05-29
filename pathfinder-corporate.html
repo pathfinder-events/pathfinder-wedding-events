@@ -949,6 +949,68 @@
     document.getElementById('thank-you').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+   // 1. Your Google Apps Script Web App Endpoint
+    const webAppUrl = "https://script.google.com/macros/s/AKfycby00JbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlM03RfznDWX2fh0RBNKNGSL/exec";
+
+    // 2. Gather form element values dynamically based on their HTML IDs
+    const payload = {
+        "Full Name": document.getElementById('full-name')?.value || "",
+        "Company / Organisation": document.getElementById('company')?.value || "",
+        "Your Title / Role": document.getElementById('title')?.value || "", // Double-check if your HTML input ID is 'title'
+        "Email Address": document.getElementById('email')?.value || "",
+        "Cell Phone": document.getElementById('phone')?.value || "",
+        "How Heard About Me": document.getElementById('how-heard')?.value || "",
+        "How did you hear (Other details)": document.getElementById('how-heard-other')?.value || "",
+        "Event Type": document.getElementById('event-type')?.value || "",
+        "Event Type (Others details)": document.getElementById('event-type-other')?.value || "",
+        "Event Date": document.getElementById('event-date')?.value || "",
+        "Event Start Time": document.getElementById('event-start')?.value || "",
+        "Bar Opens At": document.getElementById('bar-open')?.value || "",
+        "Bar Closes At": document.getElementById('bar-close')?.value || "",
+        "Venue & City / County": document.getElementById('venue')?.value || "",
+        "Guest Count": document.getElementById('guests')?.value || "",
+        "Attendee Profile": document.getElementById('attendee-profile')?.value || "",
+        "Recurring Annual Event?": document.getElementById('recurring')?.value || "",
+        "Event Coordinator?": document.getElementById('coordinator')?.value || "",
+        "Coordinator Name & Cell Phone": document.getElementById('coordinator-details')?.value || "",
+        "Approximate Budget": document.getElementById('budget')?.value || "",
+        "Food Being Served": document.getElementById('food-detail')?.value || "",
+        "Food Service Style": document.getElementById('food-style')?.value || "",
+        "Cocktail Hour?": document.getElementById('cocktail-hour')?.value || "",
+        "Arrival Drinks?": document.getElementById('arrival-drinks')?.value || "",
+        "Arrival Drinks (Details)": document.getElementById('arrival-details')?.value || "",
+        "Toast wuth Sparkling Wine?": document.getElementById('toast')?.value || "",
+        "Signature / Branded Cocktails?": document.getElementById('sig-cocktail')?.value || "",
+        "Signature Cocktails (Details)": document.getElementById('sig-details')?.value || "",
+        "Bar Style": document.getElementById('bar-style')?.value || "",
+        "Liquor Preferences": document.getElementById('liquor-pref')?.value || "",
+        "Liquor (Specific Requests)": document.getElementById('liquor-specific')?.value || "",
+        "Beer Preferences": document.getElementById('beer-pref')?.value || "",
+        "Beer (Specific Requests)": document.getElementById('beer-specific')?.value || "",
+        "Seltzers Included?": document.getElementById('seltzers')?.value || "",
+        "Selzters (Brand/Flavor requests)": document.getElementById('seltzers-brand')?.value || "",
+        "Sparkling Wine / Champagne": document.getElementById('sparkling')?.value || "",
+        "Rose Wine": document.getElementById('rose')?.value || "",
+        "White Details": document.getElementById('white')?.value || "",
+        "Red Wine": document.getElementById('red')?.value || "",
+        "Wine Served at Tables?": document.getElementById('wine-service')?.value || "",
+        "Other Drinks / Mixers / Non-alcoholic": document.getElementById('mixers-na')?.value || "",
+        "Other Drinks/Mixers": document.getElementById('additional-mixers')?.value || "",
+        "Preferred Delivery Window": document.getElementById('delivery-window')?.value || "",
+        "Delivery Address": document.getElementById('delivery-address')?.value || "",
+        "Questions or Additional Notes": document.getElementById('notes')?.value || "",
+        "Preferred Way to Connect": document.getElementById('connect-pref')?.value || ""
+    };
+
+    // 3. Post payload background-to-background right to your Google Sheet
+    fetch(webAppUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(() => console.log("Form data successfully transmitted."))
+    .catch(err => console.error("Transmission error:", err));
 
   function toggleChip(el) { el.classList.toggle('selected'); }
 
