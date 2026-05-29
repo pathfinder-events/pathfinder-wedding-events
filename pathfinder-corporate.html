@@ -54,8 +54,8 @@
         to bottom,
         rgba(255,255,255,0.00) 0%,
         rgba(255,255,255,0.00) 78%,
-        rgba(255,255,255,0.12) 85%,
-        rgba(255,255,255,0.45) 92%,
+        rgba(255,255,255,0.12) 88%,
+        rgba(255,255,255,0.45) 95%,
         rgba(255,255,255,1.00) 100%
       );
     }
@@ -929,8 +929,68 @@
   }
 
   function submitForm() {
-    // Validate the last section before allowing submission
-    if (!validateStep(4)) return;
+    const webAppUrl = "https://script.google.com/macros/s/AKfycby00JbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlM03RfznDWX2fh0RBNKNGSL/exec";
+
+    const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+    const field = id   => document.getElementById(id)?.value?.trim() || "";
+    const chips = ()   => [...document.querySelectorAll('.contact-chip.selected')].map(c => c.textContent).join(', ');
+
+    const payload = {
+      "Full Name":                             field('full-name'),
+      "Company / Organisation":                field('company'),
+      "Your Title / Role":                     field('job-title'),
+      "Email Address":                         field('email'),
+      "Cell Phone":                            field('phone'),
+      "How Heard About Me":                    radio('heard'),
+      "How Heard (Other Details)":             field('heard-other-text'),
+      "Event Type":                            radio('event-type'),
+      "Event Type (Other Details)":            field('event-other-text'),
+      "Event Date":                            field('event-date'),
+      "Event Start Time":                      field('event-start'),
+      "Bar Opens At":                          field('bar-open'),
+      "Bar Closes At":                         field('bar-close'),
+      "Venue & City / County":                 field('venue'),
+      "Guest Count":                           field('guests'),
+      "Attendee Profile":                      radio('attendee'),
+      "Recurring Annual Event?":               radio('recurring'),
+      "Event Coordinator?":                    radio('coordinator'),
+      "Coordinator Name & Cell Phone":         field('coord-name'),
+      "Approximate Budget":                    field('budget'),
+      "Food Being Served":                     field('food-detail'),
+      "Food Service Style":                    radio('food-style'),
+      "Cocktail Hour?":                        radio('cocktail-hour'),
+      "Arrival Drinks?":                       radio('arrival-drinks'),
+      "Arrival Drinks (Details)":              field('arrival-drinks-text'),
+      "Toast with Sparkling Wine?":            radio('toast'),
+      "Signature / Branded Cocktails?":        radio('sig-cocktail'),
+      "Signature Cocktails (Details)":         field('sig-cocktail-text'),
+      "Bar Style":                             radio('bar-style'),
+      "Liquor Preferences":                    radio('liquor-pref'),
+      "Liquor (Specific Requests)":            field('liquor-detail'),
+      "Beer Preferences":                      radio('beer-pref'),
+      "Beer (Specific Requests)":              field('beer-detail'),
+      "Seltzers Included?":                    radio('seltzer'),
+      "Seltzers (Brand / Flavour Requests)":   field('seltzer-detail'),
+      "Sparkling Wine / Champagne":            radio('sparkling'),
+      "Rosé Wine":                             radio('rose'),
+      "White Wine":                            radio('white'),
+      "Red Wine":                              radio('red'),
+      "Wine Served at Tables?":                radio('wine-service'),
+      "Other Drinks / Mixers / Non-Alcoholic": field('other-requests'),
+      "Preferred Delivery Window":             radio('delivery'),
+      "Delivery Address":                      field('delivery-address'),
+      "Questions or Additional Notes":         field('questions'),
+      "Preferred Way to Connect":              chips()
+    };
+
+    fetch(webAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(() => console.log("Form data successfully transmitted."))
+    .catch(err => console.error("Transmission error:", err));
 
     document.getElementById('step-4').classList.remove('active');
     document.getElementById('step-tabs').style.display = 'none';
