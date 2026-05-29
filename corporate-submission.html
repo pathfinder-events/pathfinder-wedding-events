@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corporate Event Bar Consultation Questionnaire</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 40px auto; max-width: 750px; color: #333; line-height: 1.6; background-color: #fcfcfc; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #b2945b; padding-bottom: 10px; margin-bottom: 30px; }
+        .form-section { background: #ffffff; padding: 25px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .form-section h3 { margin-top: 0; color: #b2945b; font-size: 18px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .full-width { grid-column: span 2; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #4a5568; }
+        input, textarea, select { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; background-color: #fff; }
+        input:focus, textarea:focus, select:focus { border-color: #b2945b; outline: none; box-shadow: 0 0 0 3px rgba(178, 148, 91, 0.15); }
+        textarea { resize: vertical; }
+        button { padding: 14px 30px; background-color: #b2945b; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.2s; margin-top: 10px; }
+        button:hover { background-color: #9a7e49; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+    </style>
+</head>
+<body>
+
+    <h2>Corporate Event Bar Consultation</h2>
+    <p>Please provide your event parameters below. Our operations team will utilize these specifications to architect a tailored beverage package.</p>
+    
+    <form id="corporateForm">
+        
+        <div class="form-section">
+            <h3>Contact Information</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="companyOrg">Company / Organisation *</label>
+                    <input type="text" id="companyOrg" required>
+                </div>
+                <div class="form-group">
+                    <label for="yourTitle">Your Title / Role</label>
+                    <input type="text" id="yourTitle">
+                </div>
+                <div class="form-group">
+                    <label for="emailAddress">Email Address *</label>
+                    <input type="email" id="emailAddress" required>
+                </div>
+                <div class="form-group">
+                    <label for="cellPhone">Cell Phone</label>
+                    <input type="tel" id="cellPhone">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Referral Details</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="howHeard">How Heard About Me</label>
+                    <input type="text" id="howHeard" placeholder="e.g. Website, Industry Peer, Event Portal">
+                </div>
+                <div class="form-group">
+                    <label for="howHeardOther">How did you hear (Other details)</label>
+                    <input type="text" id="howHeardOther">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Event Framework</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="eventType">Event Type</label>
+                    <input type="text" id="eventType" placeholder="e.g. Gala, Corporate Dinner, Branding Launch">
+                </div>
+                <div class="form-group">
+                    <label for="eventTypeOther">Event Type (Others details)</label>
+                    <input type="text" id="eventTypeOther">
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Event Date</label>
+                    <input type="date" id="eventDate">
+                </div>
+                <div class="form-group">
+                    <label for="eventStartTime">Event Start Time</label>
+                    <input type="time" id="eventStartTime">
+                </div>
+                <div class="form-group">
+                    <label for="barOpensAt">Bar Opens At</label>
+                    <input type="time" id="barOpensAt">
+                </div>
+                <div class="form-group">
+                    <label for="barClosesAt">Bar Closes At</label>
+                    <input type="time" id="barClosesAt">
+                </div>
+                <div class="form-group">
+                    <label for="venueCity">Venue & City / County</label>
+                    <input type="text" id="venueCity" placeholder="e.g. Head Office, Austin TX">
+                </div>
+                <div class="form-group">
+                    <label for="guestCount">Guest Count</label>
+                    <input type="number" id="guestCount" min="1">
+                </div>
+                <div class="form-group full-width">
+                    <label for="attendeeProfile">Attendee Profile Notes</label>
+                    <textarea id="attendeeProfile" rows="2" placeholder="e.g. VIP clients, internal management team, general staff..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="recurringAnnual">Is this a recurring annual event?</label>
+                    <select id="recurringAnnual">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventCoordinator">Working with an outside Event Coordinator?</label>
+                    <select id="eventCoordinator">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="coordinatorDetails">Coordinator Name & Cell Phone (If applicable)</label>
+                    <input type="text" id="coordinatorDetails">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Beverage Program & Logistics</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="approxBudget">Approximate Budget</label>
+                    <input type="text" id="approxBudget" placeholder="e.g. $5,000 or $45/head">
+                </div>
+                <div class="form-group">
+                    <label for="foodServed">Food Being Served</label>
+                    <input type="text" id="foodServed" placeholder="e.g. Passed hors d'oeuvres, Plated dinner, Buffet">
+                </div>
+                <div class="form-group">
+                    <label for="foodStyle">Food Service Style</label>
+                    <input type="text" id="foodStyle">
+                </div>
+                <div class="form-group">
+                    <label for="cocktailHour">Is there a dedicated Cocktail Hour?</label>
+                    <select id="cocktailHour">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="arrivalDrinks">Arrival Drinks Required?</label>
+                    <select id="arrivalDrinks">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="arrivalDetails">Arrival Drinks (Details)</label>
+                    <input type="text" id="arrivalDetails" placeholder="e.g. Welcome Champagne, Signature Punch">
+                </div>
+                <div class="form-group">
+                    <label for="toastSparkling">Toast with Sparkling Wine / Champagne?</label>
+                    <select id="toastSparkling">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="signatureCocktails">Signature / Branded Cocktails Requested?</label>
+                    <select id="signatureCocktails">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="signatureDetails">Signature Cocktails (Details / Ideas)</label>
+                    <textarea id="signatureDetails" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="barStyle">Preferred Bar Style</label>
+                    <input type="text" id="barStyle" placeholder="e.g. Full Bar, Beer & Wine Only, Premium Tier">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Spirits & Wine Preferences</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="liquorPref">Liquor Preferences / Tiers</label>
+                    <input type="text" id="liquorPref" placeholder="e.g. Call, Premium, Top Shelf">
+                </div>
+                <div class="form-group">
+                    <label for="liquorSpecific">Liquor (Specific Requests)</label>
+                    <input type="text" id="liquorSpecific">
+                </div>
+                <div class="form-group">
+                    <label for="beerPref">Beer Preferences</label>
+                    <input type="text" id="beerPref" placeholder="e.g. Craft, Domestic, Imports">
+                </div>
+                <div class="form-group">
+                    <label for="beerSpecific">Beer (Specific Requests)</label>
+                    <input type="text" id="beerSpecific">
+                </div>
+                <div class="form-group">
+                    <label for="seltzersIncluded">Seltzers Included?</label>
+                    <select id="seltzersIncluded">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="seltzersBrand">Seltzers (Brand/Flavor requests)</label>
+                    <input type="text" id="seltzersBrand">
+                </div>
+                <div class="form-group">
+                    <label for="sparklingWine">Sparkling Wine / Champagne Details</label>
+                    <input type="text" id="sparklingWine">
+                </div>
+                <div class="form-group">
+                    <label for="roseWine">Rosé Wine Details</label>
+                    <input type="text" id="roseWine">
+                </div>
+                <div class="form-group">
+                    <label for="whiteDetails">White Wine Details</label>
+                    <input type="text" id="whiteDetails" placeholder="e.g. Sauvignon Blanc, Chardonnay preferences">
+                </div>
+                <div class="form-group">
+                    <label for="redWine">Red Wine Details</label>
+                    <input type="text" id="redWine" placeholder="e.g. Cabernet Sauvignon, Pinot Noir tiers">
+                </div>
+                <div class="form-group">
+                    <label for="wineServedAtTables">Will Wine Be Served at Tables?</label>
+                    <select id="wineServedAtTables">
+                        <option value="">-- Select --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="otherDrinksMixers">Other Drinks / Mixers / Non-alcoholic</label>
+                    <input type="text" id="otherDrinksMixers">
+                </div>
+                <div class="form-group full-width">
+                    <label for="additionalMixers">Additional Custom Mixers / Garnishes</label>
+                    <input type="text" id="additionalMixers">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Logistics & Finalization</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="deliveryWindow">Preferred Delivery Window</label>
+                    <input type="text" id="deliveryWindow">
+                </div>
+                <div class="form-group">
+                    <label for="deliveryAddress">Delivery Address</label>
+                    <input type="text" id="deliveryAddress">
+                </div>
+                <div class="form-group full-width">
+                    <label for="additionalNotes">Questions or Additional Notes</label>
+                    <textarea id="additionalNotes" rows="3"></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="preferredConnect">Preferred Way to Connect</label>
+                    <select id="preferredConnect">
+                        <option value="">-- Select Preference --</option>
+                        <option value="Email">Email</option>
+                        <option value="Cell Phone Phone Call">Cell Phone Call</option>
+                        <option value="Text Message">Text Message</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">Submit Corporate Request</button>
+    </form>
+
+    <script>
+        document.getElementById('corporateForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+
+            const webAppUrl = "https://script.google.com/macros/s/AKfycby00JbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlM03RfznDWX2fh0RBNKNGSL/exec"; 
+
+            // ⚠️ EXPLICIT MAPPING DICTIONARY:
+            // Every key below corresponds word-for-word, character-for-character to Row 3 of your spreadsheet.
+            const payload = {
+                "Full Name": document.getElementById('fullName').value,
+                "Company / Organisation": document.getElementById('companyOrg').value,
+                "Your Title / Role": document.getElementById('yourTitle').value,
+                "Email Address": document.getElementById('emailAddress').value,
+                "Cell Phone": document.getElementById('cellPhone').value,
+                "How Heard About Me": document.getElementById('howHeard').value,
+                "How did you hear (Other details)": document.getElementById('howHeardOther').value,
+                "Event Type": document.getElementById('eventType').value,
+                "Event Type (Others details)": document.getElementById('eventTypeOther').value,
+                "Event Date": document.getElementById('eventDate').value,
+                "Event Start Time": document.getElementById('eventStartTime').value,
+                "Bar Opens At": document.getElementById('barOpensAt').value,
+                "Bar Closes At": document.getElementById('barClosesAt').value,
+                "Venue & City / County": document.getElementById('venueCity').value,
+                "Guest Count": document.getElementById('guestCount').value,
+                "Attendee Profile": document.getElementById('attendeeProfile').value,
+                "Recurring Annual Event?": document.getElementById('recurringAnnual').value,
+                "Event Coordinator?": document.getElementById('eventCoordinator').value,
+                "Coordinator Name & Cell Phone": document.getElementById('coordinatorDetails').value,
+                "Approximate Budget": document.getElementById('approxBudget').value,
+                "Food Being Served": document.getElementById('foodServed').value,
+                "Food Service Style": document.getElementById('foodServiceStyle') ? document.getElementById('foodServiceStyle').value : document.getElementById('foodStyle').value,
+                "Cocktail Hour?": document.getElementById('cocktailHour').value,
+                "Arrival Drinks?": document.getElementById('arrivalDrinks').value,
+                "Arrival Drinks (Details)": document.getElementById('arrivalDetails').value,
+                "Toast wuth Sparkling Wine?": document.getElementById('toastSparkling').value, 
+                "Signature / Branded Cocktails?": document.getElementById('signatureCocktails').value,
+                "Signature Cocktails (Details)": document.getElementById('signatureDetails').value,
+                "Bar Style": document.getElementById('barStyle').value,
+                "Liquor Preferences": document.getElementById('liquorPref').value,
+                "Liquor (Specific Requests)": document.getElementById('liquorSpecific').value,
+                "Beer Preferences": document.getElementById('beerPref').value,
+                "Beer (Specific Requests)": document.getElementById('beerSpecific').value,
+                "Seltzers Included?": document.getElementById('seltzersIncluded').value,
+                "Selzters (Brand/Flavor requests)": document.getElementById('seltzersBrand').value, 
+                "Sparkling Wine / Champagne": document.getElementById('sparklingWine').value,
+                "Rose Wine": document.getElementById('roseWine').value,
+                "White Details": document.getElementById('whiteDetails').value,
+                "Red Wine": document.getElementById('redWine').value,
+                "Wine Served at Tables?": document.getElementById('wineServedAtTables').value,
+                "Other Drinks / Mixers / Non-alcoholic": document.getElementById('otherDrinksMixers').value,
+                "Other Drinks/Mixers": document.getElementById('additionalMixers').value,
+                "Preferred Delivery Window": document.getElementById('deliveryWindow').value,
+                "Delivery Address": document.getElementById('deliveryAddress').value,
+                "Questions or Additional Notes": document.getElementById('additionalNotes').value,
+                "Preferred Way to Connect": document.getElementById('preferredConnect').value,
+                
+                // Internal Tracking Columns (Passed as blank so rows append accurately)
+                "Timestamp": "",
+                "Status": "",
+                "Trevor Notes": ""
+            };
+
+            fetch(webAppUrl, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                alert("Success! Your submission has been securely recorded.");
+                document.getElementById('corporateForm').reset(); 
+            })
+            .catch(error => {
+                console.error("Transmission error:", error);
+                alert("Something went wrong with the submission pipeline. Please check connection.");
+            });
+        });
+    </script>
+
+</body>
+</html>
