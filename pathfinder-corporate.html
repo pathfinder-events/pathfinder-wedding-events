@@ -847,6 +847,7 @@
       </div>
     </div>
 
+    <div class="step-errors" id="errors-4"></div>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(3)">&larr; Back</button>
       <button class="btn btn-submit" onclick="submitForm()">Submit &#10022;</button>
@@ -929,6 +930,8 @@
   }
 
   function submitForm() {
+    if (!validateStep(4)) return;
+
     const webAppUrl = "https://script.google.com/macros/s/AKfycbyOOJbXBUocUUmcQmoNxR--Ki-i4Wi5kI4XYJ_n0dA2JlMO3RfznDWX2fh0RBNKNGSL/exec";
 
     const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value || "";
@@ -1032,7 +1035,10 @@
       { name: 'red',            label: 'Red Wine' },
       { name: 'wine-service',   label: 'Wine at tables (Yes / No)' }
     ],
-    4: [] // Add objects here if you decide to make delivery fields mandatory later
+    4: [
+      { name: 'delivery',        label: 'Preferred Delivery Window' },
+      { id: 'delivery-address',  label: 'Delivery Address' }
+    ]
   };
 
   function validateStep(n) {
