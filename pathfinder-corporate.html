@@ -755,6 +755,10 @@
         <label class="pill"><input type="radio" name="sparkling" value="No thank you" />No thank you</label>
       </div>
     </div>
+    <div class="field conditional" id="sparkling-detail-field">
+      <label for="sparkling-detail">Any sparkling preferences?</label>
+      <input type="text" id="sparkling-detail" placeholder="e.g. Andre Clouet Brut Champagne, Perelada Stars Brut Cava or Prosecco..." />
+    </div>
 
     <div class="field">
       <span class="field-label">Ros&eacute; Wine *</span>
@@ -763,6 +767,10 @@
         <label class="pill"><input type="radio" name="rose" value="Yes please" />Yes please</label>
         <label class="pill"><input type="radio" name="rose" value="No thank you" />No thank you</label>
       </div>
+    </div>
+    <div class="field conditional" id="rose-detail-field">
+      <label for="rose-detail">Any rosé preferences?</label>
+      <input type="text" id="rose-detail" placeholder="e.g. La Garenne Rosé, Pierre Rougon Aix Provence Rosé or La Flor Rosé..." />
     </div>
 
     <div class="field">
@@ -774,6 +782,10 @@
         <label class="pill"><input type="radio" name="white" value="No thank you" />No thank you</label>
       </div>
     </div>
+    <div class="field conditional" id="white-detail-field">
+      <label for="white-detail">Any white wine preferences?</label>
+      <input type="text" id="white-detail" placeholder="e.g. Silver Moki Marlborough Sauvignon Blanc, Pulenta Mendoza Pinot Gris or Taft Street Russian River Chardonnay..." />
+    </div>
 
     <div class="field">
       <span class="field-label">Red Wine *</span>
@@ -783,6 +795,10 @@
         <label class="pill"><input type="radio" name="red" value="Yes please" />Yes please</label>
         <label class="pill"><input type="radio" name="red" value="No thank you" />No thank you</label>
       </div>
+    </div>
+    <div class="field conditional" id="red-detail-field">
+      <label for="red-detail">Any red wine preferences?</label>
+      <input type="text" id="red-detail" placeholder="e.g. Riglos Quinta Malbec, McNab Cabernet Sauvignon or Hunter Chaps Pinot Noir..." />
     </div>
 
     <div class="field">
@@ -975,9 +991,13 @@
       "Seltzers Included?":                    radio('seltzer'),
       "Seltzers (Brand / Flavour Requests)":   field('seltzer-detail'),
       "Sparkling Wine / Champagne":            radio('sparkling'),
+      "Sparkling Wine (Preferences)":          field('sparkling-detail'),
       "Rosé Wine":                             radio('rose'),
+      "Rosé Wine (Preferences)":               field('rose-detail'),
       "White Wine":                            radio('white'),
+      "White Wine (Preferences)":              field('white-detail'),
       "Red Wine":                              radio('red'),
+      "Red Wine (Preferences)":                field('red-detail'),
       "Wine Served at Tables?":                radio('wine-service'),
       "Other Drinks / Mixers / Non-Alcoholic": field('other-requests'),
       "Preferred Delivery Window":             radio('delivery'),
@@ -1125,6 +1145,10 @@
   watchPill('liquor-pref', 'Specific requests', 'liquor-detail-field');
   watchPill('beer-pref', 'Specific requests', 'beer-detail-field');
   watchPill('seltzer', 'Yes', 'seltzer-detail-field');
+  watchPill('sparkling', 'Yes please', 'sparkling-detail-field');
+  watchPill('rose', 'Yes please', 'rose-detail-field');
+  watchPill('white', 'Yes please', 'white-detail-field');
+  watchPill('red', 'Yes please', 'red-detail-field');
 </script>
 </body>
 </html>
