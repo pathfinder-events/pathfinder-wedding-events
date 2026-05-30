@@ -822,19 +822,20 @@
   -webkit-font-smoothing: antialiased;
 }
 
- /* Sidebar Sliding Layout for Calculator & Planner */
-.app-sidebar {
-    position: fixed;
-    top: 0;
-    right: -450px; /* Hidden off-screen to the right by default */
-    width: 420px;  /* Matches your Navigator chatbot layout width */
-    height: 100%;
-    background-color: #ffffff;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.15);
-    transition: right 0.3s ease-in-out; /* Creates the smooth sliding animation */
-    z-index: 9999; /* Forces it to sit cleanly on top of your website elements */
-    display: flex;
-    flex-direction: column;
+ /* Securely lock both panels hidden off-screen to the right side */
+#calculatorSidebar, #plannerSidebar {
+    position: fixed !important;
+    top: 0 !important;
+    right: -450px !important; /* Forces them completely off-screen until clicked */
+    width: 420px !important;  /* Matches your Navigator chatbot layout width exactly */
+    height: 100vh !important; /* Spans from the absolute top to the absolute bottom */
+    background-color: #ffffff !important;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15) !important;
+    transition: right 0.3s ease-in-out !important; /* Clean sliding glide animation */
+    z-index: 10000 !important; /* Pushes them flawlessly over all other elements */
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
 }
 
 /* Header styles for the overlay windows */
