@@ -2409,234 +2409,137 @@
 </div>
 <!-- ═══ END COMPASS HUB ════════════════════════════ -->
 
+  <div id="sidebar-navigator">
+  <div class="navigator-header">
+    <h3>The Navigator</h3>
+    <button id="close-navigator" aria-label="Close Chat">✕</button>
+  </div>
+  
+  <div id="navigator-chat-history">
+    <div style="padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.4; background: white; border: 1px solid var(--border); color: var(--ink); align-self: flex-start;">
+      Hello! I'm your event bar Navigator. How can I help you curate your celebration today?
+    </div>
+  </div>
+  
+  <div class="navigator-input-area">
+    <input type="text" id="navigator-user-input" placeholder="Type your message..." autocomplete="off" />
+    <button id="navigator-send-btn">Send</button>
+  </div>
+</div>
 <script>
-document.getElementById('btnCalculator').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const calcTarget = document.getElementById('section-2');
-  if (calcTarget) calcTarget.scrollIntoView({ behavior: 'smooth' });
-});
-document.getElementById('btnPlanner').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const planTarget = document.getElementById('section-3');
-  if (planTarget) planTarget.scrollIntoView({ behavior: 'smooth' });
-});
-document.querySelector('.compass-img').onerror = function () {
-  this.style.display = 'none';
-  this.parentNode.style.background =
-    'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
-};
-  // Listen for clicks on the text wrapper for the Navigator button
-    const tagLines = document.querySelectorAll('.tagline-text');
-    let navTextBtn = null;
-    tagLines.forEach(el => {
-        if (el.textContent.includes('Navigator')) { navTextBtn = el; }
+document.addEventListener('DOMContentLoaded', () => {
+  // --- HUB BUTTONS ---
+  const btnCalculator = document.getElementById('btnCalculator');
+  const btnPlanner = document.getElementById('btnPlanner');
+  const compassBtn = document.getElementById('compassBtn');
+  const navTextBtn = document.querySelector('.compass-tagline');
+
+  // --- SIDEBAR ELEMENTS ---
+  const sidebarPanel = document.getElementById('sidebar-navigator');
+  const closeBtn = document.getElementById('close-navigator');
+  const userInputField = document.getElementById('navigator-user-input');
+  const sendButton = document.getElementById('navigator-send-btn');
+  const chatHistoryContainer = document.getElementById('navigator-chat-history');
+
+  // Scroll to sections
+  if (btnCalculator) {
+    btnCalculator.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const calcTarget = document.getElementById('section-2');
+      if (calcTarget) calcTarget.scrollIntoView({ behavior: 'smooth' });
     });
+  }
+  if (btnPlanner) {
+    btnPlanner.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const planTarget = document.getElementById('section-3');
+      if (planTarget) planTarget.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 
-    if (navTextBtn) {
-        navTextBtn.style.cursor = 'pointer';
-        navTextBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('sidebar-navigator').style.right = '0px';
-        });
-        
-        // Also make the parent compass hub clickable if it surrounds it
-        const parentHub = navTextBtn.closest('.compass-hub') || navTextBtn.parentElement;
-        if (parentHub) {
-            parentHub.style.cursor = 'pointer';
-            parentHub.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.getElementById('sidebar-navigator').style.right = '0px';
-            });
-        }
-    }
+  // --- OPEN/CLOSE SIDEBAR LOGIC ---
+  const openSidebar = (e) => {
+    e.stopPropagation();
+    if (sidebarPanel) sidebarPanel.style.right = '0px';
+  };
 
-     // Close button logic to hide the sidebar panel
-    const closeBtn = document.getElementById('close-navigator');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.getElementById('sidebar-navigator').style.right = '-420px'; // Slide it away!
-        });
-    }
+  if (compassBtn) compassBtn.addEventListener('click', openSidebar);
+  if (navTextBtn) {
+    navTextBtn.style.cursor = 'pointer';
+    navTextBtn.addEventListener('click', openSidebar);
+  }
 
-    // --- NEW CHAT SYSTEM CAPTURE LOGIC ---
-    const userInputField = document.getElementById('navigator-user-input');
-    const sendButton = document.getElementById('navigator-send-btn');
-    const chatHistoryContainer = document.getElementById('navigator-chat-history');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sidebarPanel) sidebarPanel.style.right = '-420px'; // Hide off-screen
+    });
+  }
 
-    // Function to visually handle the sent message
-    function processUserMessage() {
-        const textMessage = userInputField.value.trim();
-        if (!textMessage) return; // Do nothing if field is completely empty
+  // --- CHAT LOGIC ---
+  function processUserMessage() {
+    if (!userInputField || !chatHistoryContainer) return;
 
-        // Create a new visual dialogue bubble for the client's message
-        const messageBubble = document.createElement('div');
-        messageBubble.style.padding = '10px 14px';
-        messageBubble.style.borderRadius = '8px';
-        messageBubble.style.maxWidth = '85%';
-        messageBubble.style.fontSize = '14px';
-        messageBubble.style.lineHeight = '1.4';
-        messageBubble.style.background = '#ff6b00'; // Pathfinder Accent Orange
-        messageBubble.style.color = '#ffffff';
-        messageBubble.style.alignSelf = 'flex-end'; // Align to the right side
-        messageBubble.textContent = textMessage;
+    const textMessage = userInputField.value.trim();
+    if (!textMessage) return; // Do nothing if empty
 
-        // Push bubble into the scrolling timeline view
-        chatHistoryContainer.appendChild(messageBubble);
-        
-        // Clear the entry field so they can type their next query
-        userInputField.value = '';
-        
-        // Keep the chat scrolling downward automatically
-        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+    // 1. Create User Bubble
+    const messageBubble = document.createElement('div');
+    messageBubble.style.padding = '10px 14px';
+    messageBubble.style.borderRadius = '8px';
+    messageBubble.style.maxWidth = '85%';
+    messageBubble.style.fontSize = '14px';
+    messageBubble.style.lineHeight = '1.4';
+    messageBubble.style.background = 'var(--rose)'; // Matches your theme
+    messageBubble.style.color = '#ffffff';
+    messageBubble.style.alignSelf = 'flex-end'; // Align Right
+    messageBubble.textContent = textMessage;
 
-        // Temporal placeholder response showing engine is alive
-        setTimeout(() => {
-            const systemBubble = document.createElement('div');
-            systemBubble.style.padding = '10px 14px';
-            systemBubble.style.borderRadius = '8px';
-            systemBubble.style.maxWidth = '85%';
-            systemBubble.style.fontSize = '14px';
-            systemBubble.style.lineHeight = '1.4';
-            systemBubble.style.background = '#eee';
-            systemBubble.style.color = '#222';
-            systemBubble.style.alignSelf = 'flex-start';
-            systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key in the next step to fetch the live response...</em>";
-            chatHistoryContainer.appendChild(systemBubble);
-            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-        }, 600);
-    }
+    chatHistoryContainer.appendChild(messageBubble);
+    userInputField.value = ''; // Clear input
+    chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight; // Auto-scroll
 
-    // Trigger 1: Listen for direct clicks on the Orange Send Button
-    // --- CHAT & CLOSE ACTIVATION SYSTEM ---
-    // This forces the browser to wait until everything is ready before managing clicks
-    window.addEventListener('DOMContentLoaded', () => {
-        const userInputField = document.getElementById('navigator-user-input');
-        const sendButton = document.getElementById('navigator-send-btn');
-        const chatHistoryContainer = document.getElementById('navigator-chat-history');
-        const closeBtn = document.getElementById('close-navigator');
-        const sidebarPanel = document.getElementById('sidebar-navigator');
+    // 2. Create System/Bot Bubble Simulator
+    setTimeout(() => {
+      const systemBubble = document.createElement('div');
+      systemBubble.style.padding = '10px 14px';
+      systemBubble.style.borderRadius = '8px';
+      systemBubble.style.maxWidth = '85%';
+      systemBubble.style.fontSize = '14px';
+      systemBubble.style.lineHeight = '1.4';
+      systemBubble.style.background = 'white';
+      systemBubble.style.border = '1px solid var(--border)';
+      systemBubble.style.color = 'var(--ink)';
+      systemBubble.style.alignSelf = 'flex-start'; // Align Left
+      systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
+      
+      chatHistoryContainer.appendChild(systemBubble);
+      chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+    }, 600);
+  }
 
-        // Close/Minimize button trigger
-        if (closeBtn && sidebarPanel) {
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                sidebarPanel.style.right = '-420px'; // Slides it off-screen safely!
-            });
-        }
+  // Send via Button Click
+  if (sendButton) {
+    sendButton.addEventListener('click', processUserMessage);
+  }
 
-        // Logic to build speech bubbles and process text
-        function processUserMessage() {
-            if (!userInputField || !chatHistoryContainer) return;
-            
-            const textMessage = userInputField.value.trim();
-            if (!textMessage) return; // Ignore if completely blank
+  // Send via 'Enter' Key
+  if (userInputField) {
+    userInputField.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevents form submission
+        processUserMessage();
+      }
+    });
+  }
 
-            // Build client speech bubble
-            const messageBubble = document.createElement('div');
-            messageBubble.style.padding = '10px 14px';
-            messageBubble.style.borderRadius = '8px';
-            messageBubble.style.maxWidth = '85%';
-            messageBubble.style.fontSize = '14px';
-            messageBubble.style.lineHeight = '1.4';
-            messageBubble.style.background = '#ff6b00'; // Pathfinder Accent Orange
-            messageBubble.style.color = '#ffffff';
-            messageBubble.style.alignSelf = 'flex-end'; // Align Right
-            messageBubble.textContent = textMessage;
-
-            chatHistoryContainer.appendChild(messageBubble);
-            userInputField.value = ''; // Empty the text entry box
-            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight; // Auto-scroll down
-
-            // Simulator response
-            setTimeout(() => {
-                const systemBubble = document.createElement('div');
-                systemBubble.style.padding = '10px 14px';
-                systemBubble.style.borderRadius = '8px';
-                systemBubble.style.maxWidth = '85%';
-                systemBubble.style.fontSize = '14px';
-                systemBubble.style.lineHeight = '1.4';
-                systemBubble.style.background = '#eee';
-                systemBubble.style.color = '#222';
-                systemBubble.style.alignSelf = 'flex-start'; // Align Left
-                systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
-                chatHistoryContainer.appendChild(systemBubble);
-                chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-            }, 600);
-        }
-
-        // Activate the Send Button click
-        if (sendButton) {
-            sendButton.addEventListener('click', processUserMessage);
-        }
-
-        // --- CHAT & CLOSE ACTIVATION SYSTEM ---
-    const userInputField = document.getElementById('navigator-user-input');
-    const sendButton = document.getElementById('navigator-send-btn');
-    const chatHistoryContainer = document.getElementById('navigator-chat-history');
-    const closeBtn = document.getElementById('close-navigator');
-    const sidebarPanel = document.getElementById('sidebar-navigator');
-
-    // Close/Minimize button trigger
-    if (closeBtn && sidebarPanel) {
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            sidebarPanel.style.right = '-420px'; // Slides it off-screen safely!
-        });
-    }
-
-    // Logic to build speech bubbles and process text
-    function processUserMessage() {
-        if (!userInputField || !chatHistoryContainer) return;
-        
-        const textMessage = userInputField.value.trim();
-        if (!textMessage) return; // Ignore if completely blank
-
-        // Build client speech bubble
-        const messageBubble = document.createElement('div');
-        messageBubble.style.padding = '10px 14px';
-        messageBubble.style.borderRadius = '8px';
-        messageBubble.style.maxWidth = '85%';
-        messageBubble.style.fontSize = '14px';
-        messageBubble.style.lineHeight = '1.4';
-        messageBubble.style.background = '#ff6b00'; // Accent Orange
-        messageBubble.style.color = '#ffffff';
-        messageBubble.style.alignSelf = 'flex-end'; // Align Right
-        messageBubble.textContent = textMessage;
-
-        chatHistoryContainer.appendChild(messageBubble);
-        userInputField.value = ''; // Empty the text entry box
-        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight; // Auto-scroll down
-
-        // Simulator response showing engine is working
-        setTimeout(() => {
-            const systemBubble = document.createElement('div');
-            systemBubble.style.padding = '10px 14px';
-            systemBubble.style.borderRadius = '8px';
-            systemBubble.style.maxWidth = '85%';
-            systemBubble.style.fontSize = '14px';
-            systemBubble.style.lineHeight = '1.4';
-            systemBubble.style.background = '#eee';
-            systemBubble.style.color = '#222';
-            systemBubble.style.alignSelf = 'flex-start'; // Align Left
-            systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
-            chatHistoryContainer.appendChild(systemBubble);
-            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-        }, 600);
-    }
-
-    // Activate the Send Button click
-    if (sendButton) {
-        sendButton.addEventListener('click', processUserMessage);
-    }
-
-    // Activate the Enter Key press inside input box
-    if (userInputField) {
-        userInputField.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                processUserMessage();
-            }
-        });
-    }
+  // Image fallback for the main Compass button
+  const compassImg = document.querySelector('.compass-img');
+  if (compassImg) {
+    compassImg.onerror = function () {
+      this.style.display = 'none';
+      this.parentNode.style.background = 'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
+    };
+  }
 });
 </script>
