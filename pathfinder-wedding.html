@@ -2630,10 +2630,10 @@
   }
 
   /* ═══════════════════════════════════════════════════
-     4. BUTTONS, ICONS, AND CHATBOT LISTENERS
+     4. CONDITIONAL FIELDS & CHATBOT LISTENERS
      ═══════════════════════════════════════════════════ */
   document.addEventListener('DOMContentLoaded', () => {
-    // Reveal conditional fields when radio buttons are clicked
+    // Conditional Fields
     document.querySelectorAll('input[name="referral"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('referral-other-wrap').style.display = el.value === 'Other' && el.checked ? 'block' : 'none'; }); });
     document.querySelectorAll('input[name="rehearsal"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rehearsal-guests-wrap').style.display = el.value.startsWith('Yes') && el.checked ? 'block' : 'none'; }); });
     document.querySelectorAll('input[name="hasCoord"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('coord-details-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
@@ -2647,7 +2647,7 @@
     document.querySelectorAll('input[name="redWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('red-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
     document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
 
-    // --- HUB BUTTONS & CHATBOT ---
+    // Hub & Chat Elements
     const btnCalculator = document.getElementById('btnCalculator');
     const btnPlanner = document.getElementById('btnPlanner');
     const compassBtn = document.getElementById('compassBtn');
@@ -2659,11 +2659,11 @@
     const sendButton = document.getElementById('navigator-send-btn');
     const chatHistoryContainer = document.getElementById('navigator-chat-history');
 
-    // Make the orbital icons jump to sections (requires form fields to be valid)
+    // Hub buttons scroll to sections (Validate first!)
     if (btnCalculator) { btnCalculator.addEventListener('click', (e) => { e.stopPropagation(); goTo(2); }); }
     if (btnPlanner) { btnPlanner.addEventListener('click', (e) => { e.stopPropagation(); goTo(3); }); }
 
-    // Open Sidebar when Compass or "Navigator" text is clicked
+    // Open Sidebar
     const openSidebar = (e) => {
       e.stopPropagation();
       if (sidebarPanel) sidebarPanel.style.right = '0px';
@@ -2675,7 +2675,7 @@
       navTextBtn.addEventListener('click', openSidebar);
     }
 
-    // Close Sidebar when "X" is clicked
+    // Close Sidebar
     if (closeBtn) {
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -2683,7 +2683,7 @@
       });
     }
 
-    // Process Chat Messages
+    // Chat Message Processing
     function processUserMessage() {
       if (!userInputField || !chatHistoryContainer) return;
 
@@ -2723,10 +2723,7 @@
       }, 600);
     }
 
-    // Send on Click
     if (sendButton) sendButton.addEventListener('click', processUserMessage);
-    
-    // Send on 'Enter' key
     if (userInputField) {
       userInputField.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -2736,7 +2733,7 @@
       });
     }
 
-    // Image fallback for the compass
+    // Image fallback
     const compassImg = document.querySelector('.compass-img');
     if (compassImg) {
       compassImg.onerror = function () {
