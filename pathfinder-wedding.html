@@ -2424,7 +2424,32 @@ document.querySelector('.compass-img').onerror = function () {
   this.parentNode.style.background =
     'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
 };
+  // Listen for clicks on the Navigator compass
+    const btnNavigator = document.querySelector('.compass-container') || document.querySelector('.compass-img');
+    if (btnNavigator) {
+        btnNavigator.style.cursor = 'pointer';
+        btnNavigator.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('sidebar-navigator').style.right = '0px'; // Slide out!
+        });
+    }
+
+    // Listen for clicks on the sidebar's Close (X) button
+    document.getElementById('close-navigator').addEventListener('click', () => {
+        document.getElementById('sidebar-navigator').style.right = '-420px'; // Hide it!
+    });
 </script>
+  <div id="sidebar-navigator" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #ffffff; box-shadow: -4px 0 12px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.3s ease-in-out; z-index: 99999; font-family: sans-serif;">
+    <div style="background: #000000; color: #ffffff; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
+        <strong style="color: #ff6b00; letter-spacing: 0.5px;">PATHFINDER NAVIGATOR</strong>
+        <button id="close-navigator" style="background: none; border: none; color: #aaa; font-size: 20px; cursor: pointer;">&times;</button>
+    </div>
+    <div style="padding: 20px; color: #333; font-size: 14px;">
+        <p><strong>The Navigator Chatbot panel is successfully linked!</strong></p>
+        <p>Next up, we will wire up your input box, chat history view, and your Gemini API key right here so you can test it live.</p>
+    </div>
+</div>
+
 
 </body>
 </html>
