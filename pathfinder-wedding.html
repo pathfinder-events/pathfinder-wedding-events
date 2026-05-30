@@ -2507,11 +2507,129 @@ document.querySelector('.compass-img').onerror = function () {
     }
 
     // Trigger 1: Listen for direct clicks on the Orange Send Button
+    // --- CHAT & CLOSE ACTIVATION SYSTEM ---
+    // This forces the browser to wait until everything is ready before managing clicks
+    window.addEventListener('DOMContentLoaded', () => {
+        const userInputField = document.getElementById('navigator-user-input');
+        const sendButton = document.getElementById('navigator-send-btn');
+        const chatHistoryContainer = document.getElementById('navigator-chat-history');
+        const closeBtn = document.getElementById('close-navigator');
+        const sidebarPanel = document.getElementById('sidebar-navigator');
+
+        // Close/Minimize button trigger
+        if (closeBtn && sidebarPanel) {
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebarPanel.style.right = '-420px'; // Slides it off-screen safely!
+            });
+        }
+
+        // Logic to build speech bubbles and process text
+        function processUserMessage() {
+            if (!userInputField || !chatHistoryContainer) return;
+            
+            const textMessage = userInputField.value.trim();
+            if (!textMessage) return; // Ignore if completely blank
+
+            // Build client speech bubble
+            const messageBubble = document.createElement('div');
+            messageBubble.style.padding = '10px 14px';
+            messageBubble.style.borderRadius = '8px';
+            messageBubble.style.maxWidth = '85%';
+            messageBubble.style.fontSize = '14px';
+            messageBubble.style.lineHeight = '1.4';
+            messageBubble.style.background = '#ff6b00'; // Pathfinder Accent Orange
+            messageBubble.style.color = '#ffffff';
+            messageBubble.style.alignSelf = 'flex-end'; // Align Right
+            messageBubble.textContent = textMessage;
+
+            chatHistoryContainer.appendChild(messageBubble);
+            userInputField.value = ''; // Empty the text entry box
+            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight; // Auto-scroll down
+
+            // Simulator response
+            setTimeout(() => {
+                const systemBubble = document.createElement('div');
+                systemBubble.style.padding = '10px 14px';
+                systemBubble.style.borderRadius = '8px';
+                systemBubble.style.maxWidth = '85%';
+                systemBubble.style.fontSize = '14px';
+                systemBubble.style.lineHeight = '1.4';
+                systemBubble.style.background = '#eee';
+                systemBubble.style.color = '#222';
+                systemBubble.style.alignSelf = 'flex-start'; // Align Left
+                systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
+                chatHistoryContainer.appendChild(systemBubble);
+                chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+            }, 600);
+        }
+
+        // Activate the Send Button click
+        if (sendButton) {
+            sendButton.addEventListener('click', processUserMessage);
+        }
+
+        // --- CHAT & CLOSE ACTIVATION SYSTEM ---
+    const userInputField = document.getElementById('navigator-user-input');
+    const sendButton = document.getElementById('navigator-send-btn');
+    const chatHistoryContainer = document.getElementById('navigator-chat-history');
+    const closeBtn = document.getElementById('close-navigator');
+    const sidebarPanel = document.getElementById('sidebar-navigator');
+
+    // Close/Minimize button trigger
+    if (closeBtn && sidebarPanel) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebarPanel.style.right = '-420px'; // Slides it off-screen safely!
+        });
+    }
+
+    // Logic to build speech bubbles and process text
+    function processUserMessage() {
+        if (!userInputField || !chatHistoryContainer) return;
+        
+        const textMessage = userInputField.value.trim();
+        if (!textMessage) return; // Ignore if completely blank
+
+        // Build client speech bubble
+        const messageBubble = document.createElement('div');
+        messageBubble.style.padding = '10px 14px';
+        messageBubble.style.borderRadius = '8px';
+        messageBubble.style.maxWidth = '85%';
+        messageBubble.style.fontSize = '14px';
+        messageBubble.style.lineHeight = '1.4';
+        messageBubble.style.background = '#ff6b00'; // Accent Orange
+        messageBubble.style.color = '#ffffff';
+        messageBubble.style.alignSelf = 'flex-end'; // Align Right
+        messageBubble.textContent = textMessage;
+
+        chatHistoryContainer.appendChild(messageBubble);
+        userInputField.value = ''; // Empty the text entry box
+        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight; // Auto-scroll down
+
+        // Simulator response showing engine is working
+        setTimeout(() => {
+            const systemBubble = document.createElement('div');
+            systemBubble.style.padding = '10px 14px';
+            systemBubble.style.borderRadius = '8px';
+            systemBubble.style.maxWidth = '85%';
+            systemBubble.style.fontSize = '14px';
+            systemBubble.style.lineHeight = '1.4';
+            systemBubble.style.background = '#eee';
+            systemBubble.style.color = '#222';
+            systemBubble.style.alignSelf = 'flex-start'; // Align Left
+            systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
+            chatHistoryContainer.appendChild(systemBubble);
+            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+        }, 600);
+    }
+
+    // Activate the Send Button click
     if (sendButton) {
         sendButton.addEventListener('click', processUserMessage);
     }
 
-    // Trigger 2: Listen for the "Enter" key being pressed inside the text field
+    // Activate the Enter Key press inside input box
     if (userInputField) {
         userInputField.addEventListener('keypress', (event) => {
             if (event.key === 'Enter') {
@@ -2519,29 +2637,5 @@ document.querySelector('.compass-img').onerror = function () {
             }
         });
     }
-      </script>
-  <div id="sidebar-navigator" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #ffffff; box-shadow: -4px 0 12px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.3s ease-in-out; z-index: 99999; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
-    
-    <div style="background: #000000; color: #ffffff; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <div style="font-weight: 700; font-size: 16px; letter-spacing: 0.5px; color: #ffffff;">Navigator</div>
-            <div style="color: #ff6b00; font-size: 12px; font-weight: 600; letter-spacing: 0.5px;">CLIENT CONSULTANT</div>
-        </div>
-        <button id="close-navigator" style="background: none; border: none; color: #aaa; font-size: 24px; cursor: pointer; line-height: 1;">&times;</button>
-    </div>
-    
-    <div id="navigator-chat-history" style="flex: 1; padding: 20px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 12px;">
-        <div style="padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.4; background: #eee; color: #222; align-self: flex-start;">
-            Welcome! I am the Navigator. I am here to guide your path toward the spirits that spark a lifetime of memories. Ask me about our premium Texas beers, custom wine lists, or menu options!
-        </div>
-    </div>
-
-    <div style="padding: 15px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 10px;">
-        <input type="text" id="navigator-user-input" placeholder="Ask about premium curations..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size: 14px; color: #000;">
-        <button id="navigator-send-btn" style="background: #ff6b00; color: #fff; border: none; padding: 0 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Send</button>
-    </div>
-</div>
-
-
-</body>
-</html>
+});
+</script>
