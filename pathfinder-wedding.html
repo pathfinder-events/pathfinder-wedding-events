@@ -1493,43 +1493,6 @@
     if (e.key === 'Escape') closeModal();
   });
 
-  const totalSections = 4;
-  let currentSection = 1;
-
-  const sectionLabels = [
-    'Your details',
-    'Event information',
-    'Drinks package',
-    'Next steps'
-  ];
-
-  /* ── Validation helpers ────────────────────────────── */
-  function fieldVal(id) {
-    const el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
-  function radioChecked(name) {
-    return !!document.querySelector(`input[name="${name}"]:checked`);
-  }
-
-  function showError(msg) {
-    // Remove any existing error banner
-    const old = document.getElementById('_valError');
-    if (old) old.remove();
-    const banner = document.createElement('div');
-    banner.id = '_valError';
-    banner.style.cssText = [
-      'position:fixed', 'top:18px', 'left:50%', 'transform:translateX(-50%)',
-      'background:#c4857a', 'color:#fff', 'padding:12px 28px', 'border-radius:8px',
-      'font-family:Jost,sans-serif', 'font-size:14px', 'letter-spacing:0.04em',
-      'box-shadow:0 4px 18px rgba(0,0,0,0.22)', 'z-index:99999',
-      'text-align:center', 'max-width:90vw'
-    ].join(';');
-    banner.textContent = msg;
-    document.body.appendChild(banner);
-    setTimeout(() => banner.remove(), 3800);
-  }
-
   function validateSection(from) {
     // ── Section 1: Contact Details ──────────────────────
     if (from === 1) {
