@@ -2449,12 +2449,76 @@ document.querySelector('.compass-img').onerror = function () {
         }
     }
 
-    // Close button logic
-    document.getElementById('close-navigator').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('sidebar-navigator').style.right = '-420px';
-    });
-</script>
+     // Close button logic to hide the sidebar panel
+    const closeBtn = document.getElementById('close-navigator');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.getElementById('sidebar-navigator').style.right = '-420px'; // Slide it away!
+        });
+    }
+
+    // --- NEW CHAT SYSTEM CAPTURE LOGIC ---
+    const userInputField = document.getElementById('navigator-user-input');
+    const sendButton = document.getElementById('navigator-send-btn');
+    const chatHistoryContainer = document.getElementById('navigator-chat-history');
+
+    // Function to visually handle the sent message
+    function processUserMessage() {
+        const textMessage = userInputField.value.trim();
+        if (!textMessage) return; // Do nothing if field is completely empty
+
+        // Create a new visual dialogue bubble for the client's message
+        const messageBubble = document.createElement('div');
+        messageBubble.style.padding = '10px 14px';
+        messageBubble.style.borderRadius = '8px';
+        messageBubble.style.maxWidth = '85%';
+        messageBubble.style.fontSize = '14px';
+        messageBubble.style.lineHeight = '1.4';
+        messageBubble.style.background = '#ff6b00'; // Pathfinder Accent Orange
+        messageBubble.style.color = '#ffffff';
+        messageBubble.style.alignSelf = 'flex-end'; // Align to the right side
+        messageBubble.textContent = textMessage;
+
+        // Push bubble into the scrolling timeline view
+        chatHistoryContainer.appendChild(messageBubble);
+        
+        // Clear the entry field so they can type their next query
+        userInputField.value = '';
+        
+        // Keep the chat scrolling downward automatically
+        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+
+        // Temporal placeholder response showing engine is alive
+        setTimeout(() => {
+            const systemBubble = document.createElement('div');
+            systemBubble.style.padding = '10px 14px';
+            systemBubble.style.borderRadius = '8px';
+            systemBubble.style.maxWidth = '85%';
+            systemBubble.style.fontSize = '14px';
+            systemBubble.style.lineHeight = '1.4';
+            systemBubble.style.background = '#eee';
+            systemBubble.style.color = '#222';
+            systemBubble.style.alignSelf = 'flex-start';
+            systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key in the next step to fetch the live response...</em>";
+            chatHistoryContainer.appendChild(systemBubble);
+            chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+        }, 600);
+    }
+
+    // Trigger 1: Listen for direct clicks on the Orange Send Button
+    if (sendButton) {
+        sendButton.addEventListener('click', processUserMessage);
+    }
+
+    // Trigger 2: Listen for the "Enter" key being pressed inside the text field
+    if (userInputField) {
+        userInputField.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                processUserMessage();
+            }
+        });
+    }
   <div id="sidebar-navigator" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #ffffff; box-shadow: -4px 0 12px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.3s ease-in-out; z-index: 99999; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
     
     <div style="background: #000000; color: #ffffff; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
