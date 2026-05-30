@@ -2707,11 +2707,12 @@
     document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
 
     // Hub & Chat Elements
-    const btnCalculator = document.getElementById('btnCalculator');
-    const btnPlanner = document.getElementById('btnPlanner');
-    const compassBtn = document.getElementById('compassBtn');
-    const navTextBtn = document.querySelector('.compass-tagline');
-
+    // Smart element selectors that look up the elements dynamically on click
+const getBtnCalculator = () => document.getElementById('btnCalculator');
+const getBtnPlanner = () => document.getElementById('btnPlanner');
+const compassBtn = document.getElementById('compassBtn');
+const navTextBtn = document.querySelector('.compass-tagline');
+    
     const sidebarPanel = document.getElementById('sidebar-navigator');
     const closeBtn = document.getElementById('close-navigator');
     const userInputField = document.getElementById('navigator-user-input');
@@ -2719,20 +2720,21 @@
     const chatHistoryContainer = document.getElementById('navigator-chat-history');
 
     // Hub buttons show overlays over the page
-if (btnCalculator) { 
-    btnCalculator.addEventListener('click', (e) => { 
+if (getBtnCalculator()) { 
+    getBtnCalculator().addEventListener('click', (e) => { 
         e.stopPropagation(); 
         const calcSidebar = document.getElementById('calculatorSidebar');
         if (calcSidebar) calcSidebar.style.right = '0px'; 
     }); 
 }
 
-if (btnPlanner) { 
-    btnPlanner.addEventListener('click', (e) => { 
+if (getBtnPlanner()) { 
+    getBtnPlanner().addEventListener('click', (e) => { 
         e.stopPropagation(); 
         const planSidebar = document.getElementById('plannerSidebar');
         if (planSidebar) planSidebar.style.right = '0px'; 
     }); 
+}
 }
     // Open Sidebar
     const openSidebar = (e) => {
