@@ -2424,29 +2424,56 @@ document.querySelector('.compass-img').onerror = function () {
   this.parentNode.style.background =
     'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
 };
-  // Listen for clicks on the Navigator compass
-    const btnNavigator = document.querySelector('.compass-container') || document.querySelector('.compass-img');
-    if (btnNavigator) {
-        btnNavigator.style.cursor = 'pointer';
-        btnNavigator.addEventListener('click', (e) => {
+  // Listen for clicks on the text wrapper for the Navigator button
+    const tagLines = document.querySelectorAll('.tagline-text');
+    let navTextBtn = null;
+    tagLines.forEach(el => {
+        if (el.textContent.includes('Navigator')) { navTextBtn = el; }
+    });
+
+    if (navTextBtn) {
+        navTextBtn.style.cursor = 'pointer';
+        navTextBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            document.getElementById('sidebar-navigator').style.right = '0px'; // Slide out!
+            document.getElementById('sidebar-navigator').style.right = '0px';
         });
+        
+        // Also make the parent compass hub clickable if it surrounds it
+        const parentHub = navTextBtn.closest('.compass-hub') || navTextBtn.parentElement;
+        if (parentHub) {
+            parentHub.style.cursor = 'pointer';
+            parentHub.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.getElementById('sidebar-navigator').style.right = '0px';
+            });
+        }
     }
 
-    // Listen for clicks on the sidebar's Close (X) button
-    document.getElementById('close-navigator').addEventListener('click', () => {
-        document.getElementById('sidebar-navigator').style.right = '-420px'; // Hide it!
+    // Close button logic
+    document.getElementById('close-navigator').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('sidebar-navigator').style.right = '-420px';
     });
 </script>
-  <div id="sidebar-navigator" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #ffffff; box-shadow: -4px 0 12px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.3s ease-in-out; z-index: 99999; font-family: sans-serif;">
+  <div id="sidebar-navigator" style="position: fixed; top: 0; right: -420px; width: 400px; height: 100vh; background: #ffffff; box-shadow: -4px 0 12px rgba(0,0,0,0.15); display: flex; flex-direction: column; transition: right 0.3s ease-in-out; z-index: 99999; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+    
     <div style="background: #000000; color: #ffffff; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
-        <strong style="color: #ff6b00; letter-spacing: 0.5px;">PATHFINDER NAVIGATOR</strong>
-        <button id="close-navigator" style="background: none; border: none; color: #aaa; font-size: 20px; cursor: pointer;">&times;</button>
+        <div>
+            <div style="font-weight: 700; font-size: 16px; letter-spacing: 0.5px; color: #ffffff;">Pathfinder</div>
+            <div style="color: #ff6b00; font-size: 12px; font-weight: 600;">CLIENT SERVICE AI</div>
+        </div>
+        <button id="close-navigator" style="background: none; border: none; color: #aaa; font-size: 24px; cursor: pointer; line-height: 1;">&times;</button>
     </div>
-    <div style="padding: 20px; color: #333; font-size: 14px;">
-        <p><strong>The Navigator Chatbot panel is successfully linked!</strong></p>
-        <p>Next up, we will wire up your input box, chat history view, and your Gemini API key right here so you can test it live.</p>
+    
+    <div id="navigator-chat-history" style="flex: 1; padding: 20px; overflow-y: auto; background: #fafafa; display: flex; flex-direction: column; gap: 12px;">
+        <div style="padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.4; background: #eee; color: #222; align-self: flex-start;">
+            Welcome! I am the Navigator. I am here to guide your path toward the spirits that spark a lifetime of memories. Ask me about our premium Texas beers, custom wine lists, or menu options!
+        </div>
+    </div>
+
+    <div style="padding: 15px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 10px;">
+        <input type="text" id="navigator-user-input" placeholder="Ask about premium curations..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size: 14px; color: #000;">
+        <button id="navigator-send-btn" style="background: #ff6b00; color: #fff; border: none; padding: 0 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Send</button>
     </div>
 </div>
 
