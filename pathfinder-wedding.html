@@ -2844,3 +2844,33 @@ function printEstimate() {
     }
   });
 </script>
+<div id="calculatorSidebar" class="app-sidebar">
+    <div class="sidebar-header">
+        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Budget Calculator</h2>
+        <button class="close-sidebar-btn" onclick="closeCalculator()">×</button>
+    </div>
+    <div class="sidebar-content">
+        <div id="calculator-app-container">
+            <p style="color: #666; font-style: italic;">Calculator features initializing...</p>
+        </div>
+        
+        <div class="print-container" style="margin-top: 20px;">
+            <button onclick="printEstimate()" class="print-btn">🖨️ Print / Save Estimate PDF</button>
+        </div>
+    </div>
+</div>
+
+<div id="plannerSidebar" class="app-sidebar">
+    <div class="sidebar-header">
+        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Wedding Planner Checklist</h2>
+        <button class="close-sidebar-btn" onclick="closePlanner()">×</button>
+    </div>
+    <div class="sidebar-content">
+        <div id="planner-app-container">
+            <p style="color: #666; font-style: italic;">Planner features initializing...</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
