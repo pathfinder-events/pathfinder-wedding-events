@@ -2469,6 +2469,33 @@
 <!-- ═══ END COMPASS HUB ════════════════════════════ -->
 
   <div id="sidebar-navigator">
+    <div id="calculatorSidebar" class="app-sidebar">
+    <div class="sidebar-header">
+        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Budget Calculator</h2>
+        <button class="close-sidebar-btn" onclick="closeCalculator()">×</button>
+    </div>
+    <div class="sidebar-content">
+        <div id="calculator-app-container">
+            <p style="color: #666; font-style: italic;">Calculator features initializing...</p>
+        </div>
+        
+        <div class="print-container" style="margin-top: 20px;">
+            <button onclick="printEstimate()" class="print-btn">🖨️ Print / Save Estimate PDF</button>
+        </div>
+    </div>
+</div>
+
+<div id="plannerSidebar" class="app-sidebar">
+    <div class="sidebar-header">
+        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Wedding Planner Checklist</h2>
+        <button class="close-sidebar-btn" onclick="closePlanner()">×</button>
+    </div>
+    <div class="sidebar-content">
+        <div id="planner-app-container">
+            <p style="color: #666; font-style: italic;">Planner features initializing...</p>
+        </div>
+    </div>
+</div>
   <div class="navigator-header">
     <h3>The Navigator</h3>
     <button id="close-navigator" aria-label="Close Chat">✕</button>
@@ -2707,34 +2734,35 @@
     document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
 
     // Hub & Chat Elements
-    // Smart element selectors that look up the elements dynamically on click
-const getBtnCalculator = () => document.getElementById('btnCalculator');
-const getBtnPlanner = () => document.getElementById('btnPlanner');
+// 1. Traditional Variables (Keeps the rest of your form script happy)
+const btnCalculator = document.getElementById('btnCalculator');
+const btnPlanner = document.getElementById('btnPlanner');
 const compassBtn = document.getElementById('compassBtn');
 const navTextBtn = document.querySelector('.compass-tagline');
-    
-    const sidebarPanel = document.getElementById('sidebar-navigator');
-    const closeBtn = document.getElementById('close-navigator');
-    const userInputField = document.getElementById('navigator-user-input');
-    const sendButton = document.getElementById('navigator-send-btn');
-    const chatHistoryContainer = document.getElementById('navigator-chat-history');
 
-    // Hub buttons show overlays over the page
-if (getBtnCalculator()) { 
-    getBtnCalculator().addEventListener('click', (e) => { 
+// 2. Safe Event Listeners (Only activates if the element is detected on-screen)
+if (btnCalculator) { 
+    btnCalculator.addEventListener('click', (e) => { 
         e.stopPropagation(); 
         const calcSidebar = document.getElementById('calculatorSidebar');
-        if (calcSidebar) calcSidebar.style.right = '0px'; 
+        if (calcSidebar) {
+            calcSidebar.style.right = '0px'; 
+        } else {
+            console.error("Calculator sidebar element container not found in HTML!");
+        }
     }); 
 }
 
-if (getBtnPlanner()) { 
-    getBtnPlanner().addEventListener('click', (e) => { 
+if (btnPlanner) { 
+    btnPlanner.addEventListener('click', (e) => { 
         e.stopPropagation(); 
         const planSidebar = document.getElementById('plannerSidebar');
-        if (planSidebar) planSidebar.style.right = '0px'; 
+        if (planSidebar) {
+            planSidebar.style.right = '0px'; 
+        } else {
+            console.error("Planner sidebar element container not found in HTML!");
+        }
     }); 
-}
 }
     // Open Sidebar
     const openSidebar = (e) => {
