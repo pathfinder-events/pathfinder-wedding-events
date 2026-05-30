@@ -822,7 +822,65 @@
   -webkit-font-smoothing: antialiased;
 }
 
-    
+ /* Sidebar Sliding Layout for Calculator & Planner */
+.app-sidebar {
+    position: fixed;
+    top: 0;
+    right: -450px; /* Hidden off-screen to the right by default */
+    width: 420px;  /* Matches your Navigator chatbot layout width */
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15);
+    transition: right 0.3s ease-in-out; /* Creates the smooth sliding animation */
+    z-index: 9999; /* Forces it to sit cleanly on top of your website elements */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header styles for the overlay windows */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    color: #888;
+}
+.close-sidebar-btn:hover {
+    color: #000;
+}
+
+.sidebar-content {
+    padding: 20px;
+    overflow-y: auto; /* Lets clients scroll inside the panel if content is long */
+    flex-grow: 1;
+}
+
+/* Styled Print Button for the Estimate output */
+.print-btn {
+    background-color: #b8860b; /* Matches your premium gold/brown typography color palette */
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+.print-btn:hover { 
+    background-color: #996515; 
+}   
   </style>
 </head>
 <body>
@@ -2660,10 +2718,22 @@
     const sendButton = document.getElementById('navigator-send-btn');
     const chatHistoryContainer = document.getElementById('navigator-chat-history');
 
-    // Hub buttons scroll to sections (Validate first!)
-    if (btnCalculator) { btnCalculator.addEventListener('click', (e) => { e.stopPropagation(); goTo(2); }); }
-    if (btnPlanner) { btnPlanner.addEventListener('click', (e) => { e.stopPropagation(); goTo(3); }); }
+    // Hub buttons show overlays over the page
+if (btnCalculator) { 
+    btnCalculator.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        const calcSidebar = document.getElementById('calculatorSidebar');
+        if (calcSidebar) calcSidebar.style.right = '0px'; 
+    }); 
+}
 
+if (btnPlanner) { 
+    btnPlanner.addEventListener('click', (e) => { 
+        e.stopPropagation(); 
+        const planSidebar = document.getElementById('plannerSidebar');
+        if (planSidebar) planSidebar.style.right = '0px'; 
+    }); 
+}
     // Open Sidebar
     const openSidebar = (e) => {
       e.stopPropagation();
@@ -2683,6 +2753,36 @@
         if (sidebarPanel) sidebarPanel.style.right = '-420px';
       });
     }
+
+    // Close functions for Calculator and Planner overlays
+function closeCalculator() {
+    const calc = document.getElementById('calculatorSidebar');
+    if (calc) calc.style.right = '-450px';
+}
+
+function closePlanner() {
+    const plan = document.getElementById('plannerSidebar');
+    if (plan) plan.style.right = '-450px';
+}
+
+// Client-Side Estimate Printer Function
+function printEstimate() {
+    var estimateContent = document.getElementById("calculator-app-container");
+    if (!estimateContent) return;
+    
+    var printWindow = window.open('', '_blank', 'height=600,width=800');
+    printWindow.document.write('<html><head><title>Your Wedding Estimate</title>');
+    printWindow.document.write('<style>body{font-family:Arial,sans-serif;padding:30px;} .print-btn{display:none;}</style>');
+    printWindow.document.write('</head><body>');
+    printWindow.document.write('<h1>Your Custom Wedding Estimate</h1>');
+    printWindow.document.write(estimateContent.innerHTML);
+    printWindow.document.write('</body></html>');
+    
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
 
     // Chat Message Processing
     function processUserMessage() {
