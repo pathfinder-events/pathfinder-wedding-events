@@ -2519,112 +2519,7 @@
   }
 
   /* ═══════════════════════════════════════════════════
-     3. CONDITIONAL FIELDS & CHATBOT STARTUP
-     ═══════════════════════════════════════════════════ */
-  document.addEventListener('DOMContentLoaded', () => {
-    // Reveal conditional fields when radio buttons are clicked
-    document.querySelectorAll('input[name="referral"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('referral-other-wrap').style.display = el.value === 'Other' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="rehearsal"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rehearsal-guests-wrap').style.display = el.value.startsWith('Yes') && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="hasCoord"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('coord-details-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="arrivalDrinks"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('arrival-drinks-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="sigCocktail"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to ideas') && el.checked; document.getElementById('sig-cocktail-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="liquorPref"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'I have specific requests' || el.value === 'Mix of both') && el.checked; document.getElementById('liquor-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="beerPref"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('beer-detail-wrap').style.display = el.value === 'I have specific requests' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="sparklingWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('sw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="roseWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="whiteWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('ww-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="redWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('red-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-
-    // --- HUB BUTTONS & CHATBOT ---
-    const btnCalculator = document.getElementById('btnCalculator');
-    const btnPlanner = document.getElementById('btnPlanner');
-    const compassBtn = document.getElementById('compassBtn');
-    const navTextBtn = document.querySelector('.compass-tagline');
-
-    const sidebarPanel = document.getElementById('sidebar-navigator');
-    const closeBtn = document.getElementById('close-navigator');
-    const userInputField = document.getElementById('navigator-user-input');
-    const sendButton = document.getElementById('navigator-send-btn');
-    const chatHistoryContainer = document.getElementById('navigator-chat-history');
-
-    // Hub buttons scroll to sections
-    if (btnCalculator) { btnCalculator.addEventListener('click', (e) => { e.stopPropagation(); goTo(2); }); }
-    if (btnPlanner) { btnPlanner.addEventListener('click', (e) => { e.stopPropagation(); goTo(3); }); }
-
-    // Open Sidebar
-    const openSidebar = (e) => {
-      e.stopPropagation();
-      if (sidebarPanel) sidebarPanel.style.right = '0px';
-    };
-
-    if (compassBtn) compassBtn.addEventListener('click', openSidebar);
-    if (navTextBtn) {
-      navTextBtn.style.cursor = 'pointer';
-      navTextBtn.addEventListener('click', openSidebar);
-    }
-
-    // Close Sidebar
-    if (closeBtn) {
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (sidebarPanel) sidebarPanel.style.right = '-420px';
-      });
-    }
-
-    // Chat Message Processing
-    function processUserMessage() {
-      if (!userInputField || !chatHistoryContainer) return;
-
-      const textMessage = userInputField.value.trim();
-      if (!textMessage) return;
-
-      const messageBubble = document.createElement('div');
-      messageBubble.style.padding = '10px 14px';
-      messageBubble.style.borderRadius = '8px';
-      messageBubble.style.maxWidth = '85%';
-      messageBubble.style.fontSize = '14px';
-      messageBubble.style.lineHeight = '1.4';
-      messageBubble.style.background = 'var(--rose)'; 
-      messageBubble.style.color = '#ffffff';
-      messageBubble.style.alignSelf = 'flex-end';
-      messageBubble.textContent = textMessage;
-
-      chatHistoryContainer.appendChild(messageBubble);
-      userInputField.value = '';
-      chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-
-      setTimeout(() => {
-        const systemBubble = document.createElement('div');
-        systemBubble.style.padding = '10px 14px';
-        systemBubble.style.borderRadius = '8px';
-        systemBubble.style.maxWidth = '85%';
-        systemBubble.style.fontSize = '14px';
-        systemBubble.style.lineHeight = '1.4';
-        systemBubble.style.background = 'white';
-        systemBubble.style.border = '1px solid var(--border)';
-        systemBubble.style.color = 'var(--ink)';
-        systemBubble.style.alignSelf = 'flex-start';
-        systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
-        
-        chatHistoryContainer.appendChild(systemBubble);
-        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-      }, 600);
-    }
-
-    if (sendButton) sendButton.addEventListener('click', processUserMessage);
-    if (userInputField) {
-      userInputField.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          processUserMessage();
-        }
-      });
-    }
-  });
-
-  /* ═══════════════════════════════════════════════════
-     4. EMAIL SUBMISSION
+     3. EMAIL SUBMISSION
      ═══════════════════════════════════════════════════ */
   function buildConfirmationEmail() {
     const s = {
@@ -2733,4 +2628,121 @@
       } catch(err) { console.warn('Email error:', err); }
     }
   }
+
+  /* ═══════════════════════════════════════════════════
+     4. BUTTONS, ICONS, AND CHATBOT LISTENERS
+     ═══════════════════════════════════════════════════ */
+  document.addEventListener('DOMContentLoaded', () => {
+    // Reveal conditional fields when radio buttons are clicked
+    document.querySelectorAll('input[name="referral"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('referral-other-wrap').style.display = el.value === 'Other' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="rehearsal"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rehearsal-guests-wrap').style.display = el.value.startsWith('Yes') && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="hasCoord"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('coord-details-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="arrivalDrinks"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('arrival-drinks-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="sigCocktail"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to ideas') && el.checked; document.getElementById('sig-cocktail-detail-wrap').style.display = show ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="liquorPref"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'I have specific requests' || el.value === 'Mix of both') && el.checked; document.getElementById('liquor-detail-wrap').style.display = show ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="beerPref"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('beer-detail-wrap').style.display = el.value === 'I have specific requests' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="sparklingWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('sw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="roseWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="whiteWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('ww-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="redWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('red-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
+    document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
+
+    // --- HUB BUTTONS & CHATBOT ---
+    const btnCalculator = document.getElementById('btnCalculator');
+    const btnPlanner = document.getElementById('btnPlanner');
+    const compassBtn = document.getElementById('compassBtn');
+    const navTextBtn = document.querySelector('.compass-tagline');
+
+    const sidebarPanel = document.getElementById('sidebar-navigator');
+    const closeBtn = document.getElementById('close-navigator');
+    const userInputField = document.getElementById('navigator-user-input');
+    const sendButton = document.getElementById('navigator-send-btn');
+    const chatHistoryContainer = document.getElementById('navigator-chat-history');
+
+    // Make the orbital icons jump to sections (requires form fields to be valid)
+    if (btnCalculator) { btnCalculator.addEventListener('click', (e) => { e.stopPropagation(); goTo(2); }); }
+    if (btnPlanner) { btnPlanner.addEventListener('click', (e) => { e.stopPropagation(); goTo(3); }); }
+
+    // Open Sidebar when Compass or "Navigator" text is clicked
+    const openSidebar = (e) => {
+      e.stopPropagation();
+      if (sidebarPanel) sidebarPanel.style.right = '0px';
+    };
+
+    if (compassBtn) compassBtn.addEventListener('click', openSidebar);
+    if (navTextBtn) {
+      navTextBtn.style.cursor = 'pointer';
+      navTextBtn.addEventListener('click', openSidebar);
+    }
+
+    // Close Sidebar when "X" is clicked
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (sidebarPanel) sidebarPanel.style.right = '-420px';
+      });
+    }
+
+    // Process Chat Messages
+    function processUserMessage() {
+      if (!userInputField || !chatHistoryContainer) return;
+
+      const textMessage = userInputField.value.trim();
+      if (!textMessage) return;
+
+      const messageBubble = document.createElement('div');
+      messageBubble.style.padding = '10px 14px';
+      messageBubble.style.borderRadius = '8px';
+      messageBubble.style.maxWidth = '85%';
+      messageBubble.style.fontSize = '14px';
+      messageBubble.style.lineHeight = '1.4';
+      messageBubble.style.background = 'var(--rose)'; 
+      messageBubble.style.color = '#ffffff';
+      messageBubble.style.alignSelf = 'flex-end';
+      messageBubble.textContent = textMessage;
+
+      chatHistoryContainer.appendChild(messageBubble);
+      userInputField.value = '';
+      chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+
+      setTimeout(() => {
+        const systemBubble = document.createElement('div');
+        systemBubble.style.padding = '10px 14px';
+        systemBubble.style.borderRadius = '8px';
+        systemBubble.style.maxWidth = '85%';
+        systemBubble.style.fontSize = '14px';
+        systemBubble.style.lineHeight = '1.4';
+        systemBubble.style.background = 'white';
+        systemBubble.style.border = '1px solid var(--border)';
+        systemBubble.style.color = 'var(--ink)';
+        systemBubble.style.alignSelf = 'flex-start';
+        systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
+        
+        chatHistoryContainer.appendChild(systemBubble);
+        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
+      }, 600);
+    }
+
+    // Send on Click
+    if (sendButton) sendButton.addEventListener('click', processUserMessage);
+    
+    // Send on 'Enter' key
+    if (userInputField) {
+      userInputField.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          processUserMessage();
+        }
+      });
+    }
+
+    // Image fallback for the compass
+    const compassImg = document.querySelector('.compass-img');
+    if (compassImg) {
+      compassImg.onerror = function () {
+        this.style.display = 'none';
+        this.parentNode.style.background = 'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
+      };
+    }
+  });
 </script>
