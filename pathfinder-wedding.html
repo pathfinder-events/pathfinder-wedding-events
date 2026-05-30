@@ -882,6 +882,47 @@
 .print-btn:hover { 
     background-color: #996515; 
 }   
+    /* Fix and lock all sidebar panels off-screen to the right side */
+.app-sidebar, #calculatorSidebar, #plannerSidebar {
+    position: fixed !important;
+    top: 0 !important;
+    right: -450px !important; /* Hides them safely past the right edge */
+    width: 420px !important;  /* Matches your chatbot layout size */
+    height: 100vh !important; /* Stretches panel top to bottom */
+    background-color: #ffffff !important;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15) !important;
+    transition: right 0.3s ease-in-out !important; /* Smooth sliding glide */
+    z-index: 10000 !important; /* Pops them over the page content */
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+}
+
+/* Sidebar Header Layout */
+.sidebar-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 15px 20px !important;
+    background-color: #f8f9fa !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+/* Close Button Layout */
+.close-sidebar-btn {
+    background: none !important;
+    border: none !important;
+    font-size: 28px !important;
+    cursor: pointer !important;
+    color: #888 !important;
+}
+
+/* Scrollable Content Container */
+.sidebar-content {
+    padding: 20px !important;
+    overflow-y: auto !important;
+    flex-grow: 1 !important;
+}
   </style>
 </head>
 <body>
