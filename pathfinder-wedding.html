@@ -822,107 +822,6 @@
   -webkit-font-smoothing: antialiased;
 }
 
- /* Securely lock both panels hidden off-screen to the right side */
-#calculatorSidebar, #plannerSidebar {
-    position: fixed !important;
-    top: 0 !important;
-    right: -450px !important; /* Forces them completely off-screen until clicked */
-    width: 420px !important;  /* Matches your Navigator chatbot layout width exactly */
-    height: 100vh !important; /* Spans from the absolute top to the absolute bottom */
-    background-color: #ffffff !important;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.15) !important;
-    transition: right 0.3s ease-in-out !important; /* Clean sliding glide animation */
-    z-index: 10000 !important; /* Pushes them flawlessly over all other elements */
-    display: flex !important;
-    flex-direction: column !important;
-    box-sizing: border-box !important;
-}
-
-/* Header styles for the overlay windows */
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #eee;
-}
-
-.close-sidebar-btn {
-    background: none;
-    border: none;
-    font-size: 28px;
-    cursor: pointer;
-    line-height: 1;
-    color: #888;
-}
-.close-sidebar-btn:hover {
-    color: #000;
-}
-
-.sidebar-content {
-    padding: 20px;
-    overflow-y: auto; /* Lets clients scroll inside the panel if content is long */
-    flex-grow: 1;
-}
-
-/* Styled Print Button for the Estimate output */
-.print-btn {
-    background-color: #b8860b; /* Matches your premium gold/brown typography color palette */
-    color: white;
-    border: none;
-    padding: 12px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 15px;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
-}
-.print-btn:hover { 
-    background-color: #996515; 
-}   
-    /* Fix and lock all sidebar panels off-screen to the right side */
-.app-sidebar, #calculatorSidebar, #plannerSidebar {
-    position: fixed !important;
-    top: 0 !important;
-    right: -450px !important; /* Hides them safely past the right edge */
-    width: 420px !important;  /* Matches your chatbot layout size */
-    height: 100vh !important; /* Stretches panel top to bottom */
-    background-color: #ffffff !important;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.15) !important;
-    transition: right 0.3s ease-in-out !important; /* Smooth sliding glide */
-    z-index: 10000 !important; /* Pops them over the page content */
-    display: flex !important;
-    flex-direction: column !important;
-    box-sizing: border-box !important;
-}
-
-/* Sidebar Header Layout */
-.sidebar-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 15px 20px !important;
-    background-color: #f8f9fa !important;
-    border-bottom: 1px solid #eee !important;
-}
-
-/* Close Button Layout */
-.close-sidebar-btn {
-    background: none !important;
-    border: none !important;
-    font-size: 28px !important;
-    cursor: pointer !important;
-    color: #888 !important;
-}
-
-/* Scrollable Content Container */
-.sidebar-content {
-    padding: 20px !important;
-    overflow-y: auto !important;
-    flex-grow: 1 !important;
-}
   </style>
 </head>
 <body>
@@ -957,7 +856,6 @@
         <div class="intro-block">
           <h1>Let's craft the perfect bar for your celebration.</h1>
           <p>Every great event deserves a thoughtfully curated bar. This consultation guide helps me understand your event so I can build a custom alcohol estimate — tailored to your guests, your menu, and your vision.</p>
-        
         </div>
       </div>
     </div>
@@ -1533,6 +1431,43 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeModal();
   });
+
+  const totalSections = 4;
+  let currentSection = 1;
+
+  const sectionLabels = [
+    'Your details',
+    'Event information',
+    'Drinks package',
+    'Next steps'
+  ];
+
+  /* ── Validation helpers ────────────────────────────── */
+  function fieldVal(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+  function radioChecked(name) {
+    return !!document.querySelector(`input[name="${name}"]:checked`);
+  }
+
+  function showError(msg) {
+    // Remove any existing error banner
+    const old = document.getElementById('_valError');
+    if (old) old.remove();
+    const banner = document.createElement('div');
+    banner.id = '_valError';
+    banner.style.cssText = [
+      'position:fixed', 'top:18px', 'left:50%', 'transform:translateX(-50%)',
+      'background:#c4857a', 'color:#fff', 'padding:12px 28px', 'border-radius:8px',
+      'font-family:Jost,sans-serif', 'font-size:14px', 'letter-spacing:0.04em',
+      'box-shadow:0 4px 18px rgba(0,0,0,0.22)', 'z-index:99999',
+      'text-align:center', 'max-width:90vw'
+    ].join(';');
+    banner.textContent = msg;
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 3800);
+  }
 
   function validateSection(from) {
     // ── Section 1: Contact Details ──────────────────────
@@ -2473,439 +2408,34 @@
 </div>
 <!-- ═══ END COMPASS HUB ════════════════════════════ -->
 
-  <div id="sidebar-navigator">
-    <div id="calculatorSidebar" class="app-sidebar">
-    <div class="sidebar-header">
-        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Budget Calculator</h2>
-        <button class="close-sidebar-btn" onclick="closeCalculator()">×</button>
-    </div>
-    <div class="sidebar-content">
-        <div id="calculator-app-container">
-            <p style="color: #666; font-style: italic;">Calculator features initializing...</p>
-        </div>
-        
-        <div class="print-container" style="margin-top: 20px;">
-            <button onclick="printEstimate()" class="print-btn">🖨️ Print / Save Estimate PDF</button>
-        </div>
-    </div>
-</div>
-
-<div id="plannerSidebar" class="app-sidebar">
-    <div class="sidebar-header">
-        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Wedding Planner Checklist</h2>
-        <button class="close-sidebar-btn" onclick="closePlanner()">×</button>
-    </div>
-    <div class="sidebar-content">
-        <div id="planner-app-container">
-            <p style="color: #666; font-style: italic;">Planner features initializing...</p>
-        </div>
-    </div>
-</div>
-  <div class="navigator-header">
-    <h3>The Navigator</h3>
-    <button id="close-navigator" aria-label="Close Chat">✕</button>
-  </div>
-  
-  <div id="navigator-chat-history">
-    <div style="padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.4; background: white; border: 1px solid var(--border); color: var(--ink); align-self: flex-start;">
-      Hello! I'm your event bar Navigator. How can I help you curate your celebration today?
-    </div>
-  </div>
-  
-  <div class="navigator-input-area">
-    <input type="text" id="navigator-user-input" placeholder="Type your message..." autocomplete="off" />
-    <button id="navigator-send-btn">Send</button>
-  </div>
-</div>
 <script>
-  /* ═══════════════════════════════════════════════════
-     1. MODALS & TESTIMONIALS
-     ═══════════════════════════════════════════════════ */
-  function openModal() { document.getElementById('testimonialModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeModal() { document.getElementById('testimonialModal').classList.remove('open'); document.body.style.overflow = ''; }
-  function handleOverlayClick(e) { if (e.target === document.getElementById('testimonialModal')) closeModal(); }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+const NAVIGATOR_URL = 'https://pathfinder-events.netlify.app';
 
-  /* ═══════════════════════════════════════════════════
-     2. FORM NAVIGATION & REQUIRED FIELDS
-     ═══════════════════════════════════════════════════ */
-  const totalSections = 4;
-  currentSection = 1;
-  const sectionLabels = ['Your details', 'Event information', 'Drinks package', 'Next steps'];
+/* ── Calculator button → Drink Estimator tab ── */
+document.getElementById('btnCalculator').addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.open(NAVIGATOR_URL + '/?tab=calc', '_blank');
+});
 
-  function fieldVal(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-  function radioChecked(name) { return !!document.querySelector(`input[name="${name}"]:checked`); }
+/* ── Planner button → Beverage Planner tab ── */
+document.getElementById('btnPlanner').addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.open(NAVIGATOR_URL + '/?tab=planner', '_blank');
+});
 
-  function showError(msg) {
-    const old = document.getElementById('_valError');
-    if (old) old.remove();
-    const banner = document.createElement('div');
-    banner.id = '_valError';
-    banner.style.cssText = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#c4857a;color:#fff;padding:12px 28px;border-radius:8px;font-family:Jost,sans-serif;font-size:14px;letter-spacing:0.04em;box-shadow:0 4px 18px rgba(0,0,0,0.22);z-index:99999;text-align:center;max-width:90vw;';
-    banner.textContent = msg;
-    document.body.appendChild(banner);
-    setTimeout(() => banner.remove(), 3800);
-  }
+/* ── Compass button → AI Navigator Chat tab ── */
+document.getElementById('compassBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  window.open(NAVIGATOR_URL + '/?tab=chat', '_blank');
+});
 
-  function validateSection(from) {
-    if (from === 1) {
-      if (!fieldVal('fullName')) { showError('Please enter your full name.'); return false; }
-      if (!fieldVal('email')) { showError('Please enter your email address.'); return false; }
-      if (!fieldVal('phone')) { showError('Please enter your cell phone number.'); return false; }
-    }
-    if (from === 2) {
-      if (!fieldVal('eventDate')) { showError('Please select your event date.'); return false; }
-      if (!fieldVal('eventStart')) { showError('Please enter the event start time.'); return false; }
-      if (!fieldVal('barOpen')) { showError('Please enter the bar opening time.'); return false; }
-      if (!fieldVal('barClose')) { showError('Please enter the bar closing time.'); return false; }
-      if (!fieldVal('venue')) { showError('Please enter your venue and city.'); return false; }
-      if (!fieldVal('guestCount')) { showError('Please enter the number of guests.'); return false; }
-      if (!radioChecked('hasCoord')) { showError('Please let us know if you have an Event Coordinator.'); return false; }
-    }
-    if (from === 3) {
-      if (!fieldVal('foodMenu')) { showError('Please describe the food you are serving.'); return false; }
-      if (!radioChecked('cocktailHour')) { showError('Please indicate whether you will have a Cocktail Hour.'); return false; }
-      if (!radioChecked('arrivalDrinks')) { showError('Please indicate whether drinks will be served on arrival.'); return false; }
-      if (!radioChecked('toast')) { showError('Please indicate whether you will have a Sparkling Wine toast.'); return false; }
-      if (!radioChecked('sigCocktail')) { showError('Please indicate whether you want Signature Cocktails.'); return false; }
-      if (!radioChecked('barStyle')) { showError('Please choose a Bar Style.'); return false; }
-      if (!radioChecked('sparklingWine')) { showError('Please make a Sparkling Wine / Champagne selection.'); return false; }
-      if (!radioChecked('roseWine')) { showError('Please make a Rosé Wine selection.'); return false; }
-      if (!radioChecked('whiteWine')) { showError('Please make a White Wine selection.'); return false; }
-      if (!radioChecked('redWine')) { showError('Please make a Red Wine selection.'); return false; }
-      if (!radioChecked('tableWine')) { showError('Please indicate whether wine will be served at the tables.'); return false; }
-    }
-    return true;
-  }
-
-  function goTo(n) {
-    if (n > currentSection && !validateSection(currentSection)) return;
-    document.getElementById('section-' + currentSection).classList.remove('active');
-    currentSection = n;
-    document.getElementById('section-' + currentSection).classList.add('active');
-    updateProgress();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function updateProgress() {
-    const pct = ((currentSection - 1) / (totalSections - 1)) * 100;
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('section-label').textContent = sectionLabels[currentSection - 1];
-    document.getElementById('step-count').textContent = currentSection + ' of ' + totalSections;
-
-    for (let i = 1; i <= totalSections; i++) {
-      const tab = document.getElementById('step-tab-' + i);
-      if (!tab) continue;
-      tab.classList.remove('active', 'done');
-      if (i === currentSection) {
-        tab.classList.add('active');
-      } else if (i < currentSection) {
-        tab.classList.add('done');
-      }
-    }
-  }
-
-  function getChecked(name) {
-    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(el => el.value).join(', ');
-  }
-
-  /* ═══════════════════════════════════════════════════
-     3. EMAIL SUBMISSION
-     ═══════════════════════════════════════════════════ */
-  function buildConfirmationEmail() {
-    const s = {
-      fullName:    document.getElementById('fullName')?.value || '',
-      email:       document.getElementById('email')?.value || '',
-      phone:       document.getElementById('phone')?.value || '',
-      eventDate:   document.getElementById('eventDate')?.value || '',
-      venue:       document.getElementById('venue')?.value || '',
-      guestCount:  document.getElementById('guestCount')?.value || '',
-      budget:      document.getElementById('budget')?.value || '',
-      foodMenu:    document.getElementById('foodMenu')?.value || '',
-      barStyle:    [...document.querySelectorAll('input[name="barStyle"]:checked')].map(e=>e.value).join(', '),
-      liquorPref:  [...document.querySelectorAll('input[name="liquorPref"]:checked')].map(e=>e.value).join(', '),
-      liquorDetail:document.getElementById('liquorDetail')?.value || '',
-      beerPref:    [...document.querySelectorAll('input[name="beerPref"]:checked')].map(e=>e.value).join(', '),
-      beerDetail:  document.getElementById('beerDetail')?.value || '',
-      sparkling:   [...document.querySelectorAll('input[name="sparklingWine"]:checked')].map(e=>e.value).join(', '),
-      sparklingDetail: document.getElementById('sparklingDetail')?.value || '',
-      rose:        [...document.querySelectorAll('input[name="roseWine"]:checked')].map(e=>e.value).join(', '),
-      roseDetail:  document.getElementById('roseDetail')?.value || '',
-      white:       [...document.querySelectorAll('input[name="whiteWine"]:checked')].map(e=>e.value).join(', '),
-      whiteDetail: document.getElementById('whiteDetail')?.value || '',
-      red:         [...document.querySelectorAll('input[name="redWine"]:checked')].map(e=>e.value).join(', '),
-      redDetail:   document.getElementById('redDetail')?.value || '',
-      tableWine:   [...document.querySelectorAll('input[name="tableWine"]:checked')].map(e=>e.value).join(', '),
-      delivery:    [...document.querySelectorAll('input[name="delivery"]:checked')].map(e=>e.value).join(', '),
-      deliveryAddress: document.getElementById('deliveryAddress')?.value || '',
-      notes:       document.getElementById('additionalNotes')?.value || '',
-      contactPref: [...document.querySelectorAll('input[name="contactPref"]:checked')].map(e=>e.value).join(', '),
-    };
-
-    const row = (label, value) => value ? `<tr><td style="padding:7px 12px;font-size:11px;color:#5c4d47;font-family:Arial,sans-serif;border-bottom:1px solid #ede3d8;width:40%;vertical-align:top;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">${label}</td><td style="padding:7px 12px;font-size:12px;color:#2e2520;font-family:Georgia,serif;border-bottom:1px solid #ede3d8;vertical-align:top;">${value}</td></tr>` : '';
-    const section = (title, rows) => rows ? `<tr><td colspan="2" style="padding:12px 12px 5px;background:#f5ece0;"><span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#c9a96e;font-family:Arial,sans-serif;font-weight:700;">${title}</span></td></tr>${rows}` : '';
-
-    return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#fdf7f0;"><table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #ddd0c4;border-radius:8px;overflow:hidden;"><tr><td style="background:linear-gradient(135deg,#c4857a,#c9a96e);padding:32px;text-align:center;"><div style="font-family:Georgia,serif;font-size:30px;font-weight:300;letter-spacing:0.16em;color:#ffffff;text-transform:uppercase;">Pathfinder</div></td></tr><tr><td style="padding:20px 28px 14px;background:#fdf7f0;text-align:center;border-bottom:1px solid #ede3d8;"><p style="font-family:Georgia,serif;font-size:14px;font-style:italic;color:#5c4d47;margin:0 0 6px;">Thank you, ${s.fullName || 'there'}.</p></td></tr><table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">${section('Your Details', [row('Name', s.fullName),row('Email', s.email),row('Phone', s.phone),].join(''))}${section('Event Information', [row('Event Date', s.eventDate),row('Venue', s.venue),row('Guest Count', s.guestCount),row('Budget', s.budget),row('Food Being Served', s.foodMenu),].join(''))}${section('Bar Style &amp; Spirits', [row('Bar Style', s.barStyle),row('Liquor', s.liquorPref + (s.liquorDetail ? ': ' + s.liquorDetail : '')),row('Beer', s.beerPref + (s.beerDetail ? ': ' + s.beerDetail : '')),].join(''))}${section('Wine Selections', [row('Sparkling', s.sparkling + (s.sparklingDetail ? ': ' + s.sparklingDetail : '')),row('Rosé', s.rose + (s.roseDetail ? ': ' + s.roseDetail : '')),row('White Wine', s.white + (s.whiteDetail ? ': ' + s.whiteDetail : '')),row('Red Wine', s.red + (s.redDetail ? ': ' + s.redDetail : '')),row('Wine at Tables', s.tableWine),].join(''))}${section('Delivery &amp; Logistics', [row('Delivery Window', s.delivery),row('Delivery Address', s.deliveryAddress),row('Preferred Contact', s.contactPref),row('Additional Notes', s.notes),].join(''))}</table></table></td></tr></table></body></html>`;
-  }
-
-  async function submitForm() {
-    const submission = {
-      "Timestamp":                new Date().toLocaleString(),
-      "Full Name":                fieldVal('fullName'),
-      "Email Address":            fieldVal('email'),
-      "Cell Phone":               fieldVal('phone'),
-      "How Heard About Us":       getChecked('referral'),
-      "Referral Other":           fieldVal('referralOther'),
-      "Event Date":               fieldVal('eventDate'),
-      "Event Start Time":         fieldVal('eventStart'),
-      "Bar Opens At":             fieldVal('barOpen'),
-      "Bar Closes At":            fieldVal('barClose'),
-      "Venue & City/County":      fieldVal('venue'),
-      "Guest Count":              fieldVal('guestCount'),
-      "Rehearsal Dinner?":        getChecked('rehearsal'),
-      "Rehearsal Guests":         fieldVal('rehearsalGuests'),
-      "Coordinator?":             getChecked('hasCoord'),
-      "Coordinator Details":      fieldVal('coordDetails'),
-      "Budget":                   fieldVal('budget'),
-      "Food Being Served":        fieldVal('foodMenu'),
-      "Cocktail Hour?":           getChecked('cocktailHour'),
-      "Arrival Drinks?":          getChecked('arrivalDrinks'),
-      "Arrival Drink Types":      fieldVal('arrivalDrinksDetail'),
-      "Toast / Sparkling?":       getChecked('toast'),
-      "Signature Cocktails?":     getChecked('sigCocktail'),
-      "Cocktail Details":         fieldVal('sigCocktailDetail'),
-      "Bar Style":                getChecked('barStyle'),
-      "Liquor Preference":        getChecked('liquorPref'),
-      "Liquor Details":           fieldVal('liquorDetail'),
-      "Beer Preference":          getChecked('beerPref'),
-      "Beer Details":             fieldVal('beerDetail'),
-      "Seltzers":                 getChecked('seltzers'),
-      "Seltzer Details":          fieldVal('seltzerDetail'),
-      "Sparkling Wine":           getChecked('sparklingWine'),
-      "Sparkling Details":        fieldVal('sparklingDetail'),
-      "Rose Wine":                getChecked('roseWine'),
-      "Rose Details":             fieldVal('roseDetail'),
-      "White Wine":               getChecked('whiteWine'),
-      "White Details":            fieldVal('whiteDetail'),
-      "Red Wine":                 getChecked('redWine'),
-      "Red Details":              fieldVal('redDetail'),
-      "Wine at Tables?":          getChecked('tableWine'),
-      "Other Drinks/Mixers":      fieldVal('otherDrinks'),
-      "Delivery Window":          getChecked('delivery'),
-      "Delivery Address":         fieldVal('deliveryAddress'),
-      "Additional Notes":         fieldVal('additionalNotes'),
-      "Contact Preference":       getChecked('contactPref'),
-    };
-
-    const stored = JSON.parse(localStorage.getItem('pathfinder_submissions') || '[]');
-    stored.push(submission);
-    localStorage.setItem('pathfinder_submissions', JSON.stringify(stored));
-
-    document.getElementById('section-' + currentSection).classList.remove('active');
-    document.querySelector('.progress-wrap').style.display = 'none';
-    document.getElementById('thankyou').style.display = 'block';
-
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyfNzz_oCTeFkMav_cP0qZZOmrT99OXkSlPDqz-y8TPozcvsu2mWfmb-NKIXsnK3Jnzlg/exec';
-    fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(submission) });
-
-    if (EMAILJS_ACTIVE && document.getElementById('email').value) {
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          to_email: document.getElementById('email').value,
-          to_name: document.getElementById('fullName').value || 'there',
-          subject: 'Pathfinder — Your Bar Consultation Request Confirmed',
-          html_content: buildConfirmationEmail(),
-        });
-      } catch(err) { console.warn('Email error:', err); }
-    }
-  }
-
-  /* ═══════════════════════════════════════════════════
-     4. CONDITIONAL FIELDS & CHATBOT LISTENERS
-     ═══════════════════════════════════════════════════ */
-  document.addEventListener('DOMContentLoaded', () => {
-    // Conditional Fields
-    document.querySelectorAll('input[name="referral"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('referral-other-wrap').style.display = el.value === 'Other' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="rehearsal"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rehearsal-guests-wrap').style.display = el.value.startsWith('Yes') && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="hasCoord"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('coord-details-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="arrivalDrinks"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('arrival-drinks-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="sigCocktail"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to ideas') && el.checked; document.getElementById('sig-cocktail-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="liquorPref"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'I have specific requests' || el.value === 'Mix of both') && el.checked; document.getElementById('liquor-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="beerPref"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('beer-detail-wrap').style.display = el.value === 'I have specific requests' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="sparklingWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('sw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="roseWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('rw-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="whiteWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('ww-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="redWine"]').forEach(el => { el.addEventListener('change', () => { document.getElementById('red-detail-wrap').style.display = el.value === 'Yes' && el.checked ? 'block' : 'none'; }); });
-    document.querySelectorAll('input[name="seltzers"]').forEach(el => { el.addEventListener('change', () => { const show = (el.value === 'Yes' || el.value === 'Open to suggestions') && el.checked; document.getElementById('seltzer-detail-wrap').style.display = show ? 'block' : 'none'; }); });
-
-    // Hub & Chat Elements
-// 1. Traditional Variables (Keeps the rest of your form script happy)
-const btnCalculator = document.getElementById('btnCalculator');
-const btnPlanner = document.getElementById('btnPlanner');
-const compassBtn = document.getElementById('compassBtn');
-const navTextBtn = document.querySelector('.compass-tagline');
-
-// 2. Safe Event Listeners (Only activates if the element is detected on-screen)
-if (btnCalculator) { 
-    btnCalculator.addEventListener('click', (e) => { 
-        e.stopPropagation(); 
-        const calcSidebar = document.getElementById('calculatorSidebar');
-        if (calcSidebar) {
-            calcSidebar.style.right = '0px'; 
-        } else {
-            console.error("Calculator sidebar element container not found in HTML!");
-        }
-    }); 
-}
-
-if (btnPlanner) { 
-    btnPlanner.addEventListener('click', (e) => { 
-        e.stopPropagation(); 
-        const planSidebar = document.getElementById('plannerSidebar');
-        if (planSidebar) {
-            planSidebar.style.right = '0px'; 
-        } else {
-            console.error("Planner sidebar element container not found in HTML!");
-        }
-    }); 
-}
-    // Open Sidebar
-    const openSidebar = (e) => {
-      e.stopPropagation();
-      if (sidebarPanel) sidebarPanel.style.right = '0px';
-    };
-
-    if (compassBtn) compassBtn.addEventListener('click', openSidebar);
-    if (navTextBtn) {
-      navTextBtn.style.cursor = 'pointer';
-      navTextBtn.addEventListener('click', openSidebar);
-    }
-
-    // Close Sidebar
-    if (closeBtn) {
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (sidebarPanel) sidebarPanel.style.right = '-420px';
-      });
-    }
-
-    // Close functions for Calculator and Planner overlays
-function closeCalculator() {
-    const calc = document.getElementById('calculatorSidebar');
-    if (calc) calc.style.right = '-450px';
-}
-
-function closePlanner() {
-    const plan = document.getElementById('plannerSidebar');
-    if (plan) plan.style.right = '-450px';
-}
-
-// Client-Side Estimate Printer Function
-function printEstimate() {
-    var estimateContent = document.getElementById("calculator-app-container");
-    if (!estimateContent) return;
-    
-    var printWindow = window.open('', '_blank', 'height=600,width=800');
-    printWindow.document.write('<html><head><title>Your Wedding Estimate</title>');
-    printWindow.document.write('<style>body{font-family:Arial,sans-serif;padding:30px;} .print-btn{display:none;}</style>');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write('<h1>Your Custom Wedding Estimate</h1>');
-    printWindow.document.write(estimateContent.innerHTML);
-    printWindow.document.write('</body></html>');
-    
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-    printWindow.close();
-}
-
-    // Chat Message Processing
-    function processUserMessage() {
-      if (!userInputField || !chatHistoryContainer) return;
-
-      const textMessage = userInputField.value.trim();
-      if (!textMessage) return;
-
-      const messageBubble = document.createElement('div');
-      messageBubble.style.padding = '10px 14px';
-      messageBubble.style.borderRadius = '8px';
-      messageBubble.style.maxWidth = '85%';
-      messageBubble.style.fontSize = '14px';
-      messageBubble.style.lineHeight = '1.4';
-      messageBubble.style.background = 'var(--rose)'; 
-      messageBubble.style.color = '#ffffff';
-      messageBubble.style.alignSelf = 'flex-end';
-      messageBubble.textContent = textMessage;
-
-      chatHistoryContainer.appendChild(messageBubble);
-      userInputField.value = '';
-      chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-
-      setTimeout(() => {
-        const systemBubble = document.createElement('div');
-        systemBubble.style.padding = '10px 14px';
-        systemBubble.style.borderRadius = '8px';
-        systemBubble.style.maxWidth = '85%';
-        systemBubble.style.fontSize = '14px';
-        systemBubble.style.lineHeight = '1.4';
-        systemBubble.style.background = 'white';
-        systemBubble.style.border = '1px solid var(--border)';
-        systemBubble.style.color = 'var(--ink)';
-        systemBubble.style.alignSelf = 'flex-start';
-        systemBubble.innerHTML = "<em>The Navigator received your input! Connect your API key next to fetch live responses...</em>";
-        
-        chatHistoryContainer.appendChild(systemBubble);
-        chatHistoryContainer.scrollTop = chatHistoryContainer.scrollHeight;
-      }, 600);
-    }
-
-    if (sendButton) sendButton.addEventListener('click', processUserMessage);
-    if (userInputField) {
-      userInputField.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          processUserMessage();
-        }
-      });
-    }
-
-    // Image fallback
-    const compassImg = document.querySelector('.compass-img');
-    if (compassImg) {
-      compassImg.onerror = function () {
-        this.style.display = 'none';
-        this.parentNode.style.background = 'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
-      };
-    }
-  });
+/* ── Compass image fallback ── */
+document.querySelector('.compass-img').onerror = function () {
+  this.style.display = 'none';
+  this.parentNode.style.background =
+    'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
+};
 </script>
-<div id="calculatorSidebar" class="app-sidebar">
-    <div class="sidebar-header">
-        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Budget Calculator</h2>
-        <button class="close-sidebar-btn" onclick="closeCalculator()">×</button>
-    </div>
-    <div class="sidebar-content">
-        <div id="calculator-app-container">
-            <p style="color: #666; font-style: italic;">Calculator features initializing...</p>
-        </div>
-        
-        <div class="print-container" style="margin-top: 20px;">
-            <button onclick="printEstimate()" class="print-btn">🖨️ Print / Save Estimate PDF</button>
-        </div>
-    </div>
-</div>
-
-<div id="plannerSidebar" class="app-sidebar">
-    <div class="sidebar-header">
-        <h2 style="font-family: 'Georgia', serif; color: #b8860b; margin: 0;">Wedding Planner Checklist</h2>
-        <button class="close-sidebar-btn" onclick="closePlanner()">×</button>
-    </div>
-    <div class="sidebar-content">
-        <div id="planner-app-container">
-            <p style="color: #666; font-style: italic;">Planner features initializing...</p>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>
