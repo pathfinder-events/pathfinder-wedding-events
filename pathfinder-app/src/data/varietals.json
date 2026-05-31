@@ -1,0 +1,303 @@
+[
+  {
+    "name": "Aglianico",
+    "origin": "Southern Italy (Campania, Basilicata)",
+    "profile": "Powerful, age-worthy, high tannin, high acidity. Notes: black cherry, leather, tar, smoke.",
+    "pairings": "Braised meats (short ribs, lamb shank), grilled steak, lasagna, mushroom risotto, aged cheeses.",
+    "styles": "Taurasi (The Barolo of the South), Aglianico del Vulture."
+  },
+  {
+    "name": "Albariño",
+    "origin": "Galicia, Spain (Rías Baixas)",
+    "profile": "Crisp, saline, high acid. Notes: stone fruit, citrus, sea spray, honeysuckle.",
+    "pairings": "Seafood (oysters, mussels), ceviche, grilled fish, salads with citrus vinaigrette.",
+    "note": "Best enjoyed young and chilled."
+  },
+  {
+    "name": "Arneis",
+    "origin": "Piedmont, Italy (Roero)",
+    "profile": "Aromatic, textured, soft acidity. Notes: pear, white peach, flowers, almond finish.",
+    "pairings": "Seafood, white fish (sole, halibut), creamy pasta, roast chicken, soft cheeses.",
+    "nickname": "The Little Rascal"
+  },
+  {
+    "name": "Barbera",
+    "origin": "Piedmont, Italy",
+    "profile": "Vibrant acidity, juicy red fruit, low tannin. Notes: red cherry, plum, blackberry, dried herbs.",
+    "pairings": "Pizza, tomato-based pasta, lasagna, burgers, roast chicken.",
+    "styles": "Barbera d'Asti (refined), Barbera d'Alba (bold)."
+  },
+  {
+    "name": "Beaujolais / Gamay",
+    "origin": "Eastern France",
+    "profile": "Vibrant, aromatic, light-to-medium body. Notes: strawberry, raspberry, floral, spice.",
+    "pairings": "Roast chicken, charcuterie, burgers, pizza, grilled salmon.",
+    "styles": "10 Crus (e.g., Morgon, Fleurie, Moulin-à-Vent), Beaujolais Nouveau."
+  },
+  {
+    "name": "Bordeaux Regions",
+    "left_bank": "Cabernet Sauvignon dominant, gravelly soil, structured/tannic (Margaux, Pauillac).",
+    "right_bank": "Merlot dominant, clay-limestone soil, plush/velvety (Saint-Émilion, Pomerol).",
+    "entre_deux_mers": "Dry white wines (Sauvignon Blanc, Sémillon).",
+    "pairings": "Left Bank: Red meats, aged cheese. Right Bank: Poultry, stews."
+  },
+  {
+    "name": "Brachetto",
+    "origin": "Piedmont, Italy",
+    "profile": "Sweet, aromatic, lightly sparkling red. Notes: rose petals, strawberry, raspberry, exotic spice.",
+    "pairings": "Chocolate desserts, strawberry shortcake, fruit salad, spicy Asian dishes.",
+    "note": "The 'King of aromatic reds'."
+  },
+  {
+    "name": "Cabernet Franc",
+    "origin": "Loire Valley & Bordeaux, France",
+    "profile": "Medium-bodied, herbaceous, floral. Notes: red fruit, graphite, green bell pepper, tobacco.",
+    "pairings": "Pork tenderloin, roast chicken, duck breast, herb-driven dishes, goat cheese.",
+    "lineage": "Parent grape of Cabernet Sauvignon and Merlot."
+  },
+  {
+    "name": "Cabernet Sauvignon",
+    "origin": "Bordeaux, France",
+    "profile": "Full-bodied, high tannin, moderate acidity. Notes: blackcurrant, blackberry, cedar, tobacco.",
+    "pairings": "Steak, lamb, aged cheddar, rich protein-heavy dishes.",
+    "note": "Foundation of the global wine industry."
+  },
+  {
+    "name": "Carignan",
+    "origin": "Spain & Southern France",
+    "profile": "Deeply colored, high-acid, high-tannin. Notes: blackberry, plum, baking spices, earth.",
+    "pairings": "BBQ, roast meats, Mediterranean cuisine, rustic stews (Cassoulet).",
+    "note": "Revived old-vine classic."
+  },
+  {
+    "name": "Carménère",
+    "origin": "Originally Bordeaux, flagship of Chile",
+    "profile": "Deeply colored, aromatic, herb-tinged. Notes: blackberry, plum, green pepper, tobacco.",
+    "pairings": "Grilled meats, Mexican cuisine (tacos, mole), Indian curries, roasted vegetables.",
+    "note": "Sitting between Merlot and Cabernet Franc stylistically."
+  },
+  {
+    "name": "Cava",
+    "origin": "Catalonia, Spain",
+    "profile": "Traditional method sparkling. Notes: green apple, citrus, almond, brioche.",
+    "pairings": "Tapas, seafood (paella), fried foods (calamari), Manchego cheese.",
+    "grapes": "Macabeo, Xarel-lo, Parellada."
+  },
+  {
+    "name": "Chardonnay",
+    "origin": "Burgundy, France",
+    "profile": "Versatile. Cool climate: crisp, mineral (Chablis). Warm climate: buttery, oaky (California).",
+    "pairings": "Unoaked: seafood, salads. Oaked: roasted chicken, creamy pasta, lobster.",
+    "note": "Reflects winemaking technique more than any other grape."
+  },
+  {
+    "name": "Chenin Blanc",
+    "origin": "Loire Valley, France (South Africa: Steen)",
+    "profile": "High acidity, diverse styles (dry to sweet/sparkling). Notes: apple, honey, minerals.",
+    "pairings": "Seafood, poultry, goat cheese, spicy Thai or Indian dishes.",
+    "note": "Highly sensitive to terroir."
+  },
+  {
+    "name": "Crémant",
+    "origin": "Regional France (Loire, Burgundy, Alsace, etc.)",
+    "profile": "Traditional method sparkling made outside Champagne. Often fruit-forward and creamy.",
+    "pairings": "Aperitifs, brunch, fried chicken, soft cheeses.",
+    "note": "Excellent value alternative to Champagne."
+  },
+  {
+    "name": "Dolcetto",
+    "origin": "Piedmont, Italy",
+    "profile": "Dry, dark-fruited, soft tannins, low acidity. Notes: black cherry, blackberry, licorice, almond.",
+    "pairings": "Pizza, pasta with meat sauce, charcuterie, burgers.",
+    "nickname": "Little sweet one (refers to grape sweetness, though wine is dry)."
+  },
+  {
+    "name": "Gewürztraminer",
+    "origin": "Alsace, France / Germany / Italy",
+    "profile": "Intensely aromatic, full-bodied, low acid. Notes: lychee, rose petal, ginger, spice.",
+    "pairings": "Thai and Indian curries, Moroccan tagines, Roquefort cheese, foie gras.",
+    "note": "One of the most distinctive and polarizing grapes."
+  },
+  {
+    "name": "Grenache / Garnacha",
+    "origin": "Spain / Southern Rhône",
+    "profile": "Warm climate, red berries, spice, high alcohol. Notes: strawberry, raspberry, white pepper.",
+    "pairings": "Grilled/roasted meats, stews, Mediterranean dishes, tapas.",
+    "note": "Main component of GSM blends."
+  },
+  {
+    "name": "Grüner Veltliner",
+    "origin": "Austria",
+    "profile": "Bright acidity, signature white-pepper spice. Notes: lime, green apple, fresh herbs.",
+    "pairings": "Wiener Schnitzel, asparagus (rare pairing), spicy Asian dishes, pork.",
+    "note": "Uniquely food-friendly white."
+  },
+  {
+    "name": "Malbec",
+    "origin": "France (Cahors), flagship of Argentina",
+    "profile": "Full-bodied, dark-fruited, velvety. Notes: blackberry, blueberry, violet, smoke.",
+    "pairings": "Steak with chimichurri, BBQ, ribs, burgers, earthy dishes (mushrooms).",
+    "note": "Known for its plush texture and deep purple color."
+  },
+  {
+    "name": "Merlot",
+    "origin": "Bordeaux, France",
+    "profile": "Plush, velvety, fruit-forward. Notes: plum, black cherry, cocoa, mocha.",
+    "pairings": "Roasted chicken, pork tenderloin, burgers, beef stew, Gouda cheese.",
+    "note": "Cornerstone of Right Bank Bordeaux."
+  },
+  {
+    "name": "Moscato",
+    "origin": "Ancient Mediterranean (Italy flagship)",
+    "profile": "Highly aromatic, floral, fruity. Notes: orange blossom, peach, apricot, honey.",
+    "pairings": "Brunch dishes, fruit tarts, spicy Asian cuisine, Indian curries.",
+    "styles": "Moscato d'Asti (lightly sparkling), Passito (dessert)."
+  },
+  {
+    "name": "Mourvèdre / Monastrell",
+    "origin": "Spain & Southern France",
+    "profile": "Full-bodied, tannic, gamey. Notes: black pepper, smoke, wild game, dark fruit.",
+    "pairings": "Lamb, venison, smoked brisket, hearty stews, Manchego cheese.",
+    "note": "Key in GSM blends, known for power and rustic charm."
+  },
+  {
+    "name": "Muscadet",
+    "origin": "Western Loire Valley (Melon de Bourgogne)",
+    "profile": "Dry, crisp, mineral, saline. Notes: lemon, lime, oyster shell, sea spray.",
+    "pairings": "Oysters (the ultimate match), mussels, clams, shrimp, sushi.",
+    "note": "Often aged 'sur lie' for added texture."
+  },
+  {
+    "name": "Nebbiolo",
+    "origin": "Piedmont, Italy",
+    "profile": "Noble grape, very high tannin/acid, pale color. Notes: tar, roses, cherry, truffle, earth.",
+    "pairings": "Truffle dishes, braised meats (osso buco), ribeye steak, aged cheeses.",
+    "styles": "Barolo (King of Wines), Barbaresco (Queen of Wines)."
+  },
+  {
+    "name": "Petite Sirah / Durif",
+    "origin": "France (flagship of California)",
+    "profile": "Deeply colored, massive tannins, bold fruit. Notes: blueberry, black pepper, cocoa.",
+    "pairings": "BBQ and smoked meats, grilled steak, bison, rich cheeses (aged cheddar).",
+    "note": "Mislabeled in California, actually the grape Durif."
+  },
+  {
+    "name": "Petit Verdot",
+    "origin": "Bordeaux, France",
+    "profile": "Deeply colored, intensely structured. Notes: violet, black fruit, graphite, exotic spice.",
+    "pairings": "Grilled steak, BBQ, lamb chops, black pepper-crusted dishes.",
+    "note": "Used in blends for color and structure, but great as a standalone New World varietal."
+  },
+  {
+    "name": "Pinot Blanc",
+    "origin": "Burgundy (Mutation of Pinot Noir)",
+    "profile": "Elegant, fresh, subtly aromatic. Notes: apple, pear, almond, gentle florals.",
+    "pairings": "Seafood (trout, scallops), roast chicken, risotto, soft cheeses.",
+    "note": "Understated and refined alternative to Chardonnay."
+  },
+  {
+    "name": "Pinot Grigio / Pinot Gris",
+    "origin": "Burgundy (Mutation of Pinot Noir)",
+    "profile": "Chameleon white. Italian (PG): light, crisp, mineral. Alsatian (PG): rich, oily, spicy.",
+    "pairings": "Italian style: shellfish, salads. French style: roast duck, sausages, spicy curries.",
+    "note": "One of the most widely consumed whites."
+  },
+  {
+    "name": "Pinot Noir",
+    "origin": "Burgundy, France",
+    "profile": "Cool-climate, silky, terroir-driven. Notes: cherry, raspberry, mushroom, forest floor.",
+    "pairings": "Duck, roast chicken, pork, grilled salmon, mushroom risotto.",
+    "note": "Benchmark for finesse and complexity."
+  },
+  {
+    "name": "Riesling",
+    "origin": "Rhine, Germany",
+    "profile": "Exceptional aromatic clarity, high acid. Notes: green apple, lime, slate, petrol (aged).",
+    "pairings": "Dry: shellfish, herb-driven dishes. Off-dry: spicy Asian, foie gras, rich cheeses.",
+    "note": "Covers the full spectrum from bone-dry to lusciously sweet."
+  },
+  {
+    "name": "Sangiovese",
+    "origin": "Tuscany, Italy",
+    "profile": "High acid, firm tannin, savory. Notes: cherry, tomato leaf, herbs, tobacco, earth.",
+    "pairings": "Tomato-based dishes (pizza, pasta), Florentine steak, roast pork, lamb chops.",
+    "styles": "Chianti Classico, Brunello di Montalcino."
+  },
+  {
+    "name": "Sauvignon Blanc",
+    "origin": "Loire Valley & Bordeaux, France",
+    "profile": "High acidity, pungent aromatics. Notes: grapefruit, grass, gooseberry, flint.",
+    "pairings": "Goat cheese (classic), shellfish, white fish, green vegetables (asparagus).",
+    "note": "A palate cleanser that amplifies freshness."
+  },
+  {
+    "name": "Syrah / Shiraz",
+    "origin": "Northern Rhône, France",
+    "profile": "Powerful, peppery. Rhone style: elegant, smoky. Australian style: bold, jammy, chocolate.",
+    "pairings": "Grilled red meats, lamb, smoked sausages, spicy vegetarian fare.",
+    "note": "Known for a distinct black pepper (rotundone) note."
+  },
+  {
+    "name": "Tempranillo",
+    "origin": "Spain",
+    "profile": "Medium-to-full body, balanced acidity. Notes: cherry, plum, tobacco, leather, vanilla (aged).",
+    "pairings": "Lamb, beef, chorizo, tomato-based dishes, aged cheeses (Manchego).",
+    "styles": "Rioja, Ribera del Duero."
+  },
+  {
+    "name": "Valpolicella",
+    "origin": "Veneto, Italy",
+    "profile": "Vibrant and diverse. Notes: bright cherry, herbal, almond finish.",
+    "pairings": "Classico: pizza, pasta. Ripasso/Amarone: short ribs, aged Parmigiano, dark chocolate.",
+    "styles": "Classico, Ripasso, Amarone della Valpolicella."
+  },
+  {
+    "name": "Verdejo",
+    "origin": "Rueda, Spain",
+    "profile": "Crisp, citrus-driven, aromatic. Notes: lime, ginger, fennel, bitter-herbal finish.",
+    "pairings": "Ceviche, fish tacos (lime-driven), salads, asparagus, fresh goat cheese.",
+    "note": "Spain's most important white grape."
+  },
+  {
+    "name": "Verdicchio",
+    "origin": "Marche, Italy",
+    "profile": "Crisp, mineral, high quality. Notes: citrus, fennel, saline, signature almond finish.",
+    "pairings": "Grilled fish, oysters, pasta with seafood, roast chicken.",
+    "note": "One of the few Italian whites capable of long aging."
+  },
+  {
+    "name": "Vernaccia",
+    "origin": "Tuscany, Italy (San Gimignano)",
+    "profile": "Crisp, mineral, subtly floral. Notes: citrus, white peach, bitter almond finish.",
+    "pairings": "Tuscan dishes (panzanella), light pasta with pesto, shellfish, pecorino.",
+    "note": "Italy's first DOC wine (1966)."
+  },
+  {
+    "name": "Vinho Verde",
+    "origin": "Northwest Portugal",
+    "profile": "Light, crisp, refreshing, low alcohol, subtle spritz. Notes: lime, green apple, floral.",
+    "pairings": "Seafood, grilled fish, salads, spicy Thai/Vietnamese.",
+    "note": "Translates to 'young wine', not green wine."
+  },
+  {
+    "name": "Viognier",
+    "origin": "Northern Rhône, France",
+    "profile": "Highly aromatic, oily texture. Notes: peach, apricot, honeysuckle, exotic spice.",
+    "pairings": "Spicy Indian or Thai curries, roast chicken with herbs, lobster, brie.",
+    "note": "A high-risk, high-reward grape with luxurious texture."
+  },
+  {
+    "name": "Viura / Macabeo",
+    "origin": "Spain (Rioja / Catalonia)",
+    "profile": "Versatile. Notes: citrus, green apple (young) to hazelnut, honey (aged).",
+    "pairings": "Young: Southeast Asian, salads. Aged: Roast pork, grilled chicken.",
+    "note": "A primary component of Cava and White Rioja."
+  },
+  {
+    "name": "Zinfandel",
+    "origin": "Croatia (famed in California)",
+    "profile": "Bold, jammy, fruit-forward, high alcohol. Notes: blackberry, raspberry, pepper, baking spice.",
+    "pairings": "BBQ ribs, pulled pork, Burgers, chili, spicy veggie burgers.",
+    "note": "Includes old-vine heritage and sweet 'White Zinfandel' styles."
+  }
+]

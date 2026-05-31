@@ -1,0 +1,8 @@
+{
+  "name": "Pathfinder Drink AI & Planner",
+  "description": "An AI-powered event planning tool for drink selection, budget estimation, and company logistics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
