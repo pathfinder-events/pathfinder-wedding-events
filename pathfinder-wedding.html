@@ -2408,25 +2408,174 @@
 </div>
 <!-- ═══ END COMPASS HUB ════════════════════════════ -->
 
-<script>
-const NAVIGATOR_URL = 'https://pathfinder-events.netlify.app';
+<!-- ═══ SLIDE-OUT PANELS ════════════════════════════ -->
 
-/* ── Calculator button → Drink Estimator tab ── */
+<!-- Backdrop -->
+<div id="drawer-backdrop" onclick="closeDrawer()" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(20,15,10,0.55);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+  z-index:8000;
+  transition:opacity 0.3s;
+"></div>
+
+<!-- CHAT drawer -->
+<div id="drawer-chat" style="
+  position:fixed;
+  top:0; left:0; bottom:0;
+  width:min(680px,95vw);
+  background:#fff;
+  z-index:8001;
+  transform:translateX(-100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:4px 0 40px rgba(0,0,0,0.25);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+">
+  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;"></div>
+      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Navigator Consultant</span>
+    </div>
+    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
+  </div>
+  <iframe id="iframe-chat"
+    src="about:blank"
+    style="flex:1;border:none;width:100%;"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+
+<!-- CALCULATOR drawer -->
+<div id="drawer-calc" style="
+  position:fixed;
+  top:0; left:0; bottom:0;
+  width:min(680px,95vw);
+  background:#fff;
+  z-index:8001;
+  transform:translateX(-100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:4px 0 40px rgba(0,0,0,0.25);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+">
+  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:10px;height:10px;border-radius:50%;background:#FFA51E;animation:pulse 2s infinite;"></div>
+      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Drink Estimator</span>
+    </div>
+    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
+  </div>
+  <iframe id="iframe-calc"
+    src="about:blank"
+    style="flex:1;border:none;width:100%;"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+
+<!-- PLANNER drawer -->
+<div id="drawer-planner" style="
+  position:fixed;
+  top:0; left:0; bottom:0;
+  width:min(680px,95vw);
+  background:#fff;
+  z-index:8001;
+  transform:translateX(-100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:4px 0 40px rgba(0,0,0,0.25);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+">
+  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:10px;height:10px;border-radius:50%;background:#C5A059;animation:pulse 2s infinite;"></div>
+      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Beverage Planner</span>
+    </div>
+    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
+  </div>
+  <iframe id="iframe-planner"
+    src="about:blank"
+    style="flex:1;border:none;width:100%;"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+
+<style>
+@keyframes pulse {
+  0%,100%{opacity:1}
+  50%{opacity:0.4}
+}
+</style>
+
+<script>
+const APP_URL = 'https://pathfinder-events.netlify.app';
+
+const drawers = {
+  chat:    { drawer: 'drawer-chat',    iframe: 'iframe-chat',    tab: 'chat'    },
+  calc:    { drawer: 'drawer-calc',    iframe: 'iframe-calc',    tab: 'calc'    },
+  planner: { drawer: 'drawer-planner', iframe: 'iframe-planner', tab: 'planner' }
+};
+
+let currentDrawer = null;
+
+function openDrawer(key) {
+  closeDrawer(false);
+  const { drawer, iframe, tab } = drawers[key];
+  const iframeEl = document.getElementById(iframe);
+
+  // Load the app if not already loaded
+  if (!iframeEl.src || iframeEl.src === 'about:blank') {
+    iframeEl.src = APP_URL;
+  }
+
+  // Send postMessage to switch tab once iframe is ready
+  const sendTab = () => {
+    iframeEl.contentWindow.postMessage({ tab: tab }, APP_URL);
+  };
+
+  // Try immediately and also on load in case it's still loading
+  try { sendTab(); } catch(e) {}
+  iframeEl.onload = () => {
+    setTimeout(() => sendTab(), 300);
+  };
+
+  document.getElementById('drawer-backdrop').style.display = 'block';
+  document.getElementById(drawer).style.transform = 'translateX(0)';
+  document.body.style.overflow = 'hidden';
+  currentDrawer = drawer;
+}
+
+function closeDrawer(resetOverflow = true) {
+  document.querySelectorAll('[id^="drawer-"]').forEach(el => {
+    if (el.id !== 'drawer-backdrop') {
+      el.style.transform = 'translateX(-100%)';
+    }
+  });
+  document.getElementById('drawer-backdrop').style.display = 'none';
+  if (resetOverflow) document.body.style.overflow = '';
+  currentDrawer = null;
+}
+
+/* ── Wire the three buttons ── */
 document.getElementById('btnCalculator').addEventListener('click', (e) => {
   e.stopPropagation();
-  window.open(NAVIGATOR_URL + '/?tab=calc', '_blank');
+  openDrawer('calc');
 });
 
-/* ── Planner button → Beverage Planner tab ── */
 document.getElementById('btnPlanner').addEventListener('click', (e) => {
   e.stopPropagation();
-  window.open(NAVIGATOR_URL + '/?tab=planner', '_blank');
+  openDrawer('planner');
 });
 
-/* ── Compass button → AI Navigator Chat tab ── */
 document.getElementById('compassBtn').addEventListener('click', (e) => {
   e.stopPropagation();
-  window.open(NAVIGATOR_URL + '/?tab=chat', '_blank');
+  openDrawer('chat');
 });
 
 /* ── Compass image fallback ── */
@@ -2435,6 +2584,11 @@ document.querySelector('.compass-img').onerror = function () {
   this.parentNode.style.background =
     'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
 };
+
+/* ── Close on Escape key ── */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDrawer();
+});
 </script>
 
 </body>
