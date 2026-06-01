@@ -48,6 +48,13 @@ export default function App() {
   const [selectedTierId, setSelectedTierId] = useState<string | null>(() => {
     return localStorage.getItem("pathfinder_selected_tier_id") || null;
   });
+  useEffect(() => {
+  window.addEventListener('message', (e) => {
+    if (e.data?.tab === 'calc' || e.data?.tab === 'planner' || e.data?.tab === 'chat') {
+      setActiveTab(e.data.tab);
+    }
+  });
+}, []);
 
   const saveSelectedTierId = (id: string | null) => {
     setSelectedTierId(id);
