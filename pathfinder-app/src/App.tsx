@@ -23,7 +23,6 @@ import PlannerTab from "./components/PlannerTab";
 import NavigatorIcon from "./components/NavigatorIcon";
 import { initAuth, googleSignIn, getAccessToken } from "./lib/google-auth";
 
-// Removed wingmanEmblemImg import to use standard robust CSS & lucide icons
 import { getItemQuantity } from "./lib/calculatorUtils";
 
 export default function App() {
@@ -129,7 +128,7 @@ export default function App() {
       if (response.ok) {
         setSyncStatus("success");
         setSyncError(null);
-        await fetchDbStatus(); // update loaded count
+        await fetchDbStatus();
         setTimeout(() => setSyncStatus("idle"), 5000);
       } else {
         const errData = await response.json().catch(() => ({}));
@@ -173,18 +172,17 @@ export default function App() {
     saveQuoteItems(updated);
   };
 
-  // Calculations for static elements on Dashboard
   const activeCargoTotal = quoteItems.reduce((acc, item) => acc + getItemQuantity(item, quoteItems, guests, hours), 0);
   const totalRecommendedVolume = guests * (hours + 1);
 
   return (
     <div id="app-container" className="min-h-screen text-[#2F2A24] font-sans relative pb-32 nautical-grid overflow-x-hidden">
       
-      {/* Elegant Header - Gold Accent & Warm Ivory Backdrop */}
+      {/* Elegant Header */}
       <header id="main-header" className="bg-[#FCFAF5]/90 border-b border-[#C5A059]/30 backdrop-blur-md px-6 py-4 relative z-10 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           
-          {/* Logo & Wedding Curation Identity */}
+          {/* Logo */}
           <div className="flex items-center gap-4">
             <div className="relative p-2 rounded-xl bg-gradient-to-br from-[#FCFAF5] to-[#F5EFE2] border border-[#C5A059]/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.7)] flex items-center justify-center">
               <Compass className="w-8 h-8 text-[#C5A059] animate-pulse" />
@@ -237,10 +235,10 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Wedding Curation Desk Layout */}
+      {/* Main Layout */}
       <main id="main-content" className="max-w-7xl mx-auto p-4 md:p-8 space-y-8 relative z-10 transition-all">
         
-        {/* Sync Issues Notification Alert block */}
+        {/* Sync Error Alert */}
         <AnimatePresence>
           {syncError && (
             <motion.div
@@ -271,53 +269,55 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        {/* Static Tab-Based Navigation Menu */}
-        <div id="navigation-tabs" className="flex border-b border-gray-200 gap-8 justify-start select-none shrink-0 mb-6 pb-2.5">
-          <button
-            onClick={() => setActiveTab("chat")}
-            className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
-              activeTab === "chat" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" /> 1. AI Navigator (Chat)
-            </span>
-            {activeTab === "chat" && (
-              <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
-            )}
-          </button>
-          
-          <button
-            onClick={() => setActiveTab("calc")}
-            className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
-              activeTab === "calc" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <Calculator className="w-4 h-4" /> 2. Drink Estimator
-            </span>
-            {activeTab === "calc" && (
-              <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
-            )}
-          </button>
-          
-          <button
-            onClick={() => setActiveTab("planner")}
-            className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
-              activeTab === "planner" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" /> 3. Beverage Planner
-            </span>
-            {activeTab === "planner" && (
-              <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
-            )}
-          </button>
-        </div>
+        {/* Tab Navigation — hidden when on Chat tab */}
+        {activeTab !== "chat" && (
+          <div id="navigation-tabs" className="flex border-b border-gray-200 gap-8 justify-start select-none shrink-0 mb-6 pb-2.5">
+            <button
+              onClick={() => setActiveTab("chat")}
+              className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
+                activeTab === "chat" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" /> 1. AI Navigator (Chat)
+              </span>
+              {activeTab === "chat" && (
+                <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
+              )}
+            </button>
+            
+            <button
+              onClick={() => setActiveTab("calc")}
+              className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
+                activeTab === "calc" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <Calculator className="w-4 h-4" /> 2. Drink Estimator
+              </span>
+              {activeTab === "calc" && (
+                <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
+              )}
+            </button>
+            
+            <button
+              onClick={() => setActiveTab("planner")}
+              className={`pb-2.5 text-sm font-serif font-bold uppercase tracking-wider relative transition-all duration-205 cursor-pointer focus:outline-none ${
+                activeTab === "planner" ? "text-[#E06D20]" : "text-[#7E6E5A] hover:text-[#3D3220]"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" /> 3. Beverage Planner
+              </span>
+              {activeTab === "planner" && (
+                <motion.span layoutId="activeTabUnderline" className="absolute bottom-[-11px] left-0 right-0 h-0.5 bg-[#E06D20] rounded-full" />
+              )}
+            </button>
+          </div>
+        )}
 
-        {/* Tab Content Display Area */}
-        <div className="min-h-[75vh]">
+        {/* Tab Content */}
+        <div className={activeTab === "chat" ? "min-h-[60vh]" : "min-h-[75vh]"}>
           {activeTab === "chat" && (
             <ChatTab 
               guests={guests} 
@@ -351,53 +351,13 @@ export default function App() {
           )}
         </div>
 
-        {/* Local Spec Files Listing Widget */}
-        <div className="bg-white border border-gray-150 rounded-3xl p-6 relative text-left shadow-[0_10px_35px_rgba(181,148,91,0.03)] mt-8">
-          <div className="flex justify-between items-center border-b border-gray-150 pb-3.5 mb-4">
-            <h3 className="serif-heading font-bold text-sm text-[#3D3220] tracking-wider flex items-center gap-2">
-              <FileText className="text-[#C5A059] w-4 h-4" /> Shared References & Product Specification Sheets
-            </h3>
-            {dbStatus?.filesCount !== undefined && dbStatus.filesCount > 0 && (
-              <span className="text-[10px] font-mono text-[#E06D20] font-bold uppercase tracking-widest bg-amber-50 px-2.5 py-0.5 rounded border border-[#C5A059]/30 font-semibold">
-                ✓ {dbStatus.filesCount} Reference Sheets Sync'd
-              </span>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {dbStatus?.specFiles && dbStatus.specFiles.length > 0 ? (
-              dbStatus.specFiles.map((file, idx) => (
-                <a 
-                  key={idx}
-                  href={file.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="p-3.5 bg-white border border-gray-150 hover:border-[#C5A059] rounded-xl flex items-center justify-between text-[#524534] hover:text-[#E06D20] group transition-all shadow-xs"
-                >
-                  <div className="flex items-center gap-2.5 min-w-0 pr-3">
-                    <FileText className="w-4 h-4 shrink-0 text-[#9A8D7C] group-hover:text-[#C5A059]" />
-                    <span className="text-xs truncate font-medium font-sans">{file.name}</span>
-                  </div>
-                  <span className="text-[9px] font-mono tracking-widest uppercase py-0.5 px-2 bg-gray-50 border border-gray-200 rounded shrink-0 group-hover:border-[#C5A059]/40 font-bold text-[#7E6E5A]">
-                    VIEW SPEC
-                  </span>
-                </a>
-              ))
-            ) : (
-              <div className="col-span-1 md:col-span-3 text-center py-6 text-xs text-[#9A8D7C] italic">
-                No local reference sheets synchronized yet. Add product specifications inside the Beverage Planner.
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Footer info */}
+        {/* Footer */}
         <footer className="pt-8 border-t border-gray-150 flex flex-col md:flex-row justify-between items-center gap-4 text-[#7E6E5A] text-xs mt-12 bg-transparent">
           <p className="font-serif tracking-widest uppercase font-bold text-slate-500">Pathfinder Wine & Beverage Consultation Panel</p>
           <div className="flex items-center gap-3 text-[10px] font-mono tracking-wider text-[#9A8D7C] font-semibold">
             <span>CURATION RECONCILIATION FEEDBACK ACTIVE</span>
             <span>•</span>
-            <span>PATHFINDER BEVERAGE SERVICES EST. 1996</span>
+            <span>PATHFINDER BEVERAGE SERVICES EST. 2026</span>
           </div>
         </footer>
       </main>
@@ -405,3 +365,4 @@ export default function App() {
     </div>
   );
 }
+
