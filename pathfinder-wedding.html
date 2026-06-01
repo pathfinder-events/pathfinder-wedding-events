@@ -2410,172 +2410,667 @@
 
 <!-- ═══ SLIDE-OUT PANELS ════════════════════════════ -->
 
-<!-- Backdrop -->
-<div id="drawer-backdrop" onclick="closeDrawer()" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(20,15,10,0.55);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
-  z-index:8000;
-  transition:opacity 0.3s;
-"></div>
-
-<!-- CHAT drawer -->
-<div id="drawer-chat" style="
-  position:fixed;
-  top:0; left:0; bottom:0;
-  width:min(680px,95vw);
-  background:#fff;
-  z-index:8001;
-  transform:translateX(-100%);
-  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  box-shadow:4px 0 40px rgba(0,0,0,0.25);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-">
-  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:10px;height:10px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;"></div>
-      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Navigator Consultant</span>
-    </div>
-    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
-  </div>
-  <iframe id="iframe-chat"
-    src="about:blank"
-    style="flex:1;border:none;width:100%;"
-    allow="clipboard-write"
-  ></iframe>
-</div>
-
-<!-- CALCULATOR drawer -->
-<div id="drawer-calc" style="
-  position:fixed;
-  top:0; left:0; bottom:0;
-  width:min(680px,95vw);
-  background:#fff;
-  z-index:8001;
-  transform:translateX(-100%);
-  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  box-shadow:4px 0 40px rgba(0,0,0,0.25);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-">
-  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:10px;height:10px;border-radius:50%;background:#FFA51E;animation:pulse 2s infinite;"></div>
-      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Drink Estimator</span>
-    </div>
-    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
-  </div>
-  <iframe id="iframe-calc"
-    src="about:blank"
-    style="flex:1;border:none;width:100%;"
-    allow="clipboard-write"
-  ></iframe>
-</div>
-
-<!-- PLANNER drawer -->
-<div id="drawer-planner" style="
-  position:fixed;
-  top:0; left:0; bottom:0;
-  width:min(680px,95vw);
-  background:#fff;
-  z-index:8001;
-  transform:translateX(-100%);
-  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  box-shadow:4px 0 40px rgba(0,0,0,0.25);
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-">
-  <div style="background:#151619;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <div style="width:10px;height:10px;border-radius:50%;background:#C5A059;animation:pulse 2s infinite;"></div>
-      <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;letter-spacing:0.04em;">Beverage Planner</span>
-    </div>
-    <button onclick="closeDrawer()" style="background:none;border:none;color:#9ca3af;font-size:22px;cursor:pointer;line-height:1;padding:2px 6px;">&times;</button>
-  </div>
-  <iframe id="iframe-planner"
-    src="about:blank"
-    style="flex:1;border:none;width:100%;"
-    allow="clipboard-write"
-  ></iframe>
-</div>
-
 <style>
-@keyframes pulse {
-  0%,100%{opacity:1}
-  50%{opacity:0.4}
+@keyframes pfPulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.pf-drawer {
+  position:fixed; top:0; left:0; bottom:0;
+  width:min(700px,96vw);
+  z-index:8001;
+  transform:translateX(-100%);
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:6px 0 50px rgba(0,0,0,0.28);
+  display:flex; flex-direction:column; overflow:hidden;
+  background:#FAF9F6;
+}
+.pf-drawer-head {
+  background:#151619; color:#fff;
+  padding:14px 18px;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-shrink:0;
+}
+.pf-drawer-head-dot {
+  width:10px;height:10px;border-radius:50%;
+  animation:pfPulse 2s infinite;
+}
+.pf-drawer-head span {
+  font-family:Georgia,serif;font-size:15px;
+  font-weight:600;letter-spacing:0.04em;
+}
+.pf-close-btn {
+  background:none;border:none;color:#9ca3af;
+  font-size:24px;cursor:pointer;line-height:1;padding:2px 8px;
+  transition:color 0.15s;
+}
+.pf-close-btn:hover { color:#fff; }
+.pf-drawer-body {
+  flex:1; overflow-y:auto; padding:24px 22px;
+  font-family:'Jost',sans-serif;
+}
+
+/* ── Calculator styles ── */
+.calc-section {
+  background:#fff; border:1px solid #e5ddd5;
+  border-radius:16px; padding:20px; margin-bottom:16px;
+}
+.calc-label {
+  font-size:10px; text-transform:uppercase; letter-spacing:0.12em;
+  color:#7E6E5A; font-weight:700; margin-bottom:8px; display:block;
+}
+.calc-value-badge {
+  font-family:Georgia,serif; font-size:13px; font-weight:700;
+  color:#E06D20; background:#fff; border:1px solid #e5ddd5;
+  padding:4px 12px; border-radius:10px;
+}
+.calc-slider {
+  width:100%; height:5px; border-radius:4px;
+  appearance:none; -webkit-appearance:none;
+  background:#e5ddd5; outline:none; cursor:pointer;
+  accent-color:#C9A96E;
+}
+.calc-results {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  margin-top:4px;
+}
+.calc-card {
+  background:#fff; border:1px solid #e5ddd5;
+  border-radius:12px; padding:14px 12px; text-align:center;
+}
+.calc-card-label {
+  font-size:9px; text-transform:uppercase; letter-spacing:0.12em;
+  color:#c4857a; margin-bottom:6px; font-weight:700;
+}
+.calc-card-num {
+  font-family:Georgia,serif; font-size:2.2rem;
+  color:#222520; line-height:1; margin-bottom:2px;
+}
+.calc-card-unit {
+  font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#7E6E5A;
+}
+.calc-card-sub {
+  font-size:9px; color:#8a9e8c; margin-top:4px; line-height:1.4;
+}
+.calc-summary-bar {
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#f5ece0,#e8d5b0);
+  border-radius:12px; padding:12px 16px;
+  text-align:center; font-size:11px; color:#3D3220; line-height:1.6;
+}
+.ratio-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.ratio-badge {
+  font-size:11px; font-weight:700; color:#E06D20;
+  background:#fff3e8; border:1px solid #f5d9b8;
+  padding:2px 10px; border-radius:8px;
+}
+.ratio-warning {
+  background:#fff8e8; border:1px solid #f5e0a0;
+  border-radius:10px; padding:10px 14px;
+  font-size:11px; color:#7a6020; margin-top:8px;
+  display:flex; align-items:center; gap:8px;
+}
+
+/* ── Planner styles ── */
+.tier-grid { display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:16px; }
+.tier-card {
+  background:#fff; border:2px solid #e5ddd5;
+  border-radius:14px; padding:16px; cursor:pointer;
+  transition:all 0.2s; position:relative; overflow:hidden;
+}
+.tier-card:hover { border-color:#c9a96e; }
+.tier-card.selected { border-color:#E06D20; background:#fff9f5; }
+.tier-card-name { font-family:Georgia,serif; font-size:16px; color:#222520; margin-bottom:2px; }
+.tier-card-class { font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#7E6E5A; }
+.tier-card-price { font-family:Georgia,serif; font-size:18px; color:#222520; margin-top:10px; }
+.tier-card-check {
+  position:absolute; top:14px; right:14px;
+  width:20px; height:20px; border-radius:50%;
+  border:2px solid #e5ddd5; display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; color:#fff;
+  transition:all 0.2s;
+}
+.tier-card.selected .tier-card-check { background:#E06D20; border-color:#E06D20; }
+.planner-field { margin-bottom:14px; }
+.planner-field label {
+  display:block; font-size:10px; text-transform:uppercase;
+  letter-spacing:0.1em; font-weight:700; color:#5c4d47; margin-bottom:5px;
+}
+.planner-field input, .planner-field select, .planner-field textarea {
+  width:100%; padding:10px 14px; border:1px solid #ddd0c4;
+  border-radius:10px; font-size:13px; font-family:'Jost',sans-serif;
+  background:#fff; color:#222520; outline:none;
+  transition:border-color 0.15s;
+}
+.planner-field input:focus, .planner-field select:focus, .planner-field textarea:focus {
+  border-color:#c9a96e;
+}
+.planner-field-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.planner-submit-btn {
+  width:100%; padding:14px; background:#E06D20; color:#fff;
+  border:none; border-radius:50px; font-size:14px; font-weight:600;
+  cursor:pointer; letter-spacing:0.04em; transition:background 0.2s;
+  font-family:'Jost',sans-serif; margin-top:8px;
+}
+.planner-submit-btn:hover { background:#c45e18; }
+.planner-submit-btn:disabled { background:#c4a090; cursor:not-allowed; }
+.planner-success {
+  text-align:center; padding:40px 20px;
+}
+.planner-success-icon {
+  font-size:48px; margin-bottom:16px;
+}
+.step-indicator {
+  display:flex; gap:6px; margin-bottom:20px; align-items:center;
+}
+.step-dot {
+  width:8px; height:8px; border-radius:50%; background:#e5ddd5;
+  transition:background 0.2s;
+}
+.step-dot.active { background:#E06D20; width:24px; border-radius:4px; }
+.step-dot.done { background:#8a9e8c; }
+.section-divider {
+  font-size:10px; text-transform:uppercase; letter-spacing:0.12em;
+  color:#c4857a; font-weight:700; margin-bottom:14px; padding-bottom:8px;
+  border-bottom:1px solid #e5ddd5;
 }
 </style>
 
+<!-- Backdrop -->
+<div id="drawer-backdrop" onclick="closeDrawer()" style="
+  display:none; position:fixed; inset:0;
+  background:rgba(20,15,10,0.55);
+  backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+  z-index:8000;
+"></div>
+
+<!-- ══ CHAT DRAWER (iframe → Netlify app) ══ -->
+<div id="drawer-chat" class="pf-drawer">
+  <div class="pf-drawer-head">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pf-drawer-head-dot" style="background:#22c55e;"></div>
+      <span>Navigator Consultant</span>
+    </div>
+    <button class="pf-close-btn" onclick="closeDrawer()">&times;</button>
+  </div>
+  <iframe id="iframe-chat" src="about:blank"
+    style="flex:1;border:none;width:100%;" allow="clipboard-write">
+  </iframe>
+</div>
+
+<!-- ══ CALCULATOR DRAWER (self-contained) ══ -->
+<div id="drawer-calc" class="pf-drawer">
+  <div class="pf-drawer-head">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pf-drawer-head-dot" style="background:#FFA51E;"></div>
+      <span>Drink Calculator</span>
+    </div>
+    <button class="pf-close-btn" onclick="closeDrawer()">&times;</button>
+  </div>
+  <div class="pf-drawer-body">
+
+    <div class="calc-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span class="calc-label" style="margin:0;">Estimated Guest Count</span>
+        <span class="calc-value-badge" id="calcGuestBadge">100 Guests</span>
+      </div>
+      <input type="range" min="10" max="500" step="5" value="100"
+        id="calcGuests" class="calc-slider"
+        oninput="updateCalc()">
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#9A8D7C;text-transform:uppercase;font-weight:600;margin-top:6px;">
+        <span>10</span><span>500</span>
+      </div>
+    </div>
+
+    <div class="calc-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span class="calc-label" style="margin:0;">Bar Hours</span>
+        <span class="calc-value-badge" id="calcHoursBadge">4 Hours</span>
+      </div>
+      <input type="range" min="1" max="12" step="1" value="4"
+        id="calcHours" class="calc-slider"
+        oninput="updateCalc()">
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#9A8D7C;text-transform:uppercase;font-weight:600;margin-top:6px;">
+        <span>1 Hr</span><span>12 Hrs</span>
+      </div>
+    </div>
+
+    <div class="calc-section">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#3D3220;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #e5ddd5;">
+        Alcohol Ratio Split
+      </div>
+      <div class="ratio-row">
+        <span style="font-size:12px;font-weight:700;color:#2F2A24;">🍷 Wine</span>
+        <span class="ratio-badge" id="wineRatioBadge">25%</span>
+      </div>
+      <input type="range" min="0" max="100" value="25" id="wineRatio"
+        class="calc-slider" style="margin-bottom:12px;" oninput="updateCalc()">
+
+      <div class="ratio-row">
+        <span style="font-size:12px;font-weight:700;color:#2F2A24;">🍺 Beer & Seltzer</span>
+        <span class="ratio-badge" id="beerRatioBadge">25%</span>
+      </div>
+      <input type="range" min="0" max="100" value="25" id="beerRatio"
+        class="calc-slider" style="margin-bottom:12px;" oninput="updateCalc()">
+
+      <div class="ratio-row">
+        <span style="font-size:12px;font-weight:700;color:#2F2A24;">🥃 Liquor</span>
+        <span class="ratio-badge" id="liquorRatioBadge">50%</span>
+      </div>
+      <input type="range" min="0" max="100" value="50" id="liquorRatio"
+        class="calc-slider" oninput="updateCalc()">
+
+      <div id="ratioWarning" class="ratio-warning" style="display:none;">
+        ⚠ Ratios currently add up to <strong id="ratioTotal">100</strong>%. Best accuracy at exactly 100%.
+      </div>
+    </div>
+
+    <div class="calc-results" id="calcResults"></div>
+
+
+
+    <!-- ── Standard Pour & Bottle Reference Sheet ── -->
+    <div style="margin-top:24px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #e5ddd5;">
+        <span style="color:#E06D20;font-size:16px;">🍷</span>
+        <span style="font-family:Georgia,serif;font-size:15px;font-weight:600;color:#3D3220;letter-spacing:0.03em;">Standard Pour & Bottle Reference Sheet</span>
+      </div>
+
+      <!-- Wine & Champagne -->
+      <div class="calc-section" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #f0e8e0;">
+          <span style="color:#E06D20;">🍷</span>
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#E06D20;">Wine & Champagne</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Wine Standard Pour</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">5oz</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">750ml Wine Bottle</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">5 Glasses</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Sparkling Standard Pour</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">4oz</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">750ml Champagne Bottle</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">6 Glasses</span>
+        </div>
+      </div>
+
+      <!-- Liquor Pours -->
+      <div class="calc-section" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #f0e8e0;">
+          <span style="color:#E06D20;">🥃</span>
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#E06D20;">Liquor Pours</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Liquor Standard Pour</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">1.5oz / Shot</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">750ml Bottle</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">17 Shots</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">1 Liter Bottle</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">22 Shots</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">1.75L Bottle (Handle)</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">40 Shots</span>
+        </div>
+      </div>
+
+      <!-- Special Mixed Drinks -->
+      <div class="calc-section" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #f0e8e0;">
+          <span style="color:#E06D20;">🍊</span>
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#E06D20;">Special Mixed Drinks</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Old Fashioneds (750ml)</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">12.5 Servings</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f5f0ea;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Aperol (750ml)</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">12.5 Servings</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;">
+          <span style="font-size:13px;color:#2F2A24;font-weight:500;">Mr Blacks (Espresso Martini)</span>
+          <span style="font-family:Georgia,serif;font-size:13px;font-weight:700;color:#E06D20;">25 Ounces</span>
+        </div>
+      </div>
+
+      <!-- Tip Banner -->
+      <div style="background:#fff8f0;border:1px solid #f5d9b8;border-radius:12px;padding:14px 16px;font-size:12px;color:#5c4d47;line-height:1.6;margin-bottom:16px;">
+        <span style="font-weight:700;color:#E06D20;">Operational Coordinator Tip:</span> While 1.75L handles are economically dynamic, professional bartenders recommend 750ml or 1L sizes as they align perfectly with high-speed speed rail pours and fit standard spouts.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PLANNER DRAWER (self-contained) ══ -->
+<div id="drawer-planner" class="pf-drawer">
+  <div class="pf-drawer-head">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pf-drawer-head-dot" style="background:#C5A059;"></div>
+      <span>Beverage Planner</span>
+    </div>
+    <button class="pf-close-btn" onclick="closeDrawer()">&times;</button>
+  </div>
+  <div class="pf-drawer-body" id="plannerBody">
+    <!-- populated by JS -->
+  </div>
+</div>
+
 <script>
+/* ════════════════════════════════════
+   CALCULATOR LOGIC
+════════════════════════════════════ */
+function updateCalc() {
+  const guests   = parseInt(document.getElementById('calcGuests').value);
+  const hours    = parseInt(document.getElementById('calcHours').value);
+  const wineR    = parseInt(document.getElementById('wineRatio').value);
+  const beerR    = parseInt(document.getElementById('beerRatio').value);
+  const liquorR  = parseInt(document.getElementById('liquorRatio').value);
+  const total    = wineR + beerR + liquorR;
+
+  document.getElementById('calcGuestBadge').textContent   = guests + ' Guests';
+  document.getElementById('calcHoursBadge').textContent   = hours + ' Hours';
+  document.getElementById('wineRatioBadge').textContent   = wineR + '%';
+  document.getElementById('beerRatioBadge').textContent   = beerR + '%';
+  document.getElementById('liquorRatioBadge').textContent = liquorR + '%';
+
+  const warn = document.getElementById('ratioWarning');
+  if (total !== 100) {
+    warn.style.display = 'flex';
+    document.getElementById('ratioTotal').textContent = total;
+  } else {
+    warn.style.display = 'none';
+  }
+
+  const totalDrinks = guests * (hours + 1);
+  const wines       = Math.ceil((totalDrinks * (wineR/100)) / 5);
+  const beers       = Math.ceil(totalDrinks * (beerR/100));
+  const liq750      = Math.ceil((totalDrinks * (liquorR/100)) / 17);
+  const liq1L       = Math.ceil((totalDrinks * (liquorR/100)) / 22);
+  const liq175      = Math.ceil((totalDrinks * (liquorR/100)) / 40);
+
+  document.getElementById('calcResults').innerHTML = `
+    <div class="calc-card">
+      <div class="calc-card-label">Total Drinks</div>
+      <div class="calc-card-num">${totalDrinks}</div>
+      <div class="calc-card-unit">estimated units</div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-card-label">Wine</div>
+      <div class="calc-card-num">${wines}</div>
+      <div class="calc-card-unit">750ml bottles</div>
+      <div class="calc-card-sub">5oz pours</div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-card-label">Beer & Seltzer</div>
+      <div class="calc-card-num">${beers}</div>
+      <div class="calc-card-unit">cans / bottles</div>
+    </div>
+    <div class="calc-card" style="background:#1e1f24;border-color:#333;">
+      <div class="calc-card-label" style="color:#FFA51E;">Liquor · 750ml</div>
+      <div class="calc-card-num" style="color:#FFA51E;">${liq750}</div>
+      <div class="calc-card-unit" style="color:#9ca3af;">bottles</div>
+    </div>
+    <div class="calc-card" style="background:#1e1f24;border-color:#333;">
+      <div class="calc-card-label" style="color:#FFA51E;">Liquor · 1 Liter</div>
+      <div class="calc-card-num" style="color:#FFA51E;">${liq1L}</div>
+      <div class="calc-card-unit" style="color:#9ca3af;">bottles</div>
+    </div>
+    <div class="calc-card" style="background:#1e1f24;border-color:#333;">
+      <div class="calc-card-label" style="color:#FFA51E;">Liquor · 1.75L</div>
+      <div class="calc-card-num" style="color:#FFA51E;">${liq175}</div>
+      <div class="calc-card-unit" style="color:#9ca3af;">handles</div>
+    </div>
+    <div class="calc-summary-bar">
+      <strong>${guests} guests · ${hours} bar hours · ~${totalDrinks} drinks</strong><br>
+      Spec's returns accepted 30 days after your event. Standard calculations assume 1.5oz liquor, 5oz wine pours.
+    </div>
+  `;
+}
+updateCalc();
+
+/* ════════════════════════════════════
+   PLANNER LOGIC
+════════════════════════════════════ */
+const tiers = [
+  { id:'beer-wine',  name:'Beer & Wine Only',    min:12, max:15, cls:'Budget-Friendly' },
+  { id:'standard',   name:'Standard Full Bar',   min:18, max:23, cls:'Premium Selection' },
+  { id:'premium',    name:'Premium Experience',  min:30, max:55, cls:'Ultra-Premium' }
+];
+
+let plannerStep = 1;
+let selectedTier = null;
+let plannerGuests = 100;
+
+function renderPlanner() {
+  const body = document.getElementById('plannerBody');
+  if (plannerStep === 1) {
+    body.innerHTML = `
+      <div class="step-indicator">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="section-divider">Step 1 — Select Package Tier</div>
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="calc-label" style="margin:0;">Guest Count</span>
+          <span class="calc-value-badge" id="plannerGuestBadge">${plannerGuests} Guests</span>
+        </div>
+        <input type="range" min="20" max="500" step="5" value="${plannerGuests}"
+          class="calc-slider" oninput="plannerGuests=parseInt(this.value);document.getElementById('plannerGuestBadge').textContent=plannerGuests+' Guests';renderTierPrices();">
+      </div>
+      <div class="tier-grid" id="tierGrid"></div>
+      <button class="planner-submit-btn" onclick="plannerStep=2;renderPlanner();"
+        ${!selectedTier?'disabled':''} id="tierNextBtn">
+        Continue to Event Details →
+      </button>
+    `;
+    renderTierCards();
+  } else if (plannerStep === 2) {
+    body.innerHTML = `
+      <div class="step-indicator">
+        <div class="step-dot done"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="section-divider">Step 2 — Event Details</div>
+      <div class="planner-field">
+        <label>Full Name *</label>
+        <input type="text" id="pf_name" placeholder="Your full name">
+      </div>
+      <div class="planner-field-row">
+        <div class="planner-field">
+          <label>Email *</label>
+          <input type="email" id="pf_email" placeholder="you@example.com">
+        </div>
+        <div class="planner-field">
+          <label>Phone *</label>
+          <input type="tel" id="pf_phone" placeholder="(512) 000-0000">
+        </div>
+      </div>
+      <div class="planner-field-row">
+        <div class="planner-field">
+          <label>Event Date *</label>
+          <input type="date" id="pf_date">
+        </div>
+        <div class="planner-field">
+          <label>Duration</label>
+          <select id="pf_duration">
+            <option>3 Hours</option>
+            <option selected>4 Hours</option>
+            <option>5 Hours</option>
+            <option>6 Hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="planner-field">
+        <label>Venue & City *</label>
+        <input type="text" id="pf_venue" placeholder="Venue name and city">
+      </div>
+      <div class="planner-field-row">
+        <div class="planner-field">
+          <label>Bar Opens</label>
+          <input type="text" id="pf_baropen" placeholder="e.g. 5:00 PM">
+        </div>
+        <div class="planner-field">
+          <label>Bar Closes</label>
+          <input type="text" id="pf_barclose" placeholder="e.g. 10:00 PM">
+        </div>
+      </div>
+      <div class="planner-field">
+        <label>Special Requests & Preferred Brands</label>
+        <textarea id="pf_requests" rows="3" placeholder="Specific wines, spirits, signature cocktails..."></textarea>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="planner-submit-btn" style="background:#5c4d47;flex:0 0 auto;width:auto;padding:14px 20px;"
+          onclick="plannerStep=1;renderPlanner();">← Back</button>
+        <button class="planner-submit-btn" onclick="submitPlanner();">
+          Submit Estimate Request
+        </button>
+      </div>
+    `;
+  } else if (plannerStep === 3) {
+    const tier = tiers.find(t=>t.id===selectedTier);
+    body.innerHTML = `
+      <div class="planner-success">
+        <div class="planner-success-icon">🌸</div>
+        <h2 style="font-family:Georgia,serif;font-size:22px;color:#222520;margin-bottom:10px;">
+          Proposal Submitted!
+        </h2>
+        <p style="font-size:13px;color:#5c4d47;line-height:1.7;max-width:340px;margin:0 auto 20px;">
+          Thank you! Your <strong>${tier?tier.name:''}</strong> estimate request has been received.
+          Trevor will be in touch within 2–4 business hours with your custom beverage proposal.
+        </p>
+        <div style="background:#fff;border:1px solid #e5ddd5;border-radius:14px;padding:16px;text-align:left;font-size:12px;color:#5c4d47;line-height:1.8;margin-bottom:24px;">
+          <strong style="color:#E06D20;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;">What happens next</strong><br>
+          1. Custom menu draft built for your date & venue<br>
+          2. Elegant Excel estimate sent within 2–4 hours<br>
+          3. Coordination call to finalize delivery & payment
+        </div>
+        <button class="planner-submit-btn" style="max-width:240px;margin:0 auto;"
+          onclick="plannerStep=1;selectedTier=null;renderPlanner();">
+          Plan Another Event
+        </button>
+      </div>
+    `;
+  }
+}
+
+function renderTierCards() {
+  const grid = document.getElementById('tierGrid');
+  if (!grid) return;
+  grid.innerHTML = tiers.map(t => `
+    <div class="tier-card ${selectedTier===t.id?'selected':''}"
+      onclick="selectTier('${t.id}')">
+      <div class="tier-card-check">${selectedTier===t.id?'✓':''}</div>
+      <div class="tier-card-class">${t.cls}</div>
+      <div class="tier-card-name">${t.name}</div>
+      <div class="tier-card-price">$${t.min}–$${t.max} <span style="font-size:11px;color:#7E6E5A;font-family:'Jost',sans-serif;">/ guest</span></div>
+      <div style="font-size:10px;color:#9A8D7C;margin-top:4px;">
+        Est. total: $${(plannerGuests*t.min).toLocaleString()}–$${(plannerGuests*t.max).toLocaleString()}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTierPrices() {
+  renderTierCards();
+}
+
+function selectTier(id) {
+  selectedTier = id;
+  renderTierCards();
+  const btn = document.getElementById('tierNextBtn');
+  if (btn) btn.disabled = false;
+}
+
+function submitPlanner() {
+  const name  = document.getElementById('pf_name')?.value?.trim();
+  const email = document.getElementById('pf_email')?.value?.trim();
+  const phone = document.getElementById('pf_phone')?.value?.trim();
+  const date  = document.getElementById('pf_date')?.value;
+  const venue = document.getElementById('pf_venue')?.value?.trim();
+
+  if (!name || !email || !phone || !date || !venue) {
+    alert('Please fill in all required fields (Name, Email, Phone, Date, Venue).');
+    return;
+  }
+
+  const tier = tiers.find(t => t.id === selectedTier);
+  const duration  = document.getElementById('pf_duration')?.value || '4 Hours';
+  const barOpen   = document.getElementById('pf_baropen')?.value || '';
+  const barClose  = document.getElementById('pf_barclose')?.value || '';
+  const requests  = document.getElementById('pf_requests')?.value || '';
+
+  // Submit via EmailJS if available
+  if (typeof emailjs !== 'undefined' && EMAILJS_ACTIVE) {
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_name:    name,
+      from_email:   email,
+      phone:        phone,
+      event_date:   date,
+      venue:        venue,
+      guests:       plannerGuests,
+      duration:     duration,
+      bar_open:     barOpen,
+      bar_close:    barClose,
+      tier:         tier ? tier.name : '',
+      requests:     requests,
+      message:      `Planner submission — ${tier?.name} — ${plannerGuests} guests`
+    }).catch(err => console.warn('EmailJS error:', err));
+  }
+
+  plannerStep = 3;
+  renderPlanner();
+}
+
+renderPlanner();
+
+/* ════════════════════════════════════
+   DRAWER OPEN / CLOSE
+════════════════════════════════════ */
 const APP_URL = 'https://pathfinder-events.netlify.app';
-
-const drawers = {
-  chat:    { drawer: 'drawer-chat',    iframe: 'iframe-chat',    tab: 'chat'    },
-  calc:    { drawer: 'drawer-calc',    iframe: 'iframe-calc',    tab: 'calc'    },
-  planner: { drawer: 'drawer-planner', iframe: 'iframe-planner', tab: 'planner' }
-};
-
-let currentDrawer = null;
 
 function openDrawer(key) {
   closeDrawer(false);
-  const { drawer, iframe, tab } = drawers[key];
-  const iframeEl = document.getElementById(iframe);
-
-  // Load the app if not already loaded
-  if (!iframeEl.src || iframeEl.src === 'about:blank') {
-    iframeEl.src = APP_URL;
+  if (key === 'chat') {
+    const iframeEl = document.getElementById('iframe-chat');
+    if (!iframeEl.src || iframeEl.src === 'about:blank') {
+      iframeEl.src = APP_URL + '/?tab=chat';
+    }
   }
-
-  // Send postMessage to switch tab once iframe is ready
-  const sendTab = () => {
-    iframeEl.contentWindow.postMessage({ tab: tab }, APP_URL);
-  };
-
-  // Try immediately and also on load in case it's still loading
-  try { sendTab(); } catch(e) {}
-  iframeEl.onload = () => {
-    setTimeout(() => sendTab(), 300);
-  };
-
   document.getElementById('drawer-backdrop').style.display = 'block';
-  document.getElementById(drawer).style.transform = 'translateX(0)';
+  document.getElementById('drawer-' + key).style.transform = 'translateX(0)';
   document.body.style.overflow = 'hidden';
-  currentDrawer = drawer;
 }
 
 function closeDrawer(resetOverflow = true) {
-  document.querySelectorAll('[id^="drawer-"]').forEach(el => {
-    if (el.id !== 'drawer-backdrop') {
-      el.style.transform = 'translateX(-100%)';
-    }
+  document.querySelectorAll('.pf-drawer').forEach(el => {
+    el.style.transform = 'translateX(-100%)';
   });
   document.getElementById('drawer-backdrop').style.display = 'none';
   if (resetOverflow) document.body.style.overflow = '';
-  currentDrawer = null;
 }
 
 /* ── Wire the three buttons ── */
 document.getElementById('btnCalculator').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openDrawer('calc');
+  e.stopPropagation(); openDrawer('calc');
 });
-
 document.getElementById('btnPlanner').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openDrawer('planner');
+  e.stopPropagation(); openDrawer('planner');
 });
-
 document.getElementById('compassBtn').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openDrawer('chat');
+  e.stopPropagation(); openDrawer('chat');
 });
 
 /* ── Compass image fallback ── */
@@ -2585,7 +3080,7 @@ document.querySelector('.compass-img').onerror = function () {
     'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
 };
 
-/* ── Close on Escape key ── */
+/* ── Close on Escape ── */
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeDrawer();
 });
