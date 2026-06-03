@@ -2426,7 +2426,7 @@
   transform:translateX(-100%);
   transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
   box-shadow:6px 0 50px rgba(0,0,0,0.28);
-  display:flex; flex-direction:column; overflow:hidden;
+  display:flex; flex-direction:column; overflow:hidden; touch-action:auto; -webkit-overflow-scrolling:touch;
   background:#FAF9F6;
 }
 .pf-drawer-head {
@@ -2452,6 +2452,11 @@
 .pf-drawer-body {
   flex:1; overflow-y:auto; padding:24px 22px;
   font-family:'Jost',sans-serif;
+}
+  .pf-drawer iframe {
+  touch-action: auto;
+  pointer-events: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Calculator styles ── */
