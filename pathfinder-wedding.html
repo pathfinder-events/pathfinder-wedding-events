@@ -1856,6 +1856,11 @@
      PATHFINDER COMPASS HUB
      ═══════════════════════════════════════════════════ -->
 <div class="compass-hub" id="compassHub">
+  <!-- Move up/down button -->
+<button id="compassMoveBtn" onclick="moveCompassHub()" 
+  style="position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);border:none;color:white;border-radius:20px;padding:4px 12px;font-size:16px;cursor:pointer;z-index:10000;touch-action:manipulation;">
+  ↑↓
+</button>
 
   <!-- ══════════════════════════════════════════════
        CALCULATOR ICON
@@ -3156,6 +3161,32 @@ hub.addEventListener('touchstart', startDrag, { passive: false });
   document.addEventListener('mouseup', endDrag);
   document.addEventListener('touchend', endDrag);
 })();
+  var compassMovingUp = true;
+function moveCompassHub() {
+  const hub = document.getElementById('compassHub');
+  const current = parseInt(hub.style.bottom) || 36;
+  const viewH = window.innerHeight;
+  const hubH = hub.offsetHeight;
+  const maxBottom = viewH - hubH - 20;
+  if (compassMovingUp) {
+    const newBottom = Math.min(maxBottom, current + 80);
+    hub.style.bottom = newBottom + 'px';
+    hub.style.top = 'auto';
+    localStorage.setItem('compassBottom', newBottom);
+    if (newBottom >= maxBottom) compassMovingUp = false;
+  } else {
+    const newBottom = Math.max(20, current - 80);
+    hub.style.bottom = newBottom + 'px';
+    hub.style.top = 'auto';
+    localStorage.setItem('compassBottom', newBottom);
+    if (newBottom <= 20) compassMovingUp = true;
+  }
+}
+const savedPos = localStorage.getItem('compassBottom');
+if (savedPos) {
+  const hub = document.getElementById('compassHub');
+  if (hub) { hub.style.bottom = savedPos + 'px'; hub.style.top = 'auto'; }
+}
 </script>
 
 </body>
