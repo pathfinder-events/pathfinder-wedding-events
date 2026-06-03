@@ -3095,6 +3095,64 @@ document.querySelector('.compass-img').onerror = function () {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeDrawer();
 });
+  /* — Vertical drag for compass hub — */
+(function() {
+  const hub = document.querySelector('.compass-hub');
+  if (!hub) return;
+
+  let isDragging = false;
+  let startY = 0;
+  let startBottom = 0;
+
+  function getBottom() {
+    const rect = hub.getBoundingClientRect();
+    return window.innerHeight - rect.bottom;
+  }
+
+  function startDrag(e) {
+    const target = e.target.closest('.compass-btn');
+    if (!target) return;
+    isDragging = true;
+    startY = e.touches ? e.touches[0].clientY : e.clientY;
+    startBottom = getBottom();
+    hub.style.transition = 'none';
+    e.preventDefault();
+  }
+
+  function onDrag(e) {
+    if (!isDragging) return;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const deltaY = startY - clientY;
+    const newBottom = Math.min(
+      window.innerHeight - hub.offsetHeight - 10,
+      Math.max(10, startBottom + deltaY)
+    );
+    hub.style.bottom = newBottom + 'px';
+    hub.style.top = 'auto';
+    localStorage.setItem('compassBottom', newBottom);
+    e.preventDefault();
+  }
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+    hub.style.transition = '';
+  }
+
+  // Restore saved position
+  const saved = localStorage.getItem('compassBottom');
+  if (saved) {
+    hub.style.bottom = saved + 'px';
+    hub.style.top = 'auto';
+  }
+
+  hub.addEventListener('mousedown', startDrag);
+  hub.addEventListener('touchstart', startDrag, { passive: false });
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('touchmove', onDrag, { passive: false });
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+})();
 </script>
 
 </body>
