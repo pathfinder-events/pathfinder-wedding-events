@@ -3110,14 +3110,12 @@ document.addEventListener('keydown', (e) => {
   }
 
   function startDrag(e) {
-    const target = e.target.closest('.compass-btn');
-    if (!target) return;
-    isDragging = true;
-    startY = e.touches ? e.touches[0].clientY : e.clientY;
-    startBottom = getBottom();
-    hub.style.transition = 'none';
-    e.preventDefault();
-  }
+  isDragging = true;
+  startY = e.touches ? e.touches[0].clientY : e.clientY;
+  startBottom = getBottom();
+  hub.style.transition = 'none';
+  e.preventDefault();
+}
 
   function onDrag(e) {
     if (!isDragging) return;
@@ -3146,8 +3144,13 @@ document.addEventListener('keydown', (e) => {
     hub.style.top = 'auto';
   }
 
-  hub.addEventListener('mousedown', startDrag);
-  hub.addEventListener('touchstart', startDrag, { passive: false });
+ const compassBtn = document.getElementById('compassBtn');
+if (compassBtn) {
+  compassBtn.addEventListener('mousedown', startDrag);
+  compassBtn.addEventListener('touchstart', startDrag, { passive: false });
+}
+hub.addEventListener('mousedown', startDrag);
+hub.addEventListener('touchstart', startDrag, { passive: false });
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('touchmove', onDrag, { passive: false });
   document.addEventListener('mouseup', endDrag);
