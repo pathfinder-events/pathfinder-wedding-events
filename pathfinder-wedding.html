@@ -1855,6 +1855,7 @@
 <!-- ═══════════════════════════════════════════════════
      PATHFINDER COMPASS HUB
      ═══════════════════════════════════════════════════ -->
+<div class="compass-hub" id="compassHub">
 
   <!-- ══════════════════════════════════════════════
        CALCULATOR ICON
@@ -2411,7 +2412,6 @@
   </div>
 
 </div>
-  
 <!-- ═══ END COMPASS HUB ════════════════════════════ -->
 
 <!-- ═══ SLIDE-OUT PANELS ════════════════════════════ -->
@@ -2426,7 +2426,7 @@
   transform:translateX(-100%);
   transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
   box-shadow:6px 0 50px rgba(0,0,0,0.28);
-  display:flex; flex-direction:column; overflow:hidden; touch-action:auto; -webkit-overflow-scrolling:touch;
+  display:flex; flex-direction:column; overflow:hidden;
   background:#FAF9F6;
 }
 .pf-drawer-head {
@@ -2452,11 +2452,6 @@
 .pf-drawer-body {
   flex:1; overflow-y:auto; padding:24px 22px;
   font-family:'Jost',sans-serif;
-}
-  .pf-drawer iframe {
-  touch-action: auto;
-  pointer-events: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ── Calculator styles ── */
@@ -2603,7 +2598,7 @@
     <button class="pf-close-btn" onclick="closeDrawer()">&times;</button>
   </div>
   <iframe id="iframe-chat" src="about:blank"
-    style="flex:1;border:none;width:100%;height:100%;touch-action:auto;-webkit-overflow-scrolling:touch;">
+    style="flex:1;border:none;width:100%;" allow="clipboard-write">
   </iframe>
 </div>
 
@@ -3095,93 +3090,6 @@ document.querySelector('.compass-img').onerror = function () {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeDrawer();
 });
-  /* — Vertical drag for compass hub — */
-(function() {
-  const hub = document.querySelector('.compass-hub');
-  if (!hub) return;
-
-  let isDragging = false;
-  let startY = 0;
-  let startBottom = 0;
-
-  function getBottom() {
-    const rect = hub.getBoundingClientRect();
-    return window.innerHeight - rect.bottom;
-  }
-
-  function startDrag(e) {
-  isDragging = true;
-  startY = e.touches ? e.touches[0].clientY : e.clientY;
-  startBottom = getBottom();
-  hub.style.transition = 'none';
-  e.preventDefault();
-}
-
-  function onDrag(e) {
-    if (!isDragging) return;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    const deltaY = startY - clientY;
-    const newBottom = Math.min(
-      window.innerHeight - hub.offsetHeight - 10,
-      Math.max(10, startBottom + deltaY)
-    );
-    hub.style.bottom = newBottom + 'px';
-    hub.style.top = 'auto';
-    localStorage.setItem('compassBottom', newBottom);
-    e.preventDefault();
-  }
-
-  function endDrag() {
-    if (!isDragging) return;
-    isDragging = false;
-    hub.style.transition = '';
-  }
-
-  // Restore saved position
-  const saved = localStorage.getItem('compassBottom');
-  if (saved) {
-    hub.style.bottom = saved + 'px';
-    hub.style.top = 'auto';
-  }
-
- const compassBtn = document.getElementById('compassBtn');
-if (compassBtn) {
-  compassBtn.addEventListener('mousedown', startDrag);
-  compassBtn.addEventListener('touchstart', startDrag, { passive: false });
-}
-hub.addEventListener('mousedown', startDrag);
-hub.addEventListener('touchstart', startDrag, { passive: false });
-  document.addEventListener('mousemove', onDrag);
-  document.addEventListener('touchmove', onDrag, { passive: false });
-  document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchend', endDrag);
-})();
-  var compassMovingUp = true;
-function moveCompassHub() {
-  const hub = document.getElementById('compassHub');
-  const current = parseInt(hub.style.bottom) || 36;
-  const viewH = window.innerHeight;
-  const hubH = hub.offsetHeight;
-  const maxBottom = viewH - hubH - 20;
-  if (compassMovingUp) {
-    const newBottom = Math.min(maxBottom, current + 80);
-    hub.style.bottom = newBottom + 'px';
-    hub.style.top = 'auto';
-    localStorage.setItem('compassBottom', newBottom);
-    if (newBottom >= maxBottom) compassMovingUp = false;
-  } else {
-    const newBottom = Math.max(20, current - 80);
-    hub.style.bottom = newBottom + 'px';
-    hub.style.top = 'auto';
-    localStorage.setItem('compassBottom', newBottom);
-    if (newBottom <= 20) compassMovingUp = true;
-  }
-}
-const savedPos = localStorage.getItem('compassBottom');
-if (savedPos) {
-  const hub = document.getElementById('compassHub');
-  if (hub) { hub.style.bottom = savedPos + 'px'; hub.style.top = 'auto'; }
-}
 </script>
 
 </body>
