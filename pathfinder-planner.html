@@ -409,6 +409,22 @@
   <div class="np-spacer"></div>
 
   <!-- ═══════════════════════════════════════
+       CALCULATOR INFO BAR
+       ═══════════════════════════════════════ -->
+  <div class="planner-panel" id="calcInfoBar" style="display:none;padding:14px 16px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#4a7c59;flex-shrink:0;"></div>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:#7a5e16;letter-spacing:0.06em;text-transform:uppercase;">Event Snapshot</span>
+    </div>
+    <div id="calcInfoTop" style="display:flex;flex-wrap:wrap;gap:14px;font-family:'Cormorant Garamond',serif;font-size:14px;color:#5a4a30;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(184,134,11,0.15);">
+    </div>
+    <div id="calcInfoVolumes" style="display:flex;flex-wrap:wrap;gap:10px;font-family:'Cormorant Garamond',serif;font-size:13px;color:#5a4a30;">
+    </div>
+  </div>
+
+  <div class="np-spacer"></div>
+
+  <!-- ═══════════════════════════════════════
        SECTION 2: BEVERAGE NOTEPAD
        ═══════════════════════════════════════ -->
   <div class="planner-panel" id="notepadPanel">
@@ -732,6 +748,23 @@ window.addEventListener('message', function(e) {
     var line = '🍷 ' + (d.category ? d.category + ': ' : '') + d.product;
     if (d.note) line += ' — ' + d.note;
     appendToNotepad(line);
+  }
+
+  if (d.type === 'calculator-update') {
+    var bar = document.getElementById('calcInfoBar');
+    var top = document.getElementById('calcInfoTop');
+    var volumes = document.getElementById('calcInfoVolumes');
+    if (bar && top && volumes) {
+      bar.style.display = 'block';
+      top.innerHTML = 
+        '<span>👥 <strong>' + d.guests + '</strong> Guests</span>' +
+        '<span>🕐 <strong>' + d.hours + '</strong> Hours</span>' +
+        '<span>🍹 <strong>' + d.totalDrinks + '</strong> Total Drinks</span>';
+      volumes.innerHTML = 
+        '<span style="background:rgba(184,134,11,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(184,134,11,0.15)">🍷 Wine ' + d.wine + ' — <strong>' + d.wineBottles + '</strong> bottles</span>' +
+        '<span style="background:rgba(184,134,11,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(184,134,11,0.15)">🍺 Beer ' + d.beer + ' — <strong>' + d.beerCans + '</strong> cans</span>' +
+        '<span style="background:rgba(184,134,11,0.08);padding:4px 10px;border-radius:6px;border:1px solid rgba(184,134,11,0.15)">🥃 Spirits ' + d.liquor + ' — <strong>' + d.liq750 + '</strong> (750ml) · <strong>' + d.liq1L + '</strong> (1L) · <strong>' + d.liq175 + '</strong> (1.75L)</span>';
+    }
   }
 
   if (d.type === 'event-info') {
