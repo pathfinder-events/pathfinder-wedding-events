@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathfinder Beverage Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   PATHFINDER BEVERAGE PLANNER
+   Combined Timeline + Notepad Widget
+   ═══════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+.planner-container {
+  font-family: 'Jost', sans-serif;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ─── SHARED TEXTURE ─────────────────────── */
+.planner-panel {
+  background: linear-gradient(160deg, #f5ecd8 0%, #faf6ee 40%, #f0e8d4 100%);
+  border: 2px solid #7a5e16;
+  border-radius: 14px;
+  padding: 22px 16px 20px;
+  box-shadow: inset 0 0 0 1px rgba(212,168,48,0.2), inset 0 1px 3px rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.planner-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+/* ─── SECTION HEADERS ────────────────────── */
+.planner-header {
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.planner-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #7a5e16;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.planner-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  font-style: italic;
+  color: #8a7a55;
+  margin: 4px 0 0;
+}
+
+.planner-rule {
+  display: block;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #b8860b, transparent);
+  width: 55%;
+  margin: 8px auto 0;
+}
+
+/* ═══════════════════════════════════════════
+   TIMELINE SECTION
+   ═══════════════════════════════════════════ */
+.tl-track {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  margin: 0 4px;
+}
+
+.tl-segment {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding-top: 4px;
+  transition: transform 0.2s;
+}
+
+.tl-segment:hover { transform: translateY(-2px); }
+
+.tl-icon-wrap {
+  width: 52px;
+  height: 52px;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all 0.35s ease;
+}
+
+.tl-segment.active .tl-icon-wrap {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px rgba(74,124,89,0.5));
+}
+
+.tl-segment.filled .tl-icon-wrap {
+  filter: drop-shadow(0 0 4px rgba(184,134,11,0.4));
+}
+
+.tl-connector-line {
+  position: absolute;
+  top: 30px;
+  left: calc(50% + 26px);
+  right: calc(-50% + 26px);
+  height: 3px;
+  z-index: 1;
+}
+
+.tl-conn-bg {
+  height: 100%;
+  background: #d8ccab;
+  border-radius: 1.5px;
+  position: absolute;
+  inset: 0;
+}
+
+.tl-conn-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #b8860b, #d4a830);
+  border-radius: 1.5px;
+  transition: width 0.6s ease;
+  position: relative;
+}
+
+.tl-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #5a4a30;
+  text-align: center;
+  margin-top: 5px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.tl-segment.filled .tl-label { color: #7a5e16; font-weight: 600; }
+.tl-segment.active .tl-label { color: #3a6648; font-weight: 600; }
+
+/* ─── TIMELINE DETAIL BOX ────────────────── */
+.tl-detail {
+  margin-top: 16px;
+  background: rgba(245,236,216,0.7);
+  border: 1px solid rgba(184,134,11,0.25);
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-height: 52px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.tl-detail-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7a5e16;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tl-detail-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #b8860b; flex-shrink: 0;
+}
+
+.tl-detail-notes {
+  font-size: 13px;
+  color: #5a4a30;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.5;
+}
+
+.tl-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.tl-input {
+  flex: 1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  border: 1px solid rgba(184,134,11,0.35);
+  background: #faf6ee;
+  color: #2c1f0e;
+  padding: 6px 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+.tl-input:focus { border-color: #b8860b; box-shadow: 0 0 0 2px rgba(184,134,11,0.15); }
+
+/* ─── TIMELINE PROGRESS ──────────────────── */
+.tl-progress-bar {
+  margin-top: 14px;
+  height: 3px;
+  background: #d8ccab;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.tl-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #7a5e16, #d4a830);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.tl-progress-label {
+  font-size: 10px;
+  color: #5a4a30;
+  text-align: right;
+  margin-top: 3px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   NOTEPAD SECTION
+   ═══════════════════════════════════════════ */
+.np-spacer { height: 16px; }
+
+.np-page {
+  position: relative;
+  z-index: 1;
+  background: #fdfaf2;
+  border: 1px solid rgba(184,134,11,0.2);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+
+.np-margin-line {
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(201,125,125,0.25);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.np-page-inner {
+  position: relative;
+  padding: 14px 16px 14px 48px;
+  min-height: 500px;
+}
+
+.np-textarea {
+  width: 100%;
+  min-height: 500px;
+  border: none;
+  background: transparent;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  color: #2c1f0e;
+  line-height: 28px;
+  resize: vertical;
+  outline: none;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(184,134,11,0.1) 27px,
+    rgba(184,134,11,0.1) 28px
+  );
+  box-sizing: border-box;
+}
+
+.np-textarea::placeholder {
+  color: rgba(184,155,100,0.5);
+  font-style: italic;
+}
+
+/* ─── FOOTER / ACTIONS ───────────────────── */
+.np-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.np-char-count {
+  font-size: 10px;
+  color: #8a7a55;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+.np-actions { display: flex; gap: 8px; }
+
+.planner-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.planner-btn-outline {
+  color: #7a5e16;
+  border: 1px solid #7a5e16;
+  background: transparent;
+}
+.planner-btn-outline:hover { background: rgba(184,134,11,0.1); }
+
+.planner-btn-fill {
+  color: #faf6ee;
+  border: none;
+  background: linear-gradient(135deg, #7a5e16, #b8860b);
+}
+.planner-btn-fill:hover { background: linear-gradient(135deg, #b8860b, #d4a830); }
+
+.save-msg {
+  font-size: 11px;
+  color: #4a7c59;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.save-msg.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="planner-container">
+
+  <!-- ═══════════════════════════════════════
+       SECTION 1: WEDDING DAY TIMELINE
+       ═══════════════════════════════════════ -->
+  <div class="planner-panel" id="timelinePanel">
+    <div class="planner-header">
+      <p class="planner-title">Wedding Day Timeline</p>
+      <span class="planner-rule"></span>
+    </div>
+
+    <div class="tl-track" id="tlTrack"></div>
+
+    <div class="tl-progress-bar">
+      <div class="tl-progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="tl-progress-label" id="progressLabel">0 of 8 segments noted</div>
+
+    <div class="tl-detail" id="tlDetail">
+      <div class="tl-detail-title">
+        <span class="tl-detail-dot" id="detailDot"></span>
+        <span id="detailTitle">Select a moment to add notes</span>
+      </div>
+      <div class="tl-detail-notes" id="detailNotes" style="color:#aaa">Tap any instrument above to log beverages, timing, and special requests.</div>
+      <div class="tl-input-row" id="inputRow" style="display:none">
+        <input class="tl-input" id="noteInput" placeholder="e.g. Champagne toast at 7:30 PM..." />
+        <button class="planner-btn planner-btn-fill" onclick="saveNote()">Log</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SPACER
+       ═══════════════════════════════════════ -->
+  <div class="np-spacer"></div>
+
+  <!-- ═══════════════════════════════════════
+       SECTION 2: BEVERAGE NOTEPAD
+       ═══════════════════════════════════════ -->
+  <div class="planner-panel" id="notepadPanel">
+    <div class="planner-header">
+      <p class="planner-title">Beverage Planner</p>
+      <p class="planner-subtitle">Gather your ideas, wishes, and inspirations here</p>
+      <span class="planner-rule"></span>
+    </div>
+
+    <div class="np-page">
+      <div class="np-margin-line"></div>
+      <div class="np-page-inner">
+        <textarea class="np-textarea" id="notepad" placeholder="Start jotting down ideas...
+
+When's the big day, and what time does it all kick off?
+
+How many guests are we pouring for?
+
+How long do you want the bar open — start to last call?
+
+What kind of feel are you going for — elegant, relaxed, or somewhere in between?
+
+Any wines you love? Reds, whites, bubbles?
+
+Beers or seltzers — and how many options?
+
+Spirits or cocktails your crowd goes for?
+
+Anything non-alcoholic worth featuring?
+
+Got a signature cocktail in mind, or a family recipe worth sharing?
+
+Something in hand the moment guests arrive?
+
+How are you seeing the toast — classic champagne or something unexpected?
+
+Anything you definitely don't want? Allergies or hard passes?
+
+Any other thoughts — budget, venue rules, special moments?
+
+This is your space — think out loud."></textarea>
+      </div>
+    </div>
+
+    <div class="np-footer">
+      <span class="np-char-count" id="charCount"></span>
+      <div class="np-actions">
+        <button class="planner-btn planner-btn-outline" onclick="clearNotes()">&#x2715; Clear</button>
+        <button class="planner-btn planner-btn-outline" onclick="printNotes()">&#x2399; Print</button>
+        <button class="planner-btn planner-btn-fill" onclick="savePlanner()">&#x2713; Save</button>
+        <span class="save-msg" id="saveMsg"></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+/* ─── TIMELINE ICON BUILDER ──────────────── */
+function makeIcon(type, state) {
+  var brassRim = '#8a6d1b';
+  var brassFill = state === 'filled' ? '#b8860b' : state === 'active' ? '#4a7c59' : '#c4b07a';
+  var faceBg = state === 'filled' ? '#2c1f0e' : state === 'active' ? '#1a3322' : '#f5ecd8';
+  var faceStroke = state === 'filled' ? '#d4a830' : state === 'active' ? '#6aab7a' : '#8a6d1b';
+  var tick = state === 'filled' ? '#d4a830' : state === 'active' ? '#8dcfa0' : '#8a6d1b';
+  var accent = state === 'filled' ? '#f0c040' : state === 'active' ? '#a8e4b8' : '#b8860b';
+  var verdigris = '#4a7c59';
+
+  var icons = {
+    arrival: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><circle cx="26" cy="26" r="18" fill="none" stroke="'+tick+'" stroke-width="0.5" opacity="0.4"/><line x1="26" y1="10" x2="26" y2="14" stroke="'+tick+'" stroke-width="1.2" stroke-linecap="round"/><line x1="26" y1="38" x2="26" y2="42" stroke="'+tick+'" stroke-width="1.2" stroke-linecap="round"/><line x1="10" y1="26" x2="14" y2="26" stroke="'+tick+'" stroke-width="1.2" stroke-linecap="round"/><line x1="38" y1="26" x2="42" y2="26" stroke="'+tick+'" stroke-width="1.2" stroke-linecap="round"/><polygon points="26,12 23,27 26,29 29,27" fill="'+accent+'" opacity="0.9"/><polygon points="26,40 23,27 26,25 29,27" fill="'+tick+'" opacity="0.6"/><circle cx="26" cy="26" r="3" fill="'+accent+'" stroke="'+brassRim+'" stroke-width="0.5"/><circle cx="26" cy="26" r="1.2" fill="'+faceBg+'"/><circle cx="11" cy="11" r="2.5" fill="none" stroke="'+verdigris+'" stroke-width="1" opacity="0.5"/><circle cx="41" cy="39" r="2" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.4"/>',
+
+    ceremony: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><circle cx="20" cy="24" r="7" fill="none" stroke="'+accent+'" stroke-width="1.5"/><circle cx="32" cy="24" r="7" fill="none" stroke="'+accent+'" stroke-width="1.5"/><circle cx="20" cy="24" r="5" fill="none" stroke="'+tick+'" stroke-width="0.5" opacity="0.5"/><circle cx="32" cy="24" r="5" fill="none" stroke="'+tick+'" stroke-width="0.5" opacity="0.5"/><path d="M26 18 L26 14 L24 12" fill="none" stroke="'+tick+'" stroke-width="0.8" stroke-linecap="round"/><path d="M26 18 L26 14 L28 12" fill="none" stroke="'+tick+'" stroke-width="0.8" stroke-linecap="round"/><line x1="22" y1="34" x2="30" y2="34" stroke="'+tick+'" stroke-width="0.8" opacity="0.4"/><text x="26" y="37" text-anchor="middle" font-size="5" font-family="Cormorant Garamond,serif" fill="'+tick+'" opacity="0.7">I DO</text><circle cx="40" cy="12" r="1.8" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.5"/>',
+
+    cocktail: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><path d="M18 16 L26 26 L34 16" fill="none" stroke="'+accent+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="18" y1="16" x2="34" y2="16" stroke="'+accent+'" stroke-width="1.5" stroke-linecap="round"/><line x1="26" y1="26" x2="26" y2="34" stroke="'+tick+'" stroke-width="1.2" stroke-linecap="round"/><line x1="21" y1="34" x2="31" y2="34" stroke="'+tick+'" stroke-width="1.5" stroke-linecap="round"/><circle cx="30" cy="14" r="2" fill="'+accent+'" opacity="0.6"/><line x1="30" y1="12" x2="32" y2="10" stroke="'+accent+'" stroke-width="0.6" opacity="0.5"/><path d="M20 20 Q26 23 32 20" fill="'+accent+'" opacity="0.2"/><circle cx="12" cy="38" r="2" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.4"/><circle cx="38" cy="14" r="1.5" fill="none" stroke="'+verdigris+'" stroke-width="0.7" opacity="0.3"/>',
+
+    dinner: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><circle cx="26" cy="26" r="12" fill="none" stroke="'+tick+'" stroke-width="1"/><circle cx="26" cy="26" r="9" fill="none" stroke="'+tick+'" stroke-width="0.5" opacity="0.4"/><line x1="15" y1="16" x2="15" y2="36" stroke="'+accent+'" stroke-width="1.2" stroke-linecap="round"/><path d="M12 18 Q15 16 15 20" fill="none" stroke="'+accent+'" stroke-width="0.8"/><path d="M15 18 Q18 16 15 20" fill="none" stroke="'+accent+'" stroke-width="0.8"/><line x1="37" y1="16" x2="37" y2="36" stroke="'+accent+'" stroke-width="1.2" stroke-linecap="round"/><path d="M37 16 Q40 18 40 22 Q40 25 37 25" fill="none" stroke="'+accent+'" stroke-width="0.8"/><line x1="22" y1="22" x2="30" y2="30" stroke="'+tick+'" stroke-width="0.5" opacity="0.3"/><line x1="30" y1="22" x2="22" y2="30" stroke="'+tick+'" stroke-width="0.5" opacity="0.3"/><circle cx="42" cy="10" r="1.5" fill="none" stroke="'+verdigris+'" stroke-width="0.7" opacity="0.4"/>',
+
+    toast: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><path d="M18 30 L18 18 Q18 14 22 14 L23 14 Q24 14 24 16 L24 28" fill="none" stroke="'+accent+'" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 30 L34 18 Q34 14 30 14 L29 14 Q28 14 28 16 L28 28" fill="none" stroke="'+accent+'" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 18 Q26 22 32 18" fill="none" stroke="'+tick+'" stroke-width="0.6" opacity="0.5"/><circle cx="21" cy="12" r="1" fill="'+accent+'" opacity="0.5"/><circle cx="31" cy="11" r="0.8" fill="'+accent+'" opacity="0.4"/><circle cx="26" cy="10" r="0.6" fill="'+accent+'" opacity="0.3"/><line x1="16" y1="34" x2="36" y2="34" stroke="'+tick+'" stroke-width="0.5" opacity="0.3"/><circle cx="10" cy="14" r="2" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.5"/>',
+
+    dancing: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><path d="M22 16 Q22 20 22 24 Q22 28 20 32" fill="none" stroke="'+accent+'" stroke-width="1.5" stroke-linecap="round"/><circle cx="22" cy="14" r="2.5" fill="'+accent+'" opacity="0.7"/><path d="M22 24 Q18 22 16 20" fill="none" stroke="'+accent+'" stroke-width="1" stroke-linecap="round"/><path d="M30 16 Q30 20 30 24 Q30 28 32 32" fill="none" stroke="'+accent+'" stroke-width="1.5" stroke-linecap="round"/><circle cx="30" cy="14" r="2.5" fill="'+accent+'" opacity="0.7"/><path d="M30 24 Q34 22 36 20" fill="none" stroke="'+accent+'" stroke-width="1" stroke-linecap="round"/><path d="M20 32 Q22 36 24 36" fill="none" stroke="'+tick+'" stroke-width="0.8" stroke-linecap="round"/><path d="M32 32 Q30 36 28 36" fill="none" stroke="'+tick+'" stroke-width="0.8" stroke-linecap="round"/><circle cx="15" cy="38" r="0.8" fill="'+accent+'" opacity="0.4"/><circle cx="37" cy="38" r="0.8" fill="'+accent+'" opacity="0.4"/><circle cx="40" cy="40" r="1.8" fill="none" stroke="'+verdigris+'" stroke-width="0.7" opacity="0.4"/>',
+
+    late: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><path d="M28 14 Q20 14 18 20 Q16 28 22 34 Q26 38 32 34 Q36 30 34 24" fill="none" stroke="'+accent+'" stroke-width="1.3" stroke-linecap="round"/><circle cx="34" cy="16" r="1.5" fill="'+accent+'" opacity="0.7"/><circle cx="22" cy="20" r="1" fill="'+accent+'" opacity="0.5"/><circle cx="30" cy="30" r="0.8" fill="'+accent+'" opacity="0.4"/><circle cx="20" cy="28" r="0.7" fill="'+accent+'" opacity="0.3"/><polygon points="36,12 36.8,14 39,14.3 37.2,15.8 37.6,18 36,16.8 34.4,18 34.8,15.8 33,14.3 35.2,14" fill="'+accent+'" opacity="0.6"/><circle cx="12" cy="12" r="1.8" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.5"/>',
+
+    farewell: '<circle cx="26" cy="26" r="24" fill="'+brassFill+'" stroke="'+brassRim+'" stroke-width="2"/><circle cx="26" cy="26" r="20" fill="'+faceBg+'" stroke="'+faceStroke+'" stroke-width="1"/><polygon points="26,12 28.5,20 37,20 30,25 32.5,33 26,28 19.5,33 22,25 15,20 23.5,20" fill="none" stroke="'+accent+'" stroke-width="1.2" stroke-linejoin="round"/><polygon points="26,16 27.5,21 33,21 28.5,24.5 30,30 26,26.5 22,30 23.5,24.5 19,21 24.5,21" fill="'+accent+'" opacity="0.25"/><line x1="26" y1="34" x2="26" y2="40" stroke="'+tick+'" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/><path d="M23 38 L26 40 L29 38" fill="none" stroke="'+tick+'" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/><circle cx="40" cy="36" r="2" fill="none" stroke="'+verdigris+'" stroke-width="0.8" opacity="0.4"/><circle cx="12" cy="36" r="1.5" fill="none" stroke="'+verdigris+'" stroke-width="0.7" opacity="0.3"/>'
+  };
+
+  return '<svg viewBox="0 0 52 52" width="52" height="52" xmlns="http://www.w3.org/2000/svg">' + icons[type] + '</svg>';
+}
+
+/* ─── TIMELINE DATA & SETUP ──────────────── */
+var segments = [
+  { id: 'arrival',   label: 'Arrival',     sub: 'Drinks on arrival' },
+  { id: 'ceremony',  label: 'Ceremony',    sub: 'The ceremony' },
+  { id: 'cocktail',  label: 'Cocktail',    sub: 'Cocktail hour' },
+  { id: 'dinner',    label: 'Dinner',      sub: 'Seated dinner service' },
+  { id: 'toast',     label: 'Toast',       sub: 'Champagne toast' },
+  { id: 'dancing',   label: 'Dancing',     sub: 'Dancing & open bar' },
+  { id: 'late',      label: 'Late Night',  sub: 'Late night bar' },
+  { id: 'farewell',  label: 'Farewell',    sub: 'Final send-off' }
+];
+
+var tlNotes = {};
+var activeId = null;
+var track = document.getElementById('tlTrack');
+
+segments.forEach(function(seg, i) {
+  var div = document.createElement('div');
+  div.className = 'tl-segment';
+  div.id = 'seg-' + seg.id;
+  div.setAttribute('title', seg.sub);
+
+  var connHTML = '';
+  if (i < segments.length - 1) {
+    connHTML = '<div class="tl-connector-line"><div class="tl-conn-bg"></div><div class="tl-conn-fill" id="conn-' + i + '"></div></div>';
+  }
+
+  div.innerHTML = connHTML +
+    '<div class="tl-icon-wrap" id="icon-' + seg.id + '">' + makeIcon(seg.id, 'default') + '</div>' +
+    '<div class="tl-label">' + seg.label + '</div>';
+
+  div.addEventListener('click', function() { activateSeg(seg.id); });
+  track.appendChild(div);
+});
+
+function activateSeg(id) {
+  if (activeId) {
+    var prevState = tlNotes[activeId] ? 'filled' : 'default';
+    document.getElementById('icon-' + activeId).innerHTML = makeIcon(activeId, prevState);
+    document.getElementById('seg-' + activeId).classList.remove('active');
+  }
+
+  activeId = id;
+  document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'active');
+  document.getElementById('seg-' + id).classList.add('active');
+
+  var seg = segments.find(function(s) { return s.id === id; });
+  document.getElementById('detailTitle').textContent = seg.sub;
+  document.getElementById('detailDot').style.background = tlNotes[id] ? '#b8860b' : '#4a7c59';
+
+  var existing = tlNotes[id];
+  document.getElementById('detailNotes').textContent = existing || 'Add beverage notes, timing, and any special requests…';
+  document.getElementById('detailNotes').style.color = existing ? '#5a4a30' : '#aaa';
+
+  document.getElementById('inputRow').style.display = 'flex';
+  var input = document.getElementById('noteInput');
+  input.value = existing || '';
+  input.placeholder = seg.sub + ' details…';
+  input.focus();
+}
+
+function saveNote() {
+  if (!activeId) return;
+  var val = document.getElementById('noteInput').value.trim();
+  if (!val) return;
+
+  tlNotes[activeId] = val;
+
+  document.getElementById('icon-' + activeId).innerHTML = makeIcon(activeId, 'filled');
+  var segEl = document.getElementById('seg-' + activeId);
+  segEl.classList.add('filled');
+  segEl.classList.remove('active');
+
+  document.getElementById('detailNotes').textContent = val;
+  document.getElementById('detailNotes').style.color = '#5a4a30';
+  document.getElementById('detailDot').style.background = '#b8860b';
+  document.getElementById('inputRow').style.display = 'none';
+
+  updateConnectors();
+  updateProgress();
+  savePlanner();
+  activeId = null;
+}
+
+document.getElementById('noteInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') saveNote();
+});
+
+function updateConnectors() {
+  segments.forEach(function(seg, i) {
+    if (i >= segments.length - 1) return;
+    var conn = document.getElementById('conn-' + i);
+    if (!conn) return;
+    if (tlNotes[seg.id] && tlNotes[segments[i+1].id]) conn.style.width = '100%';
+    else if (tlNotes[seg.id]) conn.style.width = '50%';
+    else conn.style.width = '0%';
+  });
+}
+
+function updateProgress() {
+  var count = Object.keys(tlNotes).length;
+  var pct = Math.round((count / segments.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = count + ' of ' + segments.length + ' segments noted';
+}
+
+/* ─── NOTEPAD ────────────────────────────── */
+var pad = document.getElementById('notepad');
+var countEl = document.getElementById('charCount');
+
+pad.addEventListener('input', function() {
+  var len = pad.value.length;
+  countEl.textContent = len > 0 ? len + ' characters' : '';
+});
+
+function clearNotes() {
+  if (pad.value.trim() && !confirm('Clear all your notes?')) return;
+  pad.value = '';
+  countEl.textContent = '';
+  tlNotes = {};
+  segments.forEach(function(seg) {
+    var segEl = document.getElementById('seg-' + seg.id);
+    if (segEl) segEl.classList.remove('filled');
+    document.getElementById('icon-' + seg.id).innerHTML = makeIcon(seg.id, 'default');
+  });
+  updateConnectors();
+  updateProgress();
+  try { localStorage.removeItem('pathfinder-planner'); } catch(e) {}
+}
+
+function printNotes() {
+  var timelineHTML = '';
+  segments.forEach(function(seg) {
+    var val = tlNotes[seg.id];
+    timelineHTML += '<div style="display:inline-block;margin:0 8px 8px 0;padding:4px 12px;border:1px solid ' + (val ? '#b8860b' : '#d8ccab') + ';border-radius:20px;font-size:12px;color:' + (val ? '#7a5e16' : '#aaa') + '">' + seg.label + (val ? ': ' + val : '') + '</div>';
+  });
+
+  var w = window.open('', '_blank');
+  w.document.write('<html><head><title>Beverage Planner</title>' +
+    '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">' +
+    '<style>' +
+    'body{font-family:"Cormorant Garamond",serif;max-width:600px;margin:40px auto;color:#2c1f0e;padding:0 20px}' +
+    'h1{font-size:22px;color:#7a5e16;letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:4px}' +
+    '.sub{text-align:center;font-style:italic;color:#8a7a55;font-size:13px}' +
+    '.rule{height:1px;background:linear-gradient(to right,transparent,#b8860b,transparent);width:60%;margin:10px auto 20px}' +
+    'h2{font-size:16px;color:#7a5e16;letter-spacing:0.08em;text-transform:uppercase;margin:24px 0 8px}' +
+    '.notes{white-space:pre-wrap;font-size:15px;line-height:1.8;margin-top:12px}' +
+    '.ft{margin-top:30px;font-size:12px;color:#8a7a55;text-align:center;font-style:italic;border-top:1px solid #d4a830;padding-top:10px}' +
+    '</style></head><body>' +
+    '<h1>Pathfinder Beverage Planner</h1>' +
+    '<div class="sub">Your ideas and inspirations</div>' +
+    '<div class="rule"></div>' +
+    '<h2>Wedding Day Timeline</h2>' +
+    '<div>' + timelineHTML + '</div>' +
+    '<h2>Notes</h2>' +
+    '<div class="notes">' + (pad.value || '(No notes yet)') + '</div>' +
+    '<div class="ft">Pathfinder Wine & Beverage Curation &middot; Est. 2026</div>' +
+    '</body></html>');
+  w.document.close();
+  w.print();
+}
+
+function savePlanner() {
+  var data = {
+    timeline: tlNotes,
+    notepad: pad.value,
+    savedAt: new Date().toLocaleString()
+  };
+  try {
+    localStorage.setItem('pathfinder-planner', JSON.stringify(data));
+    var msg = document.getElementById('saveMsg');
+    msg.textContent = 'Saved ✓';
+    msg.classList.add('show');
+    setTimeout(function() { msg.classList.remove('show'); }, 2500);
+  } catch(e) {
+    alert('Unable to save — your browser may have storage disabled.');
+  }
+}
+
+function loadPlanner() {
+  try {
+    var raw = localStorage.getItem('pathfinder-planner');
+    if (!raw) return;
+    var data = JSON.parse(raw);
+
+    // Restore timeline notes
+    if (data.timeline) {
+      Object.keys(data.timeline).forEach(function(id) {
+        tlNotes[id] = data.timeline[id];
+        var segEl = document.getElementById('seg-' + id);
+        if (segEl) {
+          segEl.classList.add('filled');
+          document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'filled');
+        }
+      });
+      updateConnectors();
+      updateProgress();
+    }
+
+    // Restore notepad
+    if (data.notepad) {
+      pad.value = data.notepad;
+      var len = pad.value.length;
+      countEl.textContent = len > 0 ? len + ' characters' : '';
+    }
+  } catch(e) {
+    // Silent fail — fresh start
+  }
+}
+
+// Auto-load saved data on page load
+loadPlanner();
+
+// Auto-save as they type in the notepad
+pad.addEventListener('blur', function() {
+  if (pad.value.trim()) savePlanner();
+});
+
+/* ─── CHATBOT → PLANNER BRIDGE ───────────── */
+// Listens for postMessage from the Navigator chatbot iframe
+// and appends product/event info into the notepad
+window.addEventListener('message', function(e) {
+  var d = e.data;
+  if (!d || !d.type) return;
+
+  if (d.type === 'add-to-planner') {
+    var line = '🍷 ' + (d.category ? d.category + ': ' : '') + d.product;
+    if (d.note) line += ' — ' + d.note;
+    appendToNotepad(line);
+  }
+
+  if (d.type === 'event-info') {
+    var parts = [];
+    if (d.date) parts.push('📅 ' + d.date);
+    if (d.start) parts.push('⏰ ' + d.start);
+    if (d.guests) parts.push('👥 ' + d.guests + ' guests');
+    if (d.duration) parts.push('🕐 Bar: ' + d.duration);
+    if (d.vibe) parts.push('✨ Vibe: ' + d.vibe);
+    if (parts.length) appendToNotepad(parts.join('\n'));
+  }
+});
+
+function appendToNotepad(text) {
+  if (pad.value.trim()) {
+    pad.value = pad.value.trimEnd() + '\n' + text;
+  } else {
+    pad.value = text;
+  }
+  var len = pad.value.length;
+  countEl.textContent = len > 0 ? len + ' characters' : '';
+  savePlanner();
+}
+</script>
+</body>
+</html>
