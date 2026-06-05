@@ -3190,6 +3190,17 @@ function updateCalc() {
       Spec's returns accepted 30 days after your event. Standard calculations assume 1.5oz liquor, 5oz wine pours.
     </div>
   `;
+  var planner = document.getElementById('plannerIframe');
+    if (planner && planner.contentWindow) {
+      planner.contentWindow.postMessage({
+        type: 'calculator-update',
+        guests: guests,
+        hours: hours,
+        wine: wineR + '%',
+        beer: beerR + '%',
+        liquor: liquorR + '%'
+      }, '*');
+    }
 }
 updateCalc();
 
