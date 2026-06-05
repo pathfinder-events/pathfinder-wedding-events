@@ -302,6 +302,19 @@
   font-style: italic;
 }
 
+.np-ghost {
+  position: absolute;
+  inset: 14px 16px 14px 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: rgba(184,155,100,0.4);
+  line-height: 28px;
+  pointer-events: none;
+  white-space: pre-wrap;
+  z-index: 1;
+}
+
 /* ─── FOOTER / ACTIONS ───────────────────── */
 .np-footer {
   display: flex;
@@ -408,7 +421,8 @@
     <div class="np-page">
       <div class="np-margin-line"></div>
       <div class="np-page-inner">
-        <textarea class="np-textarea" id="notepad" placeholder="Start jotting down ideas...
+        <div class="np-ghost">Start jotting down ideas...
+
 
 When's the big day, and what time does it all kick off?
 
@@ -436,7 +450,8 @@ Anything you definitely don't want? Allergies or hard passes?
 
 Any other thoughts — budget, venue rules, special moments?
 
-This is your space — think out loud."></textarea>
+This is your space — think out loud.</div>
+        <textarea class="np-textarea" id="notepad"></textarea>
       </div>
     </div>
 
