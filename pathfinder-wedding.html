@@ -3110,6 +3110,12 @@
 </div>
 
 <script>
+  window.addEventListener('message', function(e) {
+  var planner = document.getElementById('plannerIframe');
+  if (planner && e.data && e.data.type) {
+    planner.contentWindow.postMessage(e.data, '*');
+  }
+});
 /* ════════════════════════════════════
    CALCULATOR LOGIC
 ════════════════════════════════════ */
