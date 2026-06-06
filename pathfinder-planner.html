@@ -484,25 +484,9 @@ This is your space — think out loud.</div>
 
 </div>
 
-  <!-- ═══════════════════════════════════════
-       SECTION 3: PACKAGE TIER PRICING
-       ═══════════════════════════════════════ -->
-  <div class="np-spacer"></div>
-
-  <div class="planner-panel" id="tierReferencePanel">
-    <div class="planner-header">
-      <p class="planner-title">Package Pricing Reference</p>
-      <p class="planner-subtitle" id="tierRefSubtitle">Estimated costs based on your guest count</p>
-      <span class="planner-rule"></span>
-    </div>
-
-    <div id="tierRefGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1;"></div>
-  </div>
-
-</div>
-
 <!-- ═══════════════════════════════════════════
      JAVASCRIPT
+     ═══════════════════════════════════════════ -->
 <script>
 /* ─── TIMELINE ICON BUILDER ──────────────── */
 function makeIcon(type, state) {
@@ -770,8 +754,6 @@ window.addEventListener('message', function(e) {
     var bar = document.getElementById('calcInfoBar');
     var top = document.getElementById('calcInfoTop');
     var volumes = document.getElementById('calcInfoVolumes');
-   tierRefGuests = d.guests || tierRefGuests;
-    renderTierReference();
     if (bar && top && volumes) {
       bar.style.display = 'block';
       top.innerHTML = 
@@ -806,16 +788,6 @@ function appendToNotepad(text) {
   countEl.textContent = len > 0 ? len + ' characters' : '';
   savePlanner();
 }
-   <div class="np-spacer"></div>
-
-  <div class="planner-panel" id="tierReferencePanel">
-    <div class="planner-header">
-      <p class="planner-title">Package Pricing Reference</p>
-      <p class="planner-subtitle" id="tierRefSubtitle">Estimated costs based on your guest count</p>
-      <span class="planner-rule"></span>
-    </div>
-    <div id="tierRefGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:1;"></div>
-  </div>
 </script>
 </body>
 </html>
