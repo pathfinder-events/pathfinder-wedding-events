@@ -11,210 +11,295 @@
 :root {
   --gold: #b8860b;
   --gold-light: #d4a830;
-  --gold-pale: rgba(184,134,11,0.12);
+  --gold-pale: rgba(184,134,11,0.1);
+  --gold-border: rgba(184,134,11,0.25);
   --parchment: #f5ecd8;
+  --parchment-mid: #faf6ee;
   --parchment-dark: #f0e8d4;
   --ink: #2c1f0e;
   --ink-mid: #5a4a30;
   --ink-soft: #8a7a55;
   --green: #4a7c59;
-  --border: rgba(184,134,11,0.25);
+  --green-light: rgba(74,124,89,0.15);
+  --radius: 16px;
 }
 
 body {
   font-family: 'Jost', sans-serif;
-  background: linear-gradient(160deg, #f5ecd8 0%, #faf6ee 40%, #f0e8d4 100%);
+  background: linear-gradient(160deg, #f5ecd8 0%, #faf6ee 50%, #f0e8d4 100%);
   min-height: 100vh;
-  padding: 16px;
+  padding: 14px;
   color: var(--ink);
 }
 
-/* ─── PANELS ─────────────────────────────── */
+/* ─── TEXTURE OVERLAY ────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── MAIN PANEL ─────────────────────────── */
 .panel {
   background: linear-gradient(160deg, #f9f4e8 0%, #fdfaf2 50%, #f5edd8 100%);
-  border: 1.5px solid var(--border);
-  border-radius: 16px;
-  padding: 24px 20px;
+  border: 1.5px solid var(--gold-border);
+  border-radius: var(--radius);
+  padding: 22px 18px;
   position: relative;
-  overflow: hidden;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 12px rgba(44,31,14,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  margin-bottom: 14px;
+  box-shadow: 0 2px 16px rgba(44,31,14,0.07), inset 0 1px 0 rgba(255,255,255,0.55);
+  z-index: 1;
 }
 
-.panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  pointer-events: none;
-  border-radius: 14px;
-}
-
+/* ─── PANEL HEADER ───────────────────────── */
 .panel-header {
   text-align: center;
-  margin-bottom: 24px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 6px;
 }
 
 .panel-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 600;
   color: #7a5e16;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.panel-subtitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  font-style: italic;
-  color: var(--ink-soft);
-  margin-top: 4px;
-}
-
 .panel-rule {
   display: block;
   height: 1px;
   background: linear-gradient(to right, transparent, var(--gold), transparent);
-  width: 60%;
-  margin: 10px auto 0;
+  width: 55%;
+  margin: 8px auto 0;
 }
 
-/* ─── VERTICAL TIMELINE ──────────────────── */
-.tl-container {
-  position: relative;
-  z-index: 1;
-}
-
-.tl-spine {
-  position: absolute;
-  left: 28px;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, transparent, var(--gold-light) 10%, var(--gold-light) 90%, transparent);
-  opacity: 0.35;
-}
-
-.tl-row {
+/* ─── BUDGET SUMMARY BAR ─────────────────── */
+.budget-bar {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 8px 0;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 0 20px;
+  background: var(--gold-pale);
+  border: 1px solid var(--gold-border);
+  border-radius: 30px;
+  padding: 8px 16px;
+  flex-wrap: wrap;
 }
 
-.tl-row:hover .tl-icon-wrap { transform: scale(1.08); }
+.budget-bar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.budget-bar-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7a5e16;
+}
+
+.budget-bar-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold-border);
+  flex-shrink: 0;
+}
+
+/* ─── SPINE ──────────────────────────────── */
+.tl-wrap {
+  position: relative;
+}
+
+.tl-spine-track {
+  position: absolute;
+  left: 27px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: rgba(184,134,11,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.tl-spine-fill {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0%;
+  background: linear-gradient(to bottom, #7a5e16, var(--gold-light));
+  border-radius: 2px;
+  transition: height 0.8s ease;
+}
+
+/* ─── TIMELINE ROW ───────────────────────── */
+.tl-row {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 4px;
+}
+
+.tl-row-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tl-row-head:active { background: rgba(184,134,11,0.06); }
 
 .tl-icon-wrap {
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
   flex-shrink: 0;
+  transition: transform 0.25s ease;
   position: relative;
   z-index: 2;
-  transition: transform 0.3s ease;
 }
 
-.tl-row-info {
-  flex: 1;
-  min-width: 0;
-}
+.tl-row-head:hover .tl-icon-wrap,
+.tl-row-head:active .tl-icon-wrap { transform: scale(1.07); }
+
+.tl-row-text { flex: 1; min-width: 0; }
 
 .tl-row-label {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--ink);
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  transition: color 0.2s;
 }
+
+.tl-row.filled .tl-row-label { color: #7a5e16; }
 
 .tl-row-sub {
   font-size: 11px;
   font-weight: 400;
   color: var(--ink-soft);
-  letter-spacing: 0.03em;
   margin-top: 2px;
+  letter-spacing: 0.02em;
 }
 
-.tl-row-note-preview {
+.tl-row-logged {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 12px;
+  font-size: 13px;
   font-style: italic;
   color: var(--green);
   margin-top: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 200px;
+  max-width: 180px;
+  display: none;
 }
 
-.tl-add-btn {
-  width: 28px;
-  height: 28px;
+.tl-row.filled .tl-row-logged { display: block; }
+
+.tl-tap-btn {
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
-  background: rgba(255,255,255,0.5);
+  border: 1.5px solid var(--gold-border);
+  background: rgba(253,250,242,0.7);
   color: var(--ink-soft);
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: 300;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: all 0.25s;
   font-family: 'Jost', sans-serif;
 }
 
-.tl-add-btn:hover, .tl-add-btn.active {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: white;
+.tl-tap-btn:hover { border-color: var(--gold); color: var(--gold); }
+.tl-tap-btn.open { background: var(--gold); border-color: var(--gold); color: white; transform: rotate(45deg); }
+.tl-tap-btn.filled { background: var(--green); border-color: var(--green); color: white; font-size: 14px; }
+.tl-tap-btn.filled:hover { background: #3a6648; }
+
+/* ─── INLINE EXPANDED AREA ───────────────── */
+.tl-expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+  opacity: 0;
+  padding-left: 68px;
 }
 
-.tl-add-btn.filled {
-  background: var(--green);
-  border-color: var(--green);
-  color: white;
-  font-size: 12px;
+.tl-expand.open {
+  max-height: 200px;
+  opacity: 1;
 }
 
-/* ─── INLINE INPUT ───────────────────────── */
-.tl-input-wrap {
-  display: none;
-  padding: 10px 0 10px 74px;
+.tl-expand-inner {
+  padding: 10px 0 14px;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  align-items: center;
 }
 
-.tl-input-wrap.open { display: flex; }
+.tl-expand-logged {
+  display: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ink-mid);
+  background: var(--green-light);
+  border: 1px solid rgba(74,124,89,0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  line-height: 1.5;
+}
+
+.tl-expand.has-note .tl-expand-logged { display: block; }
+
+.tl-input-row {
+  display: flex;
+  gap: 8px;
+}
 
 .tl-input {
   flex: 1;
   font-family: 'Cormorant Garamond', serif;
   font-size: 14px;
-  border: 1px solid var(--border);
-  background: rgba(253,250,242,0.9);
+  border: 1px solid var(--gold-border);
+  background: rgba(253,250,242,0.95);
   color: var(--ink);
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 9px 13px;
+  border-radius: 9px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.tl-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(184,134,11,0.12); }
+.tl-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+}
+
+.tl-input::placeholder { color: rgba(138,106,27,0.35); font-style: italic; }
 
 .tl-log-btn {
   font-family: 'Jost', sans-serif;
   font-size: 11px;
-  font-weight: 500;
-  padding: 8px 14px;
-  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  border-radius: 9px;
   border: none;
   background: linear-gradient(135deg, #7a5e16, var(--gold));
   color: #faf6ee;
@@ -223,189 +308,168 @@ body {
   transition: all 0.2s;
 }
 
-.tl-log-btn:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+.tl-log-btn:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); transform: translateY(-1px); }
 
-/* ─── LOGGED CARDS ───────────────────────── */
-.cards-section {
-  position: relative;
-  z-index: 1;
+.tl-edit-btn {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: none;
+  border: 1px solid var(--gold-border);
+  border-radius: 7px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  transition: all 0.2s;
+  align-self: flex-start;
 }
 
-.cards-title {
+.tl-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ─── DIVIDER BETWEEN ROWS ───────────────── */
+.tl-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184,134,11,0.12), transparent);
+  margin: 2px 0 2px 68px;
+}
+
+/* ─── PROGRESS ───────────────────────────── */
+.progress-wrap {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(184,134,11,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, #7a5e16, var(--gold-light));
+  border-radius: 2px;
+  transition: width 0.7s ease;
+}
+
+.progress-label {
+  font-size: 10px;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-family: 'Cormorant Garamond', serif;
+  white-space: nowrap;
+}
+
+/* ─── CALC SNAPSHOT ──────────────────────── */
+.calc-snap {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.calc-pill {
+  background: var(--gold-pale);
+  border: 1px solid var(--gold-border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--ink-mid);
+}
+
+/* ─── NOTEPAD ────────────────────────────── */
+.np-label {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-bottom: 12px;
-}
-
-.cards-grid {
+  margin-bottom: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
 }
 
-.moment-card {
-  background: rgba(253,250,242,0.85);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  animation: cardIn 0.35s ease forwards;
-  position: relative;
+.np-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gold-border);
 }
 
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.card-icon {
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-}
-
-.card-body { flex: 1; min-width: 0; }
-
-.card-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #7a5e16;
-  letter-spacing: 0.04em;
-}
-
-.card-note {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  font-style: italic;
-  color: var(--ink-mid);
-  margin-top: 3px;
-  line-height: 1.5;
-}
-
-.card-delete {
-  background: none;
-  border: none;
-  color: rgba(184,134,11,0.4);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 2px 4px;
-  transition: color 0.2s;
-  flex-shrink: 0;
-}
-.card-delete:hover { color: #c0392b; }
-
-.cards-empty {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  font-style: italic;
-  color: rgba(138,122,85,0.5);
-  text-align: center;
-  padding: 20px 0;
-}
-
-/* ─── CALC INFO BAR ──────────────────────── */
-.calc-bar {
-  display: none;
-  position: relative;
-  z-index: 1;
-}
-
-.calc-bar-inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  color: var(--ink-mid);
-}
-
-.calc-pill {
-  background: var(--gold-pale);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 13px;
-}
-
-/* ─── NOTEPAD ────────────────────────────── */
 .np-page {
-  position: relative;
-  z-index: 1;
   background: #fdfaf2;
-  border: 1px solid rgba(184,134,11,0.2);
+  border: 1px solid rgba(184,134,11,0.18);
   border-radius: 10px;
-  box-shadow: inset 0 1px 4px rgba(0,0,0,0.04);
   overflow: hidden;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
+  position: relative;
 }
 
-.np-margin-line {
+.np-margin {
   position: absolute;
-  left: 40px; top: 0; bottom: 0;
+  left: 38px; top: 0; bottom: 0;
   width: 1px;
-  background: rgba(201,125,125,0.2);
+  background: rgba(201,125,125,0.18);
   pointer-events: none;
-  z-index: 3;
 }
 
 .np-textarea {
   width: 100%;
-  min-height: 320px;
+  min-height: 240px;
   border: none;
   background: transparent;
   font-family: 'Cormorant Garamond', serif;
   font-size: 15px;
   color: var(--ink);
   line-height: 28px;
-  resize: vertical;
+  resize: none;
+  overflow-y: auto;
+  max-height: 420px;
   outline: none;
-  padding: 14px 16px 14px 52px;
-  position: relative;
-  z-index: 2;
+  padding: 14px 16px 14px 50px;
   background-image: repeating-linear-gradient(
     transparent, transparent 27px,
-    rgba(184,134,11,0.12) 27px, rgba(184,134,11,0.12) 28px
+    rgba(184,134,11,0.1) 27px, rgba(184,134,11,0.1) 28px
   );
 }
 
 .np-textarea::placeholder {
-  color: rgba(184,155,100,0.45);
+  color: rgba(138,106,27,0.3);
   font-style: italic;
 }
 
-/* ─── FOOTER ACTIONS ─────────────────────── */
-.np-footer {
+/* ─── FOOTER ─────────────────────────────── */
+.footer-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 14px;
-  position: relative;
-  z-index: 1;
+  margin-top: 12px;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.np-char-count {
+.char-count {
   font-size: 10px;
+  font-style: italic;
   color: var(--ink-soft);
   font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
 }
 
-.np-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
-.planner-btn {
+.btn {
   font-family: 'Jost', sans-serif;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.04em;
-  padding: 7px 16px;
-  border-radius: 7px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
@@ -413,7 +477,7 @@ body {
 
 .btn-outline {
   color: #7a5e16;
-  border: 1px solid #7a5e16;
+  border: 1px solid rgba(122,94,22,0.4);
   background: transparent;
 }
 .btn-outline:hover { background: var(--gold-pale); }
@@ -423,7 +487,7 @@ body {
   border: none;
   background: linear-gradient(135deg, #7a5e16, var(--gold));
 }
-.btn-fill:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+.btn-fill:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); transform: translateY(-1px); }
 
 .save-msg {
   font-size: 11px;
@@ -432,455 +496,358 @@ body {
   font-style: italic;
   opacity: 0;
   transition: opacity 0.3s;
+  align-self: center;
 }
 .save-msg.show { opacity: 1; }
 
-/* ─── TIER REFERENCE ─────────────────────── */
+/* ─── TIER CARDS ─────────────────────────── */
 .tier-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 12px;
-  position: relative;
-  z-index: 1;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .tier-grid { grid-template-columns: 1fr; }
 }
 
 .tier-card {
   background: #fdfaf2;
-  border: 1px solid rgba(184,134,11,0.2);
-  border-radius: 12px;
+  border: 1px solid rgba(184,134,11,0.18);
+  border-radius: 13px;
   padding: 16px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.tier-card.highlight {
+.tier-card.hl {
   border-color: var(--gold);
-  box-shadow: 0 0 0 1px rgba(184,134,11,0.15);
-  background: rgba(184,134,11,0.04);
+  background: rgba(184,134,11,0.03);
+  box-shadow: 0 0 0 1px rgba(184,134,11,0.12);
 }
+
+.tier-badge-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
 .tier-badge {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  background: rgba(184,134,11,0.1);
-  padding: 2px 8px;
-  border-radius: 20px;
-  display: inline-block;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-soft); background: rgba(184,134,11,0.1); padding: 2px 8px; border-radius: 20px;
 }
 
-.tier-popular {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #7a5e16;
-  background: rgba(184,134,11,0.15);
-  border: 1px solid rgba(184,134,11,0.3);
-  padding: 2px 8px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-left: 4px;
+.tier-pop {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: #7a5e16; background: rgba(184,134,11,0.14); border: 1px solid rgba(184,134,11,0.28);
+  padding: 2px 8px; border-radius: 20px;
 }
 
 .tier-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--ink);
+  font-size: 16px; font-weight: 600; color: var(--ink);
 }
-
-.tier-card.highlight .tier-name { color: #7a5e16; }
+.tier-card.hl .tier-name { color: #7a5e16; }
 
 .tier-desc {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 12px;
-  font-style: italic;
-  color: var(--ink-soft);
-  line-height: 1.4;
+  font-size: 12px; font-style: italic; color: var(--ink-soft); line-height: 1.4;
 }
 
-.tier-features {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
+.tier-feats { list-style: none; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.tier-feats li {
+  display: flex; gap: 6px;
+  font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--ink-mid); line-height: 1.4;
+}
+.tier-feats li::before { content: '•'; color: var(--gold); flex-shrink: 0; }
+
+.tier-pricing { border-top: 1px solid rgba(184,134,11,0.18); padding-top: 10px; }
+
+.tier-per-lbl {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 3px;
 }
 
-.tier-features li {
-  display: flex;
-  gap: 6px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 12px;
-  color: var(--ink-mid);
-  line-height: 1.4;
+.tier-per {
+  font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--ink);
+}
+.tier-per span { font-size: 11px; font-family: 'Jost',sans-serif; font-weight: 400; color: var(--ink-soft); }
+
+.tier-total {
+  background: var(--gold-pale); border: 1px solid rgba(184,134,11,0.16);
+  border-radius: 8px; padding: 7px 10px; margin-top: 7px;
 }
 
-.tier-features li::before {
-  content: '•';
-  color: var(--gold);
-  flex-shrink: 0;
+.tier-total-lbl {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);
 }
 
-.tier-pricing {
-  border-top: 1px solid rgba(184,134,11,0.2);
-  padding-top: 10px;
+.tier-total-val {
+  font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: #7a5e16; margin-top: 2px;
 }
 
-.tier-per-guest-label {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-bottom: 3px;
-}
-
-.tier-per-guest {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.tier-per-guest span {
-  font-size: 11px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 400;
-  color: var(--ink-soft);
-}
-
-.tier-total-box {
-  background: var(--gold-pale);
-  border: 1px solid rgba(184,134,11,0.18);
-  border-radius: 7px;
-  padding: 7px 10px;
-  margin-top: 7px;
-}
-
-.tier-total-label {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.tier-total-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #7a5e16;
-  margin-top: 2px;
-}
-
-/* ─── PROGRESS ───────────────────────────── */
-.tl-progress {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 8px;
-  position: relative;
-  z-index: 1;
-}
-
-.tl-progress-bar {
-  flex: 1;
-  height: 3px;
-  background: rgba(184,134,11,0.15);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.tl-progress-fill {
-  height: 100%;
-  background: linear-gradient(to right, #7a5e16, var(--gold-light));
-  border-radius: 2px;
-  transition: width 0.6s ease;
-}
-
-.tl-progress-label {
-  font-size: 10px;
-  color: var(--ink-soft);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  white-space: nowrap;
-}
-
-.spacer { height: 16px; }
+.spacer { height: 14px; }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════
-     SECTION 1: WEDDING DAY TIMELINE
-     ═══════════════════════════════════════ -->
+<!-- ═══════════════════════════════════
+     TIMELINE PANEL
+     ═══════════════════════════════════ -->
 <div class="panel" id="timelinePanel">
+
   <div class="panel-header">
     <p class="panel-title">Wedding Day Timeline</p>
-    <p class="panel-subtitle">Tap a moment to log your beverage notes</p>
     <span class="panel-rule"></span>
   </div>
 
-  <div class="tl-container" id="tlContainer">
-    <div class="tl-spine"></div>
-    <!-- rows injected by JS -->
+  <!-- Budget summary bar — updates from calculator -->
+  <div class="budget-bar" id="budgetBar">
+    <span class="budget-bar-label">Est. budget</span>
+    <span class="budget-bar-dot"></span>
+    <span class="budget-bar-value" id="budgetMin">—</span>
+    <span class="budget-bar-label" style="color:var(--ink-soft)">to</span>
+    <span class="budget-bar-value" id="budgetMax">—</span>
+    <span class="budget-bar-dot"></span>
+    <span class="budget-bar-label" id="budgetGuests">Set guest count in Calculator</span>
   </div>
 
-  <div class="tl-progress" style="margin-top:16px;">
-    <div class="tl-progress-bar"><div class="tl-progress-fill" id="progressFill" style="width:0%"></div></div>
-    <span class="tl-progress-label" id="progressLabel">0 of 9 moments noted</span>
-  </div>
-</div>
+  <!-- Calc snapshot pills -->
+  <div class="calc-snap" id="calcSnap"></div>
 
-<!-- ═══════════════════════════════════════
-     LOGGED MOMENT CARDS
-     ═══════════════════════════════════════ -->
-<div class="panel" id="cardsPanel">
-  <div class="panel-header">
-    <p class="panel-title">Your Event Plan</p>
-    <p class="panel-subtitle">Moments fill in as you log them</p>
-    <span class="panel-rule"></span>
+  <!-- Timeline rows injected by JS -->
+  <div class="tl-wrap" id="tlWrap">
+    <div class="tl-spine-track"><div class="tl-spine-fill" id="spineFill"></div></div>
   </div>
-  <div class="cards-section">
-    <div class="cards-grid" id="cardsGrid">
-      <div class="cards-empty" id="cardsEmpty">No moments logged yet — tap any segment above to begin.</div>
-    </div>
-  </div>
-</div>
 
-<!-- ═══════════════════════════════════════
-     CALC INFO BAR
-     ═══════════════════════════════════════ -->
-<div class="panel calc-bar" id="calcInfoBar">
-  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;z-index:1;">
-    <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
-    <span style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:#7a5e16;letter-spacing:0.06em;text-transform:uppercase;">Event Snapshot</span>
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <span class="progress-label" id="progressLabel">0 of 9 moments noted</span>
   </div>
-  <div class="calc-bar-inner" id="calcInfoTop"></div>
-  <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;" id="calcInfoVolumes"></div>
+
 </div>
 
 <div class="spacer"></div>
 
-<!-- ═══════════════════════════════════════
-     SECTION 2: BEVERAGE NOTEPAD
-     ═══════════════════════════════════════ -->
-<div class="panel" id="notepadPanel">
-  <div class="panel-header">
+<!-- ═══════════════════════════════════
+     NOTEPAD PANEL
+     ═══════════════════════════════════ -->
+<div class="panel">
+
+  <div class="panel-header" style="margin-bottom:16px;">
     <p class="panel-title">Beverage Planner</p>
-    <p class="panel-subtitle">Gather your ideas, wishes, and inspirations here</p>
     <span class="panel-rule"></span>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--ink-soft);margin-top:8px;">
+      Gather your ideas, beverages, wishes, and inspirations here.
+    </p>
   </div>
 
   <div class="np-page">
-    <div class="np-margin-line"></div>
+    <div class="np-margin"></div>
     <textarea class="np-textarea" id="notepad" placeholder="Start jotting down ideas…"></textarea>
   </div>
 
-  <div class="np-footer">
-    <span class="np-char-count" id="charCount"></span>
-    <div class="np-actions">
-      <button class="planner-btn btn-outline" onclick="clearNotes()">✕ Clear</button>
-      <button class="planner-btn btn-outline" onclick="printNotes()">⎙ Print</button>
-      <button class="planner-btn btn-fill" onclick="savePlanner()">✓ Save</button>
+  <div class="footer-bar">
+    <span class="char-count" id="charCount"></span>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="clearAll()">✕ Clear</button>
+      <button class="btn btn-outline" onclick="printNotes()">⎙ Print</button>
+      <button class="btn btn-fill" onclick="savePlanner()">✓ Save</button>
       <span class="save-msg" id="saveMsg"></span>
     </div>
   </div>
+
 </div>
 
 <div class="spacer"></div>
 
-<!-- ═══════════════════════════════════════
-     SECTION 3: PACKAGE TIER PRICING
-     ═══════════════════════════════════════ -->
-<div class="panel" id="tierReferencePanel">
-  <div class="panel-header">
+<!-- ═══════════════════════════════════
+     TIER PRICING PANEL
+     ═══════════════════════════════════ -->
+<div class="panel">
+  <div class="panel-header" style="margin-bottom:16px;">
     <p class="panel-title">Package Pricing Reference</p>
-    <p class="panel-subtitle" id="tierRefSubtitle">Estimated costs based on your guest count</p>
     <span class="panel-rule"></span>
+    <p class="panel-subtitle" id="tierSubtitle" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--ink-soft);margin-top:6px;">
+      Estimated costs based on your guest count
+    </p>
   </div>
-  <div class="tier-grid" id="tierRefGrid"></div>
+  <div class="tier-grid" id="tierGrid"></div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     JAVASCRIPT
-     ═══════════════════════════════════════ -->
 <script>
-
-/* ─── SEGMENTS ───────────────────────────── */
+/* ════════════════════════════════════════
+   SEGMENTS
+   ════════════════════════════════════════ */
 var segments = [
-  { id: 'arrival',   label: 'Arrival',      sub: 'Drinks on arrival',        color: '#8a6d1b' },
-  { id: 'ceremony',  label: 'Ceremony',     sub: 'The ceremony',             color: '#7a5e16' },
-  { id: 'cocktail',  label: 'Cocktail Hour',sub: 'Cocktail hour service',    color: '#b8860b' },
-  { id: 'dinner',    label: 'Dinner',       sub: 'Seated dinner service',    color: '#8a6d1b' },
-  { id: 'cake',      label: 'Cake Cutting', sub: 'Cake & dessert service',   color: '#c49a2a' },
-  { id: 'toast',     label: 'Toast',        sub: 'Champagne & speeches',     color: '#b8860b' },
-  { id: 'dancing',   label: 'Dancing',      sub: 'Dancing & open bar',       color: '#7a5e16' },
-  { id: 'late',      label: 'Late Night',   sub: 'Late night bar service',   color: '#5a4a30' },
-  { id: 'farewell',  label: 'Farewell',     sub: 'Final send-off',           color: '#8a6d1b' }
+  { id:'arrival',  label:'Arrival',       sub:'Drinks on arrival' },
+  { id:'ceremony', label:'Ceremony',      sub:'The ceremony' },
+  { id:'cocktail', label:'Cocktail Hour', sub:'Cocktail hour service' },
+  { id:'dinner',   label:'Dinner',        sub:'Seated dinner service' },
+  { id:'cake',     label:'Cake Cutting',  sub:'Cake & dessert service' },
+  { id:'toast',    label:'Toast',         sub:'Champagne & speeches' },
+  { id:'dancing',  label:'Dancing',       sub:'Dancing & open bar' },
+  { id:'late',     label:'Late Night',    sub:'Late night bar service' },
+  { id:'farewell', label:'Farewell',      sub:'Final send-off' }
 ];
 
-var tlNotes = {};
-var activeId = null;
-
-/* ─── ARTSY SVG ICONS ────────────────────── */
+/* ════════════════════════════════════════
+   ICONS
+   ════════════════════════════════════════ */
 function makeIcon(type, state, size) {
-  size = size || 58;
+  size = size || 54;
   var s = state || 'default';
-  var gold = s === 'filled' ? '#d4a830' : s === 'active' ? '#6aab7a' : '#c4b07a';
-  var bg   = s === 'filled' ? '#2c1f0e' : s === 'active' ? '#1a3322' : '#f5ecd8';
-  var rim  = s === 'filled' ? '#b8860b' : s === 'active' ? '#4a7c59' : '#8a6d1b';
-  var glow = s === 'filled' ? 'rgba(212,168,48,0.3)' : s === 'active' ? 'rgba(106,171,122,0.3)' : 'none';
+  var gold  = s==='filled' ? '#d4a830' : s==='active' ? '#6aab7a' : '#c4b07a';
+  var bg    = s==='filled' ? '#2c1f0e' : s==='active' ? '#1a3322' : '#f5ecd8';
+  var rim   = s==='filled' ? '#b8860b' : s==='active' ? '#4a7c59' : '#8a6d1b';
 
   var art = {
-    arrival: // Compass rose
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<circle cx="29" cy="29" r="22" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.4"/>' +
-      '<polygon points="29,8 31,27 29,31 27,27" fill="'+gold+'" opacity="0.9"/>' +
-      '<polygon points="29,50 31,31 29,27 27,31" fill="'+gold+'" opacity="0.4"/>' +
-      '<polygon points="8,29 27,27 31,29 27,31" fill="'+gold+'" opacity="0.6"/>' +
-      '<polygon points="50,29 31,27 27,29 31,31" fill="'+gold+'" opacity="0.3"/>' +
-      '<circle cx="29" cy="29" r="4" fill="'+gold+'" stroke="'+bg+'" stroke-width="1"/>' +
+    arrival:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<circle cx="29" cy="29" r="22" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.35"/>'+
+      '<polygon points="29,8 31,27 29,31 27,27" fill="'+gold+'" opacity="0.9"/>'+
+      '<polygon points="29,50 31,31 29,27 27,31" fill="'+gold+'" opacity="0.35"/>'+
+      '<polygon points="8,29 27,27 31,29 27,31" fill="'+gold+'" opacity="0.55"/>'+
+      '<polygon points="50,29 31,27 27,29 31,31" fill="'+gold+'" opacity="0.25"/>'+
+      '<circle cx="29" cy="29" r="4" fill="'+gold+'" stroke="'+bg+'" stroke-width="1"/>'+
       '<circle cx="29" cy="29" r="1.5" fill="'+bg+'"/>',
-
-    ceremony: // Interlinked rings with flourish
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<circle cx="22" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>' +
-      '<circle cx="36" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>' +
-      '<circle cx="22" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.35"/>' +
-      '<circle cx="36" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.35"/>' +
-      '<path d="M29 19 L29 14" stroke="'+gold+'" stroke-width="1" stroke-linecap="round"/>' +
-      '<path d="M27 14 L29 12 L31 14" fill="none" stroke="'+gold+'" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<text x="29" y="43" text-anchor="middle" font-size="6" font-family="Cormorant Garamond,serif" fill="'+gold+'" letter-spacing="1" opacity="0.7">I DO</text>',
-
-    cocktail: // Martini glass with olive
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<path d="M16 15 L29 29 L42 15" fill="none" stroke="'+gold+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<line x1="16" y1="15" x2="42" y2="15" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>' +
-      '<line x1="29" y1="29" x2="29" y2="40" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>' +
-      '<line x1="22" y1="40" x2="36" y2="40" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>' +
-      '<circle cx="35" cy="13" r="3" fill="none" stroke="'+gold+'" stroke-width="1" opacity="0.7"/>' +
-      '<line x1="35" y1="10" x2="35" y2="7" stroke="'+gold+'" stroke-width="0.8" opacity="0.5"/>' +
-      '<path d="M20 20 Q29 25 38 20" fill="'+gold+'" opacity="0.12"/>',
-
-    dinner: // Cloche with fork and knife
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<path d="M12 34 Q12 22 29 22 Q46 22 46 34" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>' +
-      '<line x1="10" y1="34" x2="48" y2="34" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>' +
-      '<line x1="16" y1="16" x2="16" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.7"/>' +
-      '<path d="M13 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.6"/>' +
-      '<path d="M19 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.6"/>' +
-      '<line x1="42" y1="16" x2="42" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.7"/>' +
-      '<path d="M42 16 Q46 19 46 24 Q46 28 42 28" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.6"/>',
-
-    cake: // Layered cake with candle
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<rect x="16" y="33" width="26" height="10" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>' +
-      '<rect x="19" y="25" width="20" height="9" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>' +
-      '<path d="M16 33 Q29 29 42 33" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.4"/>' +
-      '<path d="M19 25 Q29 22 39 25" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.4"/>' +
-      '<line x1="29" y1="25" x2="29" y2="18" stroke="'+gold+'" stroke-width="1.2" stroke-linecap="round"/>' +
-      '<path d="M27 17 Q29 14 31 17 Q29 19 27 17Z" fill="'+gold+'" opacity="0.85"/>' +
-      '<circle cx="22" cy="30" r="1.5" fill="'+gold+'" opacity="0.5"/>' +
-      '<circle cx="36" cy="30" r="1.5" fill="'+gold+'" opacity="0.5"/>',
-
-    toast: // Two champagne flutes clinking
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<path d="M20 38 L20 20 Q20 14 24 14 L25 14 Q26 14 26 17 L26 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M38 38 L38 20 Q38 14 34 14 L33 14 Q32 14 32 17 L32 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M22 18 Q29 23 36 18" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.4"/>' +
-      '<circle cx="22" cy="11" r="1.2" fill="'+gold+'" opacity="0.6"/>' +
-      '<circle cx="29" cy="9" r="0.9" fill="'+gold+'" opacity="0.4"/>' +
-      '<circle cx="36" cy="10" r="1" fill="'+gold+'" opacity="0.5"/>' +
-      '<line x1="17" y1="38" x2="41" y2="38" stroke="'+gold+'" stroke-width="0.6" opacity="0.3"/>',
-
-    dancing: // Two figures dancing
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<circle cx="22" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>' +
-      '<path d="M22 17 Q22 22 22 26 Q20 30 18 34" stroke="'+gold+'" stroke-width="1.5" fill="none" stroke-linecap="round"/>' +
-      '<path d="M22 22 Q18 20 16 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      '<path d="M22 22 Q26 20 28 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="36" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>' +
-      '<path d="M36 17 Q36 22 36 26 Q38 30 40 34" stroke="'+gold+'" stroke-width="1.5" fill="none" stroke-linecap="round"/>' +
-      '<path d="M36 22 Q32 20 30 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      '<path d="M36 22 Q40 20 42 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      '<path d="M19 39 Q22 43 25 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.6"/>' +
-      '<path d="M39 39 Q36 43 33 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.6"/>',
-
-    late: // Crescent moon with stars
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<path d="M34 12 Q24 14 20 22 Q16 32 22 40 Q28 46 36 42 Q30 38 28 30 Q26 20 34 12Z" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>' +
-      '<circle cx="40" cy="14" r="1.8" fill="'+gold+'" opacity="0.8"/>' +
-      '<circle cx="44" cy="22" r="1.2" fill="'+gold+'" opacity="0.6"/>' +
-      '<circle cx="42" cy="30" r="0.9" fill="'+gold+'" opacity="0.5"/>' +
-      '<polygon points="38,8 39,11 42,11 40,13 41,16 38,14 35,16 36,13 34,11 37,11" fill="'+gold+'" opacity="0.55" transform="scale(0.7) translate(16,4)"/>',
-
-    farewell: // Eight-pointed star with rays
-      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>' +
-      '<polygon points="29,10 31,26 29,28 27,26" fill="'+gold+'" opacity="0.9"/>' +
-      '<polygon points="29,48 31,32 29,30 27,32" fill="'+gold+'" opacity="0.9"/>' +
-      '<polygon points="10,29 26,27 28,29 26,31" fill="'+gold+'" opacity="0.9"/>' +
-      '<polygon points="48,29 32,27 30,29 32,31" fill="'+gold+'" opacity="0.9"/>' +
-      '<polygon points="15,15 26,26 25,28 23,27" fill="'+gold+'" opacity="0.55"/>' +
-      '<polygon points="43,43 32,32 33,30 35,31" fill="'+gold+'" opacity="0.55"/>' +
-      '<polygon points="43,15 32,26 30,25 31,23" fill="'+gold+'" opacity="0.55"/>' +
-      '<polygon points="15,43 26,32 28,33 27,35" fill="'+gold+'" opacity="0.55"/>' +
-      '<circle cx="29" cy="29" r="5" fill="none" stroke="'+gold+'" stroke-width="1.2"/>' +
+    ceremony:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<circle cx="22" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>'+
+      '<circle cx="36" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>'+
+      '<circle cx="22" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.3"/>'+
+      '<circle cx="36" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.3"/>'+
+      '<path d="M29 19 L29 13" stroke="'+gold+'" stroke-width="1.2" stroke-linecap="round"/>'+
+      '<path d="M26 13 L29 11 L32 13" fill="none" stroke="'+gold+'" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<text x="29" y="43" text-anchor="middle" font-size="6" font-family="Cormorant Garamond,serif" fill="'+gold+'" letter-spacing="1.5" opacity="0.75">I DO</text>',
+    cocktail:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<path d="M16 15 L29 29 L42 15" fill="none" stroke="'+gold+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<line x1="16" y1="15" x2="42" y2="15" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>'+
+      '<line x1="29" y1="29" x2="29" y2="40" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>'+
+      '<line x1="22" y1="40" x2="36" y2="40" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>'+
+      '<circle cx="35" cy="13" r="3" fill="none" stroke="'+gold+'" stroke-width="1" opacity="0.65"/>'+
+      '<line x1="35" y1="10" x2="35" y2="7" stroke="'+gold+'" stroke-width="0.8" opacity="0.45"/>'+
+      '<path d="M20 20 Q29 25 38 20" fill="'+gold+'" opacity="0.1"/>',
+    dinner:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<path d="M12 34 Q12 22 29 22 Q46 22 46 34" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>'+
+      '<line x1="10" y1="34" x2="48" y2="34" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>'+
+      '<line x1="16" y1="16" x2="16" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>'+
+      '<path d="M13 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>'+
+      '<path d="M19 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>'+
+      '<line x1="42" y1="16" x2="42" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>'+
+      '<path d="M42 16 Q46 19 46 24 Q46 28 42 28" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>',
+    cake:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<rect x="15" y="33" width="28" height="10" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>'+
+      '<rect x="19" y="25" width="20" height="9" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>'+
+      '<path d="M15 33 Q29 29 43 33" fill="none" stroke="'+gold+'" stroke-width="0.6" opacity="0.35"/>'+
+      '<path d="M19 25 Q29 22 39 25" fill="none" stroke="'+gold+'" stroke-width="0.6" opacity="0.35"/>'+
+      '<line x1="29" y1="25" x2="29" y2="18" stroke="'+gold+'" stroke-width="1.2" stroke-linecap="round"/>'+
+      '<path d="M27 17 Q29 14 31 17 Q29 20 27 17Z" fill="'+gold+'" opacity="0.85"/>'+
+      '<circle cx="22" cy="30" r="1.5" fill="'+gold+'" opacity="0.45"/>'+
+      '<circle cx="36" cy="30" r="1.5" fill="'+gold+'" opacity="0.45"/>',
+    toast:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<path d="M20 38 L20 20 Q20 14 24 14 L25 14 Q26 14 26 17 L26 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M38 38 L38 20 Q38 14 34 14 L33 14 Q32 14 32 17 L32 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M22 18 Q29 23 36 18" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.35"/>'+
+      '<circle cx="22" cy="11" r="1.2" fill="'+gold+'" opacity="0.55"/>'+
+      '<circle cx="29" cy="9" r="0.9" fill="'+gold+'" opacity="0.4"/>'+
+      '<circle cx="36" cy="10" r="1" fill="'+gold+'" opacity="0.5"/>'+
+      '<line x1="17" y1="38" x2="41" y2="38" stroke="'+gold+'" stroke-width="0.6" opacity="0.25"/>',
+    dancing:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<circle cx="22" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>'+
+      '<path d="M22 17 Q22 22 22 26 Q20 30 18 34" stroke="'+gold+'" stroke-width="1.5" fill="none" stroke-linecap="round"/>'+
+      '<path d="M22 22 Q18 20 16 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M22 22 Q26 20 28 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
+      '<circle cx="36" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>'+
+      '<path d="M36 17 Q36 22 36 26 Q38 30 40 34" stroke="'+gold+'" stroke-width="1.5" fill="none" stroke-linecap="round"/>'+
+      '<path d="M36 22 Q32 20 30 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M36 22 Q40 20 42 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M19 39 Q22 43 25 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>'+
+      '<path d="M39 39 Q36 43 33 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>',
+    late:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<path d="M34 12 Q24 14 20 22 Q16 32 22 40 Q28 46 36 42 Q30 38 28 30 Q26 20 34 12Z" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>'+
+      '<circle cx="40" cy="14" r="1.8" fill="'+gold+'" opacity="0.8"/>'+
+      '<circle cx="44" cy="22" r="1.2" fill="'+gold+'" opacity="0.6"/>'+
+      '<circle cx="43" cy="30" r="0.9" fill="'+gold+'" opacity="0.45"/>'+
+      '<circle cx="38" cy="10" r="1" fill="'+gold+'" opacity="0.35"/>',
+    farewell:
+      '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
+      '<polygon points="29,10 31,26 29,28 27,26" fill="'+gold+'" opacity="0.9"/>'+
+      '<polygon points="29,48 31,32 29,30 27,32" fill="'+gold+'" opacity="0.9"/>'+
+      '<polygon points="10,29 26,27 28,29 26,31" fill="'+gold+'" opacity="0.9"/>'+
+      '<polygon points="48,29 32,27 30,29 32,31" fill="'+gold+'" opacity="0.9"/>'+
+      '<polygon points="15,15 26,26 25,28 23,27" fill="'+gold+'" opacity="0.5"/>'+
+      '<polygon points="43,43 32,32 33,30 35,31" fill="'+gold+'" opacity="0.5"/>'+
+      '<polygon points="43,15 32,26 30,25 31,23" fill="'+gold+'" opacity="0.5"/>'+
+      '<polygon points="15,43 26,32 28,33 27,35" fill="'+gold+'" opacity="0.5"/>'+
+      '<circle cx="29" cy="29" r="5" fill="none" stroke="'+gold+'" stroke-width="1.2"/>'+
       '<circle cx="29" cy="29" r="2.5" fill="'+gold+'"/>'
   };
 
-  var filter = glow !== 'none' ? ' filter="drop-shadow(0 0 5px '+glow+')"' : '';
-  return '<svg viewBox="0 0 58 58" width="'+size+'" height="'+size+'" xmlns="http://www.w3.org/2000/svg"'+filter+'>' + (art[type] || '') + '</svg>';
+  return '<svg viewBox="0 0 58 58" width="'+size+'" height="'+size+'" xmlns="http://www.w3.org/2000/svg">'+(art[type]||'')+'</svg>';
 }
 
-/* ─── BUILD TIMELINE ROWS ────────────────── */
-var container = document.getElementById('tlContainer');
+/* ════════════════════════════════════════
+   BUILD ROWS
+   ════════════════════════════════════════ */
+var tlNotes = {};
+var wrap = document.getElementById('tlWrap');
 
-segments.forEach(function(seg) {
-  // Row
+segments.forEach(function(seg, i) {
+  // Row head
   var row = document.createElement('div');
   row.className = 'tl-row';
   row.id = 'row-' + seg.id;
 
-  var iconWrap = document.createElement('div');
-  iconWrap.className = 'tl-icon-wrap';
-  iconWrap.id = 'icon-' + seg.id;
-  iconWrap.innerHTML = makeIcon(seg.id, 'default');
+  var head = document.createElement('div');
+  head.className = 'tl-row-head';
 
-  var info = document.createElement('div');
-  info.className = 'tl-row-info';
-  info.innerHTML = '<div class="tl-row-label">' + seg.label + '</div>' +
-                   '<div class="tl-row-sub">' + seg.sub + '</div>' +
-                   '<div class="tl-row-note-preview" id="preview-' + seg.id + '" style="display:none"></div>';
+  var iconW = document.createElement('div');
+  iconW.className = 'tl-icon-wrap';
+  iconW.id = 'icon-' + seg.id;
+  iconW.innerHTML = makeIcon(seg.id, 'default');
+
+  var text = document.createElement('div');
+  text.className = 'tl-row-text';
+  text.innerHTML =
+    '<div class="tl-row-label">' + seg.label + '</div>' +
+    '<div class="tl-row-sub">' + seg.sub + '</div>' +
+    '<div class="tl-row-logged" id="logged-' + seg.id + '"></div>';
 
   var btn = document.createElement('button');
-  btn.className = 'tl-add-btn';
-  btn.id = 'btn-' + seg.id;
-  btn.textContent = '+';
-  btn.title = 'Add note for ' + seg.label;
+  btn.className = 'tl-tap-btn';
+  btn.id = 'tapbtn-' + seg.id;
+  btn.innerHTML = '+';
+  btn.setAttribute('aria-label', 'Add note for ' + seg.label);
 
-  row.appendChild(iconWrap);
-  row.appendChild(info);
-  row.appendChild(btn);
+  head.appendChild(iconW);
+  head.appendChild(text);
+  head.appendChild(btn);
+  row.appendChild(head);
 
-  // Input wrap
-  var inputWrap = document.createElement('div');
-  inputWrap.className = 'tl-input-wrap';
-  inputWrap.id = 'input-' + seg.id;
+  // Expand area
+  var expand = document.createElement('div');
+  expand.className = 'tl-expand';
+  expand.id = 'expand-' + seg.id;
+
+  var inner = document.createElement('div');
+  inner.className = 'tl-expand-inner';
+
+  var loggedDisplay = document.createElement('div');
+  loggedDisplay.className = 'tl-expand-logged';
+  loggedDisplay.id = 'expandNote-' + seg.id;
+
+  var inputRow = document.createElement('div');
+  inputRow.className = 'tl-input-row';
 
   var input = document.createElement('input');
   input.className = 'tl-input';
-  input.id = 'note-' + seg.id;
-  input.placeholder = seg.sub + ' details…';
+  input.id = 'input-' + seg.id;
+  input.placeholder = seg.sub + '…';
   input.addEventListener('keydown', function(e) { if (e.key === 'Enter') logNote(seg.id); });
 
   var logBtn = document.createElement('button');
@@ -888,223 +855,212 @@ segments.forEach(function(seg) {
   logBtn.textContent = 'Log';
   logBtn.onclick = function() { logNote(seg.id); };
 
-  inputWrap.appendChild(input);
-  inputWrap.appendChild(logBtn);
+  inputRow.appendChild(input);
+  inputRow.appendChild(logBtn);
 
-  container.appendChild(row);
-  container.appendChild(inputWrap);
+  var editBtn = document.createElement('button');
+  editBtn.className = 'tl-edit-btn';
+  editBtn.id = 'editbtn-' + seg.id;
+  editBtn.textContent = 'Edit note';
+  editBtn.style.display = 'none';
+  editBtn.onclick = function() { editNote(seg.id); };
+
+  inner.appendChild(loggedDisplay);
+  inner.appendChild(inputRow);
+  inner.appendChild(editBtn);
+  expand.appendChild(inner);
+  row.appendChild(expand);
+
+  // Divider (not after last)
+  if (i < segments.length - 1) {
+    var div = document.createElement('div');
+    div.className = 'tl-divider';
+    row.appendChild(div);
+  }
+
+  wrap.appendChild(row);
 
   // Click handlers
-  row.addEventListener('click', function(e) {
-    if (e.target === btn || btn.contains(e.target)) return;
-    toggleInput(seg.id);
+  head.addEventListener('click', function(e) {
+    if (btn.contains(e.target)) return;
+    toggleExpand(seg.id);
   });
   btn.addEventListener('click', function(e) {
     e.stopPropagation();
-    toggleInput(seg.id);
+    toggleExpand(seg.id);
   });
 });
 
-function toggleInput(id) {
-  var wrap = document.getElementById('input-' + id);
-  var isOpen = wrap.classList.contains('open');
+function toggleExpand(id) {
+  var expand = document.getElementById('expand-' + id);
+  var btn    = document.getElementById('tapbtn-' + id);
+  var isOpen = expand.classList.contains('open');
 
-  // Close all
+  // Close all others
   segments.forEach(function(s) {
-    document.getElementById('input-' + s.id).classList.remove('open');
-    var b = document.getElementById('btn-' + s.id);
-    if (!tlNotes[s.id]) {
-      b.classList.remove('active');
-      b.textContent = '+';
+    if (s.id !== id) {
+      document.getElementById('expand-' + s.id).classList.remove('open');
+      var ob = document.getElementById('tapbtn-' + s.id);
+      if (!tlNotes[s.id]) { ob.classList.remove('open'); ob.innerHTML = '+'; }
     }
   });
 
-  if (!isOpen) {
-    wrap.classList.add('open');
-    var btn = document.getElementById('btn-' + id);
-    btn.classList.add('active');
-    btn.textContent = '×';
-    var input = document.getElementById('note-' + id);
-    input.value = tlNotes[id] || '';
-    input.focus();
-    // Activate icon
-    document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'active');
+  if (isOpen) {
+    expand.classList.remove('open');
+    if (!tlNotes[id]) { btn.classList.remove('open'); btn.innerHTML = '+'; }
+    document.getElementById('icon-' + id).innerHTML = makeIcon(id, tlNotes[id] ? 'filled' : 'default');
   } else {
-    // Revert icon
-    var state = tlNotes[id] ? 'filled' : 'default';
-    document.getElementById('icon-' + id).innerHTML = makeIcon(id, state);
+    expand.classList.add('open');
+    btn.classList.add('open');
+    btn.innerHTML = '+';
+    document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'active');
+    var input = document.getElementById('input-' + id);
+    if (!tlNotes[id]) {
+      input.value = '';
+      input.style.display = 'block';
+      document.getElementById('editbtn-' + id).style.display = 'none';
+      document.getElementById('expandNote-' + id).textContent = '';
+      expand.classList.remove('has-note');
+      setTimeout(function() { input.focus(); }, 50);
+    }
   }
 }
 
 function logNote(id) {
-  var input = document.getElementById('note-' + id);
+  var input = document.getElementById('input-' + id);
   var val = input.value.trim();
   if (!val) return;
 
   tlNotes[id] = val;
 
-  // Update icon
+  // Icon
   document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'filled');
 
-  // Update button
-  var btn = document.getElementById('btn-' + id);
-  btn.classList.remove('active');
+  // Button
+  var btn = document.getElementById('tapbtn-' + id);
+  btn.classList.remove('open');
   btn.classList.add('filled');
-  btn.textContent = '✓';
+  btn.innerHTML = '✓';
 
-  // Show preview
-  var preview = document.getElementById('preview-' + id);
-  preview.textContent = val;
-  preview.style.display = 'block';
+  // Row label color
+  document.getElementById('row-' + id).classList.add('filled');
 
-  // Close input
-  document.getElementById('input-' + id).classList.remove('open');
+  // Logged preview on row
+  var logged = document.getElementById('logged-' + id);
+  logged.textContent = val;
 
-  // Add/update card
-  renderCard(id, val);
-  updateProgress();
-  savePlanner();
-}
-
-/* ─── CARDS ──────────────────────────────── */
-var cardOrder = [];
-
-function renderCard(id, note) {
-  var grid = document.getElementById('cardsGrid');
-  var empty = document.getElementById('cardsEmpty');
-  if (empty) empty.style.display = 'none';
-
-  // Update existing card if present
-  var existing = document.getElementById('card-' + id);
-  if (existing) {
-    existing.querySelector('.card-note').textContent = note;
-    return;
-  }
-
-  // Track order
-  cardOrder.push(id);
-
-  var seg = segments.find(function(s) { return s.id === id; });
-  var card = document.createElement('div');
-  card.className = 'moment-card';
-  card.id = 'card-' + id;
-  card.innerHTML =
-    '<div class="card-icon">' + makeIcon(id, 'filled', 36) + '</div>' +
-    '<div class="card-body">' +
-      '<div class="card-label">' + seg.label + '</div>' +
-      '<div class="card-note">' + note + '</div>' +
-    '</div>' +
-    '<button class="card-delete" onclick="deleteCard(\'' + id + '\')" title="Remove">✕</button>';
-
-  grid.appendChild(card);
-}
-
-function deleteCard(id) {
-  delete tlNotes[id];
-
-  // Reset icon + button
-  document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'default');
-  var btn = document.getElementById('btn-' + id);
-  btn.classList.remove('filled', 'active');
-  btn.textContent = '+';
-
-  // Hide preview
-  var preview = document.getElementById('preview-' + id);
-  if (preview) preview.style.display = 'none';
-
-  // Remove card
-  var card = document.getElementById('card-' + id);
-  if (card) card.remove();
-  cardOrder = cardOrder.filter(function(i) { return i !== id; });
-
-  // Show empty state if no cards
-  if (cardOrder.length === 0) {
-    document.getElementById('cardsEmpty').style.display = 'block';
-  }
+  // Expand: show note, hide input, show edit
+  var expand = document.getElementById('expand-' + id);
+  var expandNote = document.getElementById('expandNote-' + id);
+  expandNote.textContent = val;
+  expand.classList.add('has-note');
+  input.style.display = 'none';
+  document.getElementById('editbtn-' + id).style.display = 'inline-block';
 
   updateProgress();
+  updateBudgetBar();
   savePlanner();
+
+  // Close after short delay
+  setTimeout(function() { expand.classList.remove('open'); }, 600);
+}
+
+function editNote(id) {
+  var input = document.getElementById('input-' + id);
+  input.value = tlNotes[id] || '';
+  input.style.display = 'block';
+  document.getElementById('editbtn-' + id).style.display = 'none';
+  document.getElementById('expand-' + id).classList.remove('has-note');
+  setTimeout(function() { input.focus(); }, 50);
 }
 
 function updateProgress() {
   var count = Object.keys(tlNotes).length;
   var pct = Math.round((count / segments.length) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('spineFill').style.height = pct + '%';
   document.getElementById('progressLabel').textContent = count + ' of ' + segments.length + ' moments noted';
 }
 
-/* ─── NOTEPAD ────────────────────────────── */
+/* ════════════════════════════════════════
+   BUDGET BAR
+   ════════════════════════════════════════ */
+var currentGuests = 0;
+
+function updateBudgetBar() {
+  if (currentGuests <= 0) return;
+  var minTotal = currentGuests * 12;
+  var maxTotal = currentGuests * 55;
+  var fmt = function(n) { return n.toLocaleString('en-US', {style:'currency',currency:'USD',maximumFractionDigits:0}); };
+  document.getElementById('budgetMin').textContent = fmt(minTotal);
+  document.getElementById('budgetMax').textContent = fmt(maxTotal);
+  document.getElementById('budgetGuests').textContent = 'for ' + currentGuests + ' guests across all tiers';
+}
+
+/* ════════════════════════════════════════
+   NOTEPAD
+   ════════════════════════════════════════ */
 var pad = document.getElementById('notepad');
 var countEl = document.getElementById('charCount');
 
 pad.addEventListener('input', function() {
-  var len = pad.value.length;
-  countEl.textContent = len > 0 ? len + ' characters' : '';
+  countEl.textContent = pad.value.length > 0 ? pad.value.length + ' characters' : '';
 });
 
-function clearNotes() {
+function clearAll() {
   if ((pad.value.trim() || Object.keys(tlNotes).length > 0) && !confirm('Clear all notes and timeline entries?')) return;
-  pad.value = '';
-  countEl.textContent = '';
-  tlNotes = {};
-  cardOrder = [];
+  pad.value = ''; countEl.textContent = ''; tlNotes = {};
   segments.forEach(function(seg) {
-    document.getElementById('icon-' + seg.id).innerHTML = makeIcon(seg.id, 'default');
-    var btn = document.getElementById('btn-' + seg.id);
-    btn.classList.remove('filled', 'active');
-    btn.textContent = '+';
-    var preview = document.getElementById('preview-' + seg.id);
-    if (preview) preview.style.display = 'none';
-    var inputWrap = document.getElementById('input-' + seg.id);
-    if (inputWrap) inputWrap.classList.remove('open');
+    document.getElementById('icon-'+seg.id).innerHTML = makeIcon(seg.id,'default');
+    var btn = document.getElementById('tapbtn-'+seg.id);
+    btn.classList.remove('filled','open'); btn.innerHTML = '+';
+    document.getElementById('row-'+seg.id).classList.remove('filled');
+    document.getElementById('logged-'+seg.id).textContent = '';
+    var expand = document.getElementById('expand-'+seg.id);
+    expand.classList.remove('open','has-note');
+    var input = document.getElementById('input-'+seg.id);
+    input.value=''; input.style.display='block';
+    document.getElementById('editbtn-'+seg.id).style.display='none';
+    document.getElementById('expandNote-'+seg.id).textContent='';
   });
-  document.getElementById('cardsGrid').innerHTML = '<div class="cards-empty" id="cardsEmpty">No moments logged yet — tap any segment above to begin.</div>';
   updateProgress();
   try { localStorage.removeItem('pathfinder-planner'); } catch(e) {}
 }
 
 function printNotes() {
-  var timelineHTML = cardOrder.map(function(id) {
-    var seg = segments.find(function(s) { return s.id === id; });
-    return '<div style="margin-bottom:10px;padding:10px 14px;border:1px solid #d4a830;border-radius:8px;">' +
-      '<strong style="color:#7a5e16;font-size:14px;">' + seg.label + '</strong>' +
-      '<p style="font-style:italic;color:#5a4a30;margin-top:4px;font-size:13px;">' + tlNotes[id] + '</p>' +
-      '</div>';
+  var tlHTML = segments.filter(function(s){return tlNotes[s.id];}).map(function(s){
+    return '<div style="margin-bottom:10px;padding:10px 14px;border:1px solid #d4a830;border-radius:8px;">'+
+      '<strong style="color:#7a5e16;font-size:14px;">'+s.label+'</strong>'+
+      '<p style="font-style:italic;color:#5a4a30;margin:4px 0 0;font-size:13px;">'+tlNotes[s.id]+'</p></div>';
   }).join('');
 
-  var w = window.open('', '_blank');
-  w.document.write('<html><head><title>Beverage Planner</title>' +
-    '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">' +
-    '<style>body{font-family:"Cormorant Garamond",serif;max-width:600px;margin:40px auto;color:#2c1f0e;padding:0 20px}' +
-    'h1{font-size:22px;color:#7a5e16;letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:4px}' +
-    '.sub{text-align:center;font-style:italic;color:#8a7a55;font-size:13px}' +
-    '.rule{height:1px;background:linear-gradient(to right,transparent,#b8860b,transparent);width:60%;margin:10px auto 20px}' +
-    'h2{font-size:15px;color:#7a5e16;letter-spacing:0.08em;text-transform:uppercase;margin:24px 0 10px}' +
-    '.notes{white-space:pre-wrap;font-size:15px;line-height:1.8}' +
-    '.ft{margin-top:30px;font-size:12px;color:#8a7a55;text-align:center;font-style:italic;border-top:1px solid #d4a830;padding-top:10px}' +
-    '</style></head><body>' +
-    '<h1>Pathfinder Beverage Planner</h1>' +
-    '<div class="sub">Your ideas and inspirations</div>' +
-    '<div class="rule"></div>' +
-    (cardOrder.length > 0 ? '<h2>Wedding Day Timeline</h2><div>' + timelineHTML + '</div>' : '') +
-    (pad.value ? '<h2>Notes</h2><div class="notes">' + pad.value + '</div>' : '') +
-    '<div class="ft">Pathfinder Wine & Beverage Curation &middot; Est. 2026</div>' +
+  var w = window.open('','_blank');
+  w.document.write('<html><head><title>Pathfinder Beverage Planner</title>'+
+    '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">'+
+    '<style>body{font-family:"Cormorant Garamond",serif;max-width:600px;margin:40px auto;color:#2c1f0e;padding:0 20px}'+
+    'h1{font-size:22px;color:#7a5e16;letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:4px}'+
+    '.sub{text-align:center;font-style:italic;color:#8a7a55;font-size:13px}'+
+    '.rule{height:1px;background:linear-gradient(to right,transparent,#b8860b,transparent);width:60%;margin:10px auto 20px}'+
+    'h2{font-size:15px;color:#7a5e16;letter-spacing:.08em;text-transform:uppercase;margin:24px 0 10px}'+
+    '.notes{white-space:pre-wrap;font-size:15px;line-height:1.8}'+
+    '.ft{margin-top:30px;font-size:12px;color:#8a7a55;text-align:center;font-style:italic;border-top:1px solid #d4a830;padding-top:10px}'+
+    '</style></head><body>'+
+    '<h1>Pathfinder Beverage Planner</h1><div class="sub">Your ideas and inspirations</div><div class="rule"></div>'+
+    (tlHTML ? '<h2>Wedding Day Timeline</h2><div>'+tlHTML+'</div>' : '')+
+    (pad.value ? '<h2>Additional Notes</h2><div class="notes">'+pad.value+'</div>' : '')+
+    '<div class="ft">Pathfinder Wine & Beverage Curation &middot; Est. 2026</div>'+
     '</body></html>');
-  w.document.close();
-  w.print();
+  w.document.close(); w.print();
 }
 
 function savePlanner() {
-  var data = { timeline: tlNotes, cardOrder: cardOrder, notepad: pad.value, savedAt: new Date().toLocaleString() };
+  var data = { timeline: tlNotes, notepad: pad.value, savedAt: new Date().toLocaleString() };
   try {
     localStorage.setItem('pathfinder-planner', JSON.stringify(data));
     var msg = document.getElementById('saveMsg');
-    msg.textContent = 'Saved ✓';
-    msg.classList.add('show');
-    setTimeout(function() { msg.classList.remove('show'); }, 2500);
-  } catch(e) {
-    alert('Unable to save — storage may be disabled.');
-  }
+    msg.textContent = 'Saved ✓'; msg.classList.add('show');
+    setTimeout(function(){ msg.classList.remove('show'); }, 2500);
+  } catch(e) { alert('Unable to save — storage may be disabled.'); }
 }
 
 function loadPlanner() {
@@ -1113,18 +1069,22 @@ function loadPlanner() {
     if (!raw) return;
     var data = JSON.parse(raw);
     if (data.timeline) {
-      var order = data.cardOrder || Object.keys(data.timeline);
-      order.forEach(function(id) {
-        if (data.timeline[id]) {
-          tlNotes[id] = data.timeline[id];
-          document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'filled');
-          var btn = document.getElementById('btn-' + id);
-          btn.classList.add('filled');
-          btn.textContent = '✓';
-          var preview = document.getElementById('preview-' + id);
-          if (preview) { preview.textContent = data.timeline[id]; preview.style.display = 'block'; }
-          renderCard(id, data.timeline[id]);
-        }
+      Object.keys(data.timeline).forEach(function(id) {
+        var val = data.timeline[id];
+        if (!val) return;
+        tlNotes[id] = val;
+        document.getElementById('icon-'+id).innerHTML = makeIcon(id,'filled');
+        var btn = document.getElementById('tapbtn-'+id);
+        btn.classList.add('filled'); btn.innerHTML = '✓';
+        document.getElementById('row-'+id).classList.add('filled');
+        document.getElementById('logged-'+id).textContent = val;
+        document.getElementById('expandNote-'+id).textContent = val;
+        var input = document.getElementById('input-'+id);
+        if (input) input.style.display = 'none';
+        var editBtn = document.getElementById('editbtn-'+id);
+        if (editBtn) editBtn.style.display = 'inline-block';
+        var expand = document.getElementById('expand-'+id);
+        if (expand) expand.classList.add('has-note');
       });
       updateProgress();
     }
@@ -1136,100 +1096,92 @@ function loadPlanner() {
 }
 
 loadPlanner();
-pad.addEventListener('blur', function() { if (pad.value.trim()) savePlanner(); });
+pad.addEventListener('blur', function(){ if (pad.value.trim()) savePlanner(); });
 
-/* ─── TIER REFERENCE ─────────────────────── */
-var tierRefGuests = 50;
+/* ════════════════════════════════════════
+   TIER PRICING
+   ════════════════════════════════════════ */
+var tierGuests = 50;
 
-var tierRefData = [
-  {
-    cls: 'Budget-Friendly Tier', name: 'Beer & Wine Only', min: 12, max: 15,
-    desc: 'House premium wines + local craft beer and premium sodas.',
-    features: ['2 Curated House Red & White Wines', '3 Local Texas Craft Beers & Seltzers', 'Assorted Sodas & Sparkling Waters']
-  },
-  {
-    cls: 'Premium Selection Tier', name: 'Standard Full Bar', min: 18, max: 23,
-    desc: 'Call-brand spirits, house wines, domestic and local craft beers.',
-    features: ['All Beer & Wine features', 'Standard Well Spirits — Vodka, Gin, Bourbon, Rum & Tequila', 'Premium Tonic, Club Sodas & Fresh Lime Juice'],
-    highlight: true
-  },
-  {
-    cls: 'Ultra-Premium Tier', name: 'Premium Experience', min: 30, max: 55,
-    desc: 'Top-shelf luxury spirits, reserve wines, import selections.',
-    features: ["Belvedere, Hendrick's, Willet Pot Still Bourbon", 'Curated Reserve Red, White & Sparkling Wines', 'Expanded Imported & Premium Texas Craft Beers']
-  }
+var tiers = [
+  { cls:'Budget-Friendly', name:'Beer & Wine Only', min:12, max:15,
+    desc:'House premium wines + local craft beer and premium sodas.',
+    feats:['2 Curated House Red & White Wines','3 Local Texas Craft Beers & Seltzers','Assorted Sodas & Sparkling Waters'] },
+  { cls:'Premium Selection', name:'Standard Full Bar', min:18, max:23, hl:true,
+    desc:'Call-brand spirits, house wines, domestic and local craft beers.',
+    feats:['All Beer & Wine features','Standard Well Spirits — Vodka, Gin, Bourbon, Rum & Tequila','Premium Tonic, Club Sodas & Fresh Lime Juice'] },
+  { cls:'Ultra-Premium', name:'Premium Experience', min:30, max:55,
+    desc:'Top-shelf luxury spirits, reserve wines, import selections.',
+    feats:["Belvedere, Hendrick's, Willet Pot Still Bourbon",'Curated Reserve Red, White & Sparkling Wines','Expanded Imported & Premium Texas Craft Beers'] }
 ];
 
-function renderTierReference() {
-  var grid = document.getElementById('tierRefGrid');
-  var subtitle = document.getElementById('tierRefSubtitle');
-  if (!grid) return;
-  subtitle.textContent = 'Estimated costs for ' + tierRefGuests + ' guests';
-  grid.innerHTML = tierRefData.map(function(t) {
-    var totalMin = (tierRefGuests * t.min).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-    var totalMax = (tierRefGuests * t.max).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
-    return '<div class="tier-card' + (t.highlight ? ' highlight' : '') + '">' +
-      '<div><span class="tier-badge">' + t.cls + '</span>' + (t.highlight ? '<span class="tier-popular">Popular</span>' : '') + '</div>' +
-      '<div><div class="tier-name">' + t.name + '</div><div class="tier-desc">' + t.desc + '</div></div>' +
-      '<ul class="tier-features">' + t.features.map(function(f) { return '<li>' + f + '</li>'; }).join('') + '</ul>' +
-      '<div class="tier-pricing">' +
-        '<div class="tier-per-guest-label">Per Guest</div>' +
-        '<div class="tier-per-guest">$' + t.min + ' – $' + t.max + ' <span>/ guest</span></div>' +
-        '<div class="tier-total-box">' +
-          '<div class="tier-total-label">Est. Total for ' + tierRefGuests + ' Guests</div>' +
-          '<div class="tier-total-value">' + totalMin + ' – ' + totalMax + '</div>' +
-        '</div>' +
-      '</div>' +
+function renderTiers() {
+  var grid = document.getElementById('tierGrid');
+  var sub  = document.getElementById('tierSubtitle');
+  sub.textContent = 'Estimated costs for ' + tierGuests + ' guests';
+  var fmt = function(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); };
+  grid.innerHTML = tiers.map(function(t){
+    return '<div class="tier-card'+(t.hl?' hl':'')+'">'+
+      '<div class="tier-badge-row"><span class="tier-badge">'+t.cls+'</span>'+(t.hl?'<span class="tier-pop">Popular</span>':'')+' </div>'+
+      '<div><div class="tier-name">'+t.name+'</div><div class="tier-desc">'+t.desc+'</div></div>'+
+      '<ul class="tier-feats">'+t.feats.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>'+
+      '<div class="tier-pricing">'+
+        '<div class="tier-per-lbl">Per Guest</div>'+
+        '<div class="tier-per">$'+t.min+' – $'+t.max+' <span>/ guest</span></div>'+
+        '<div class="tier-total">'+
+          '<div class="tier-total-lbl">Est. Total for '+tierGuests+' Guests</div>'+
+          '<div class="tier-total-val">'+fmt(tierGuests*t.min)+' – '+fmt(tierGuests*t.max)+'</div>'+
+        '</div>'+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
-renderTierReference();
+renderTiers();
 
-/* ─── POSTMESSAGE BRIDGE ─────────────────── */
+/* ════════════════════════════════════════
+   POSTMESSAGE BRIDGE
+   ════════════════════════════════════════ */
 window.addEventListener('message', function(e) {
   var d = e.data;
   if (!d || !d.type) return;
 
   if (d.type === 'add-to-planner') {
-    var line = '🍷 ' + (d.category ? d.category + ': ' : '') + d.product;
-    if (d.note) line += ' — ' + d.note;
+    var line = '🍷 '+(d.category ? d.category+': ':'')+d.product;
+    if (d.note) line += ' — '+d.note;
     appendToNotepad(line);
   }
 
   if (d.type === 'calculator-update') {
-    tierRefGuests = d.guests || tierRefGuests;
-    renderTierReference();
-    var bar = document.getElementById('calcInfoBar');
-    var top = document.getElementById('calcInfoTop');
-    var vols = document.getElementById('calcInfoVolumes');
-    if (bar && top && vols) {
-      bar.style.display = 'block';
-      top.innerHTML =
-        '<span class="calc-pill">👥 <strong>' + d.guests + '</strong> Guests</span>' +
-        '<span class="calc-pill">🕐 <strong>' + d.hours + '</strong> Hours</span>' +
-        '<span class="calc-pill">🍹 <strong>' + d.totalDrinks + '</strong> Total Drinks</span>';
-      vols.innerHTML =
-        '<span class="calc-pill">🍷 Wine ' + d.wine + ' — <strong>' + d.wineBottles + '</strong> btls</span>' +
-        '<span class="calc-pill">🍺 Beer ' + d.beer + ' — <strong>' + d.beerCans + '</strong> cans</span>' +
-        '<span class="calc-pill">🥃 Spirits ' + d.liquor + ' — <strong>' + d.liq750 + '</strong> (750ml)</span>';
-    }
+    currentGuests = d.guests || currentGuests;
+    tierGuests = currentGuests;
+    renderTiers();
+    updateBudgetBar();
+
+    var snap = document.getElementById('calcSnap');
+    snap.style.display = 'flex';
+    snap.innerHTML =
+      '<span class="calc-pill">👥 <strong>'+d.guests+'</strong> Guests</span>'+
+      '<span class="calc-pill">🕐 <strong>'+d.hours+'</strong> Hours</span>'+
+      '<span class="calc-pill">🍷 '+d.wineBottles+' btls wine</span>'+
+      '<span class="calc-pill">🍺 '+d.beerCans+' cans beer</span>'+
+      '<span class="calc-pill">🥃 '+d.liq750+' btls spirits</span>';
   }
 
   if (d.type === 'event-info') {
-    var parts = [];
-    if (d.date) parts.push('📅 ' + d.date);
-    if (d.start) parts.push('⏰ ' + d.start);
-    if (d.guests) parts.push('👥 ' + d.guests + ' guests');
-    if (d.duration) parts.push('🕐 Bar: ' + d.duration);
-    if (d.vibe) parts.push('✨ Vibe: ' + d.vibe);
-    if (parts.length) appendToNotepad(parts.join('\n'));
+    var parts=[];
+    if(d.date) parts.push('📅 '+d.date);
+    if(d.start) parts.push('⏰ '+d.start);
+    if(d.guests) parts.push('👥 '+d.guests+' guests');
+    if(d.duration) parts.push('🕐 Bar: '+d.duration);
+    if(d.vibe) parts.push('✨ Vibe: '+d.vibe);
+    if(parts.length) appendToNotepad(parts.join('\n'));
   }
 });
 
 function appendToNotepad(text) {
-  pad.value = pad.value.trim() ? pad.value.trimEnd() + '\n' + text : text;
-  countEl.textContent = pad.value.length > 0 ? pad.value.length + ' characters' : '';
+  pad.value = pad.value.trim() ? pad.value.trimEnd()+'\n'+text : text;
+  countEl.textContent = pad.value.length > 0 ? pad.value.length+' characters' : '';
   savePlanner();
 }
 </script>
