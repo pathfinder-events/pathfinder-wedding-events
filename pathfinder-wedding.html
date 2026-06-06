@@ -3413,14 +3413,14 @@ function submitPlanner() {
 /* ════════════════════════════════════
    DRAWER OPEN / CLOSE
 ════════════════════════════════════ */
-const APP_URL = 'https://pathfinder-app-flame.vercel.app?v=2';
+const APP_URL = 'https://pathfinder-app-flame.vercel.app';
 
 function openDrawer(key) {
   closeDrawer(false);
   if (key === 'chat') {
     const iframeEl = document.getElementById('iframe-chat');
     if (!iframeEl.src || iframeEl.src === 'about:blank') {
-      iframeEl.src = APP_URL + '/?tab=chat';
+iframeEl.src = APP_URL + '/?tab=chat&v=2';
     }
   }
   document.getElementById('drawer-backdrop').style.display = 'block';
