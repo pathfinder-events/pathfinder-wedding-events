@@ -704,6 +704,53 @@ body::before {
       Estimated costs based on your guest count
     </p>
   </div>
+  <!-- Interactive bubble controls -->
+  <div id="tierControls" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px;">
+
+    <!-- Guests bubble -->
+    <div style="display:flex;align-items:center;gap:4px;background:white;border:1px solid rgba(184,134,11,0.35);border-radius:30px;padding:4px 6px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <button onclick="adjustTierVal('guests',-5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(184,134,11,0.1);color:#7a5e16;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">−</button>
+      <span id="bubbleGuests" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#7a5e16;min-width:75px;text-align:center;"></span>
+      <button onclick="adjustTierVal('guests',5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(184,134,11,0.1);color:#7a5e16;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+    </div>
+
+    <span style="color:rgba(184,134,11,0.4);font-size:12px;">·</span>
+
+    <!-- Hours bubble -->
+    <div style="display:flex;align-items:center;gap:4px;background:white;border:1px solid rgba(184,134,11,0.35);border-radius:30px;padding:4px 6px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <button onclick="adjustTierVal('hours',-1)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(184,134,11,0.1);color:#7a5e16;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">−</button>
+      <span id="bubbleHours" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#7a5e16;min-width:50px;text-align:center;"></span>
+      <button onclick="adjustTierVal('hours',1)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(184,134,11,0.1);color:#7a5e16;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+    </div>
+
+    <span style="color:rgba(184,134,11,0.4);font-size:12px;">·</span>
+
+    <!-- Liquor bubble -->
+    <div style="display:flex;align-items:center;gap:4px;background:white;border:1px solid rgba(184,134,11,0.25);border-radius:30px;padding:4px 6px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <button onclick="adjustTierVal('liquor',-5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(217,180,50,0.1);color:#a07820;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">−</button>
+      <span id="bubbleLiquor" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#a07820;min-width:75px;text-align:center;"></span>
+      <button onclick="adjustTierVal('liquor',5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(217,180,50,0.1);color:#a07820;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+    </div>
+
+    <!-- Wine bubble -->
+    <div style="display:flex;align-items:center;gap:4px;background:white;border:1px solid rgba(180,80,80,0.25);border-radius:30px;padding:4px 6px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <button onclick="adjustTierVal('wine',-5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(180,80,80,0.08);color:#a04040;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">−</button>
+      <span id="bubbleWine" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#a04040;min-width:65px;text-align:center;"></span>
+      <button onclick="adjustTierVal('wine',5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(180,80,80,0.08);color:#a04040;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+    </div>
+
+    <!-- Beer bubble -->
+    <div style="display:flex;align-items:center;gap:4px;background:white;border:1px solid rgba(180,160,40,0.3);border-radius:30px;padding:4px 6px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <button onclick="adjustTierVal('beer',-5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(180,160,40,0.1);color:#8a7a10;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">−</button>
+      <span id="bubbleBeer" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#8a7a10;min-width:60px;text-align:center;"></span>
+      <button onclick="adjustTierVal('beer',5)" style="width:26px;height:26px;border-radius:50%;border:none;background:rgba(180,160,40,0.1);color:#8a7a10;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">+</button>
+    </div>
+
+    <!-- Total % check -->
+    <span id="ratioCheck" style="font-size:11px;font-family:'Jost',sans-serif;font-weight:600;"></span>
+
+  </div>
+
   <div class="tier-grid" id="tierGrid"></div>
 </div>
 
