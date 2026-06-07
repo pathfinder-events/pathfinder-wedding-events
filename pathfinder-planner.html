@@ -1079,11 +1079,126 @@ function updateBudgetBar() {
 }
 
 /* ════════════════════════════════════════
-   NOTEPAD
+   TIER PRICING
    ════════════════════════════════════════ */
-var pad = document.getElementById('notepad');
-var countEl = document.getElementById('charCount');
+var tierGuests   = 50;
+var tierHours    = 4;
+var tierLiquor   = 50;
+var tierWine     = 25;
+var tierBeer     = 25;
+var selectedTier = null;
 
+var tiers = [
+  { id:'beer-wine', cls:'Budget-Friendly', name:'Beer & Wine Only', min:12, max:15,
+    desc:'House premium wines + local craft beer and premium sodas.',
+    feats:['2 Curated House Red & White Wines','3 Local Texas Craft Beers & Seltzers','Assorted Sodas & Sparkling Waters'] },
+  { id:'standard', cls:'Premium Selection', name:'Standard Full Bar', min:18, max:23, hl:true,
+    desc:'Call-brand spirits, house wines, domestic and local craft beers.',
+    feats:['All Beer & Wine features','Standard Well Spirits — Vodka, Gin, Bourbon, Rum & Tequila','Premium Tonic, Club Sodas & Fresh Lime Juice'] },
+  { id:'premium', cls:'Ultra-Premium', name:'Premium Experience', min:30, max:55,
+    desc:'Top-shelf luxury spirits, reserve wines, import selections.',
+    feats:["Belvedere, Hendrick's, Willet Pot Still Bourbon",'Curated Reserve Red, White & Sparkling Wines','Expanded Imported & Premium Texas Craft Beers'] }
+];
+
+function adjustTierVal(type, delta) {
+  if (type === 'guests') {
+    tierGuests = Math.min(500, Math.max(20, tierGuests + delta));
+  } else if (type === 'hours') {
+    tierHours = Math.min(12, Math.max(1, tierHours + delta));
+  } else if (type === 'liquor') {
+    var next = Math.min(100, Math.max(0, tierLiquor + delta));
+    var diff = next - tierLiquor;
+    tierLiquor = next;
+    tierWine = Math.max(0, Math.min(100, tierWine - Math.floor(diff / 2)));
+    tierBeer  = Math.max(0, Math.min(100, tierBeer  - Math.ceil(diff  / 2)));
+  } else if (type === 'wine') {
+    var next = Math.min(100, Math.max(0, tierWine + delta));
+    var diff = next - tierWine;
+    tierWine = next;
+    tierBeer   = Math.max(0, Math.min(100, tierBeer   - Math.floor(diff / 2)));
+    tierLiquor = Math.max(0, Math.min(100, tierLiquor - Math.ceil(diff  / 2)));
+  } else if (type === 'beer') {
+    var next = Math.min(100, Math.max(0, tierBeer + delta));
+    var diff = next - tierBeer;
+    tierBeer = next;
+    tierWine   = Math.max(0, Math.min(100, tierWine   - Math.floor(diff / 2)));
+    tierLiquor = Math.max(0, Math.min(100, tierLiquor - Math.ceil(diff  / 2)));
+  }
+  updateBubbles();
+  renderTiers();
+}
+
+function updateBubbles() {
+  document.getElementById('bubbleGuests').textContent  = tierGuests + ' guests';
+  document.getElementById('bubbleHours').textContent   = tierHours  + ' hrs';
+  document.getElementById('bubbleLiquor').textContent  = tierLiquor + '% Liquor';
+  document.getElementById('bubbleWine').textContent    = tierWine   + '% Wine';
+  document.getElementById('bubbleBeer').textContent    = tierBeer   + '% Beer';
+  var total = tierLiquor + tierWine + tierBeer;
+  var chk = document.getElementById('ratioCheck');
+  if (total === 100) {
+    chk.textContent = '✓ 100%';
+    chk.style.color = '#4a7c59';
+  } else {
+    chk.textContent = '⚠ ' + total + '% (should total 100%)';
+    chk.style.color = '#c0392b';
+  }
+}
+
+function selectTier(id) {
+  selectedTier = id;
+  // Notify parent (wedding questionnaire) of tier selection
+  window.parent.postMessage({ type: 'tier-selected', tierId: id }, '*');
+  renderTiers();
+}
+
+function renderTiers() {
+  var grid = document.getElementById('tierGrid');
+  var sub  = document.getElementById('tierSubtitle');
+  sub.textContent = 'Estimated costs for ' + tierGuests + ' guests';
+  var fmt = function(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); };
+
+  grid.innerHTML = tiers.map(function(t){
+    var minTotal     = tierGuests * t.min;
+    var maxTotal     = tierGuests * t.max;
+    var liquorMin    = fmt(minTotal * (tierLiquor / 100));
+    var liquorMax    = fmt(maxTotal * (tierLiquor / 100));
+    var wineMin      = fmt(minTotal * (tierWine   / 100));
+    var wineMax      = fmt(maxTotal * (tierWine   / 100));
+    var beerMin      = fmt(minTotal * (tierBeer   / 100));
+    var beerMax      = fmt(maxTotal * (tierBeer   / 100));
+    var perHrMin     = fmt(minTotal / tierHours);
+    var perHrMax     = fmt(maxTotal / tierHours);
+    var isSel        = selectedTier === t.id;
+
+    return '<div class="tier-card'+(t.hl?' hl':'')+(isSel?' selected':'')+'" onclick="selectTier(\''+t.id+'\')">'+
+      '<div class="tier-badge-row">'+
+        '<span class="tier-badge">'+t.cls+'</span>'+
+        (t.hl ? '<span class="tier-pop">Popular</span>' : '')+
+        '<div class="tier-check">✓</div>'+
+      '</div>'+
+      '<div><div class="tier-name">'+t.name+'</div><div class="tier-desc">'+t.desc+'</div></div>'+
+      '<ul class="tier-feats">'+t.feats.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>'+
+      '<div class="tier-pricing">'+
+        '<div class="tier-per-lbl">Per Guest</div>'+
+        '<div class="tier-per">$'+t.min+' – $'+t.max+' <span>/ guest</span></div>'+
+        '<div class="tier-total">'+
+          '<div class="tier-total-lbl">Est. Total for '+tierGuests+' Guests</div>'+
+          '<div class="tier-total-val">'+fmt(minTotal)+' – '+fmt(maxTotal)+'</div>'+
+        '</div>'+
+        '<div style="margin-top:10px;border-top:1px solid rgba(184,134,11,0.15);padding-top:10px;display:flex;flex-direction:column;gap:5px;">'+
+          (tierLiquor > 0 ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#d4a830;display:inline-block;"></span>Liquor ('+tierLiquor+'%)</span><span style="font-weight:600;color:var(--ink);">'+liquorMin+'–'+liquorMax+'</span></div>' : '')+
+          (tierWine > 0   ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#c06060;display:inline-block;"></span>Wine ('+tierWine+'%)</span><span style="font-weight:600;color:var(--ink);">'+wineMin+'–'+wineMax+'</span></div>' : '')+
+          (tierBeer > 0   ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#b8a820;display:inline-block;"></span>Beer ('+tierBeer+'%)</span><span style="font-weight:600;color:var(--ink);">'+beerMin+'–'+beerMax+'</span></div>' : '')+
+          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:2px;border-top:1px solid rgba(184,134,11,0.1);padding-top:5px;"><span style="color:var(--ink-soft);">Per hour ('+tierHours+' hrs)</span><span style="font-weight:600;color:var(--ink);">~'+perHrMin+'–'+perHrMax+'</span></div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+updateBubbles();
+renderTiers();
 pad.addEventListener('input', function() {
   countEl.textContent = pad.value.length > 0 ? pad.value.length + ' characters' : '';
 });
