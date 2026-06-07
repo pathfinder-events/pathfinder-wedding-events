@@ -32,7 +32,6 @@ body {
   color: var(--ink);
 }
 
-/* ─── TEXTURE OVERLAY ────────────────────── */
 body::before {
   content: '';
   position: fixed;
@@ -42,7 +41,6 @@ body::before {
   z-index: 0;
 }
 
-/* ─── MAIN PANEL ─────────────────────────── */
 .panel {
   background: linear-gradient(160deg, #f9f4e8 0%, #fdfaf2 50%, #f5edd8 100%);
   border: 1.5px solid var(--gold-border);
@@ -54,118 +52,69 @@ body::before {
   z-index: 1;
 }
 
-/* ─── PANEL HEADER ───────────────────────── */
-.panel-header {
-  text-align: center;
-  margin-bottom: 6px;
-}
+.panel-header { text-align: center; margin-bottom: 6px; }
 
 .panel-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 19px;
-  font-weight: 600;
-  color: #7a5e16;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 19px; font-weight: 600;
+  color: #7a5e16; letter-spacing: 0.12em; text-transform: uppercase;
 }
 
 .panel-rule {
-  display: block;
-  height: 1px;
+  display: block; height: 1px;
   background: linear-gradient(to right, transparent, var(--gold), transparent);
-  width: 55%;
-  margin: 8px auto 0;
+  width: 55%; margin: 8px auto 0;
 }
 
-/* ─── BUDGET SUMMARY BAR ─────────────────── */
 .budget-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin: 12px 0 20px;
-  background: var(--gold-pale);
-  border: 1px solid var(--gold-border);
-  border-radius: 30px;
-  padding: 8px 16px;
-  flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin: 12px 0 20px;
+  background: var(--gold-pale); border: 1px solid var(--gold-border);
+  border-radius: 30px; padding: 8px 16px; flex-wrap: wrap;
 }
 
 .budget-bar-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-soft);
 }
 
 .budget-bar-value {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #7a5e16;
+  font-size: 15px; font-weight: 600; color: #7a5e16;
 }
 
 .budget-bar-dot {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--gold-border);
-  flex-shrink: 0;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold-border); flex-shrink: 0;
 }
 
-/* ─── SPINE ──────────────────────────────── */
-.tl-wrap {
-  position: relative;
-}
+.tl-wrap { position: relative; }
 
 .tl-spine-track {
-  position: absolute;
-  left: 27px;
-  top: 10px;
-  bottom: 10px;
-  width: 2px;
-  background: rgba(184,134,11,0.12);
-  border-radius: 2px;
-  overflow: hidden;
-  z-index: 0;
+  position: absolute; left: 27px; top: 10px; bottom: 10px;
+  width: 2px; background: rgba(184,134,11,0.12);
+  border-radius: 2px; overflow: hidden; z-index: 0;
 }
 
 .tl-spine-fill {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 0%;
+  position: absolute; top: 0; left: 0; right: 0; height: 0%;
   background: linear-gradient(to bottom, #7a5e16, var(--gold-light));
-  border-radius: 2px;
-  transition: height 0.8s ease;
+  border-radius: 2px; transition: height 0.8s ease;
 }
 
-/* ─── TIMELINE ROW ───────────────────────── */
-.tl-row {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 4px;
-}
+.tl-row { position: relative; z-index: 1; margin-bottom: 4px; }
 
 .tl-row-head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 6px 0;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: background 0.2s;
+  display: flex; align-items: center; gap: 14px; padding: 6px 0;
+  cursor: pointer; border-radius: 12px; transition: background 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 
 .tl-row-head:active { background: rgba(184,134,11,0.06); }
 
 .tl-icon-wrap {
-  width: 54px;
-  height: 54px;
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-  position: relative;
-  z-index: 2;
+  width: 54px; height: 54px; flex-shrink: 0;
+  transition: transform 0.25s ease; position: relative; z-index: 2;
 }
 
 .tl-row-head:hover .tl-icon-wrap,
@@ -175,56 +124,32 @@ body::before {
 
 .tl-row-label {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: 0.03em;
-  line-height: 1.1;
-  transition: color 0.2s;
+  font-size: 18px; font-weight: 600; color: var(--ink);
+  letter-spacing: 0.03em; line-height: 1.1; transition: color 0.2s;
 }
 
 .tl-row.filled .tl-row-label { color: #7a5e16; }
 
 .tl-row-sub {
-  font-size: 11px;
-  font-weight: 400;
-  color: var(--ink-soft);
-  margin-top: 2px;
-  letter-spacing: 0.02em;
+  font-size: 11px; font-weight: 400; color: var(--ink-soft);
+  margin-top: 2px; letter-spacing: 0.02em;
 }
 
 .tl-row-logged {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  font-style: italic;
-  color: var(--green);
-  margin-top: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 180px;
-  display: none;
+  font-family: 'Cormorant Garamond', serif; font-size: 13px; font-style: italic;
+  color: var(--green); margin-top: 3px; white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; max-width: 180px; display: none;
 }
 
 .tl-row.filled .tl-row-logged { display: block; }
 
 .tl-tap-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 42px; height: 42px; border-radius: 50%;
   border: 1.5px solid var(--gold-border);
-  background: rgba(253,250,242,0.7);
-  color: var(--ink-soft);
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.25s;
-  font-family: 'Jost', sans-serif;
+  background: rgba(253,250,242,0.7); color: var(--ink-soft);
+  font-size: 20px; font-weight: 300; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.25s; font-family: 'Jost', sans-serif;
 }
 
 .tl-tap-btn:hover { border-color: var(--gold); color: var(--gold); }
@@ -232,331 +157,176 @@ body::before {
 .tl-tap-btn.filled { background: var(--green); border-color: var(--green); color: white; font-size: 14px; }
 .tl-tap-btn.filled:hover { background: #3a6648; }
 
-/* ─── INLINE EXPANDED AREA ───────────────── */
 .tl-expand {
-  max-height: 0;
-  overflow: hidden;
+  max-height: 0; overflow: hidden;
   transition: max-height 0.35s ease, opacity 0.25s ease;
-  opacity: 0;
-  padding-left: 68px;
+  opacity: 0; padding-left: 68px;
 }
 
-.tl-expand.open {
-  max-height: 200px;
-  opacity: 1;
-}
+.tl-expand.open { max-height: 200px; opacity: 1; }
 
-.tl-expand-inner {
-  padding: 10px 0 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.tl-expand-inner { padding: 10px 0 14px; display: flex; flex-direction: column; gap: 8px; }
 
 .tl-expand-logged {
   display: none;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  font-style: italic;
-  color: var(--ink-mid);
-  background: var(--green-light);
-  border: 1px solid rgba(74,124,89,0.2);
-  border-radius: 8px;
-  padding: 8px 12px;
-  line-height: 1.5;
+  font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic;
+  color: var(--ink-mid); background: var(--green-light);
+  border: 1px solid rgba(74,124,89,0.2); border-radius: 8px;
+  padding: 8px 12px; line-height: 1.5;
 }
 
 .tl-expand.has-note .tl-expand-logged { display: block; }
 
-.tl-input-row {
-  display: flex;
-  gap: 8px;
-}
+.tl-input-row { display: flex; gap: 8px; }
 
 .tl-input {
-  flex: 1;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 14px;
-  border: 1px solid var(--gold-border);
-  background: rgba(253,250,242,0.95);
-  color: var(--ink);
-  padding: 9px 13px;
-  border-radius: 9px;
-  outline: none;
+  flex: 1; font-family: 'Cormorant Garamond', serif; font-size: 14px;
+  border: 1px solid var(--gold-border); background: rgba(253,250,242,0.95);
+  color: var(--ink); padding: 9px 13px; border-radius: 9px; outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.tl-input:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
-}
-
+.tl-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.1); }
 .tl-input::placeholder { color: rgba(138,106,27,0.35); font-style: italic; }
 
 .tl-log-btn {
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  padding: 9px 16px;
-  border-radius: 9px;
-  border: none;
-  background: linear-gradient(135deg, #7a5e16, var(--gold));
-  color: #faf6ee;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
+  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.05em; padding: 9px 16px; border-radius: 9px; border: none;
+  background: linear-gradient(135deg, #7a5e16, var(--gold)); color: #faf6ee;
+  cursor: pointer; white-space: nowrap; transition: all 0.2s;
 }
 
 .tl-log-btn:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); transform: translateY(-1px); }
 
 .tl-edit-btn {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ink-soft);
-  background: none;
-  border: 1px solid var(--gold-border);
-  border-radius: 7px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-family: 'Jost', sans-serif;
-  transition: all 0.2s;
-  align-self: flex-start;
+  font-size: 11px; font-weight: 500; color: var(--ink-soft);
+  background: none; border: 1px solid var(--gold-border); border-radius: 7px;
+  padding: 5px 10px; cursor: pointer; font-family: 'Jost', sans-serif;
+  transition: all 0.2s; align-self: flex-start;
 }
 
 .tl-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ─── DIVIDER BETWEEN ROWS ───────────────── */
 .tl-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(184,134,11,0.12), transparent);
   margin: 2px 0 2px 68px;
 }
 
-/* ─── PROGRESS ───────────────────────────── */
-.progress-wrap {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.progress-wrap { margin-top: 16px; display: flex; align-items: center; gap: 10px; }
 
-.progress-bar {
-  flex: 1;
-  height: 3px;
-  background: rgba(184,134,11,0.12);
-  border-radius: 2px;
-  overflow: hidden;
-}
+.progress-bar { flex: 1; height: 3px; background: rgba(184,134,11,0.12); border-radius: 2px; overflow: hidden; }
 
 .progress-fill {
   height: 100%;
   background: linear-gradient(to right, #7a5e16, var(--gold-light));
-  border-radius: 2px;
-  transition: width 0.7s ease;
+  border-radius: 2px; transition: width 0.7s ease;
 }
 
 .progress-label {
-  font-size: 10px;
-  font-style: italic;
-  color: var(--ink-soft);
-  font-family: 'Cormorant Garamond', serif;
-  white-space: nowrap;
+  font-size: 10px; font-style: italic; color: var(--ink-soft);
+  font-family: 'Cormorant Garamond', serif; white-space: nowrap;
 }
 
-/* ─── CALC SNAPSHOT ──────────────────────── */
-.calc-snap {
-  display: none;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
+.calc-snap { display: none; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 
 .calc-pill {
-  background: var(--gold-pale);
-  border: 1px solid var(--gold-border);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  color: var(--ink-mid);
-}
-
-/* ─── NOTEPAD ────────────────────────────── */
-.np-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.np-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--gold-border);
+  background: var(--gold-pale); border: 1px solid var(--gold-border);
+  border-radius: 20px; padding: 5px 12px;
+  font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--ink-mid);
 }
 
 .np-page {
-  background: #fdfaf2;
-  border: 1px solid rgba(184,134,11,0.18);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
-  position: relative;
+  background: #fdfaf2; border: 1px solid rgba(184,134,11,0.18);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.03); position: relative;
 }
 
 .np-margin {
-  position: absolute;
-  left: 38px; top: 0; bottom: 0;
-  width: 1px;
-  background: rgba(201,125,125,0.18);
-  pointer-events: none;
+  position: absolute; left: 38px; top: 0; bottom: 0;
+  width: 1px; background: rgba(201,125,125,0.18); pointer-events: none;
 }
 
 .np-textarea {
-  width: 100%;
-  min-height: 240px;
-  border: none;
-  background: transparent;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 15px;
-  color: var(--ink);
-  line-height: 28px;
-  resize: none;
-  overflow-y: auto;
-  max-height: 420px;
-  outline: none;
-  padding: 14px 16px 14px 50px;
+  width: 100%; min-height: 240px; border: none; background: transparent;
+  font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--ink);
+  line-height: 28px; resize: none; overflow-y: auto; max-height: 420px;
+  outline: none; padding: 14px 16px 14px 50px;
   background-image: repeating-linear-gradient(
     transparent, transparent 27px,
     rgba(184,134,11,0.1) 27px, rgba(184,134,11,0.1) 28px
   );
 }
 
-.np-textarea::placeholder {
-  color: rgba(138,106,27,0.3);
-  font-style: italic;
-}
+.np-textarea::placeholder { color: rgba(138,106,27,0.3); font-style: italic; }
 
-/* ─── FOOTER ─────────────────────────────── */
 .footer-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 12px; flex-wrap: wrap; gap: 8px;
 }
 
-.char-count {
-  font-size: 10px;
-  font-style: italic;
-  color: var(--ink-soft);
-  font-family: 'Cormorant Garamond', serif;
-}
+.char-count { font-size: 10px; font-style: italic; color: var(--ink-soft); font-family: 'Cormorant Garamond', serif; }
 
 .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
 .btn {
-  font-family: 'Jost', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.04em; padding: 8px 16px; border-radius: 8px;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
 }
 
-.btn-outline {
-  color: #7a5e16;
-  border: 1px solid rgba(122,94,22,0.4);
-  background: transparent;
-}
+.btn-outline { color: #7a5e16; border: 1px solid rgba(122,94,22,0.4); background: transparent; }
 .btn-outline:hover { background: var(--gold-pale); }
 
-.btn-fill {
-  color: #faf6ee;
-  border: none;
-  background: linear-gradient(135deg, #7a5e16, var(--gold));
-}
+.btn-fill { color: #faf6ee; border: none; background: linear-gradient(135deg, #7a5e16, var(--gold)); }
 .btn-fill:hover { background: linear-gradient(135deg, var(--gold), var(--gold-light)); transform: translateY(-1px); }
 
 .save-msg {
-  font-size: 11px;
-  color: var(--green);
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  opacity: 0;
-  transition: opacity 0.3s;
-  align-self: center;
+  font-size: 11px; color: var(--green); font-family: 'Cormorant Garamond', serif;
+  font-style: italic; opacity: 0; transition: opacity 0.3s; align-self: center;
 }
 .save-msg.show { opacity: 1; }
 
 /* ─── TIER CARDS ─────────────────────────── */
-.tier-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-}
+.tier-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
 
-@media (max-width: 500px) {
-  .tier-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 500px) { .tier-grid { grid-template-columns: 1fr; } }
 
 .tier-card {
-  background: #fdfaf2;
-  border: 1px solid rgba(184,134,11,0.18);
-  border-radius: 13px;
-  padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  background: #fdfaf2; border: 1px solid rgba(184,134,11,0.18);
+  border-radius: 13px; padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  cursor: pointer; transition: all 0.25s;
+  position: relative; overflow: hidden;
 }
 
+.tier-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, #7a5e16, var(--gold-light));
+  opacity: 0; transition: opacity 0.25s;
+}
+
+.tier-card:hover { border-color: var(--gold-light); box-shadow: 0 4px 16px rgba(184,134,11,0.12); transform: translateY(-2px); }
+.tier-card:hover::before { opacity: 1; }
+
 .tier-card.hl {
-  border-color: var(--gold);
-  background: rgba(184,134,11,0.03);
+  border-color: var(--gold); background: rgba(184,134,11,0.03);
   box-shadow: 0 0 0 1px rgba(184,134,11,0.12);
 }
 
-.tier-card {
-  cursor: pointer;
-  transition: all 0.25s;
-}
-
-.tier-card:hover {
-  border-color: var(--gold-light);
-  box-shadow: 0 4px 16px rgba(184,134,11,0.12);
-  transform: translateY(-2px);
-}
-
 .tier-card.selected {
-  border-color: #7a5e16;
-  background: rgba(184,134,11,0.06);
-  box-shadow: 0 0 0 2px rgba(122,94,22,0.2), 0 4px 16px rgba(184,134,11,0.15);
+  border-color: #7a5e16; background: rgba(184,134,11,0.06);
+  box-shadow: 0 0 0 2px rgba(122,94,22,0.25), 0 4px 16px rgba(184,134,11,0.15);
+  transform: translateY(-1px);
 }
 
+.tier-card.selected::before { opacity: 1; }
 .tier-card.selected .tier-name { color: #7a5e16; }
 
 .tier-check {
-  display: none;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: #7a5e16;
-  color: #faf6ee;
-  font-size: 11px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-weight: 700;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #7a5e16; color: #faf6ee; font-size: 10px; font-weight: 700;
+  display: none; align-items: center; justify-content: center; flex-shrink: 0;
 }
 
 .tier-card.selected .tier-check { display: flex; }
@@ -575,14 +345,13 @@ body::before {
 }
 
 .tier-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px; font-weight: 600; color: var(--ink);
+  font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600;
+  color: var(--ink); transition: color 0.2s;
 }
-.tier-card.hl .tier-name { color: #7a5e16; }
 
 .tier-desc {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 12px; font-style: italic; color: var(--ink-soft); line-height: 1.4;
+  font-family: 'Cormorant Garamond', serif; font-size: 12px; font-style: italic;
+  color: var(--ink-soft); line-height: 1.4;
 }
 
 .tier-feats { list-style: none; display: flex; flex-direction: column; gap: 5px; flex: 1; }
@@ -595,13 +364,11 @@ body::before {
 .tier-pricing { border-top: 1px solid rgba(184,134,11,0.18); padding-top: 10px; }
 
 .tier-per-lbl {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 3px;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--ink-soft); margin-bottom: 3px;
 }
 
-.tier-per {
-  font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--ink);
-}
+.tier-per { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--ink); }
 .tier-per span { font-size: 11px; font-family: 'Jost',sans-serif; font-weight: 400; color: var(--ink-soft); }
 
 .tier-total {
@@ -609,12 +376,11 @@ body::before {
   border-radius: 8px; padding: 7px 10px; margin-top: 7px;
 }
 
-.tier-total-lbl {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);
-}
+.tier-total-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft); }
 
 .tier-total-val {
-  font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: #7a5e16; margin-top: 2px;
+  font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600;
+  color: #7a5e16; margin-top: 2px;
 }
 
 .spacer { height: 14px; }
@@ -622,17 +388,13 @@ body::before {
 </head>
 <body>
 
-<!-- ═══════════════════════════════════
-     TIMELINE PANEL
-     ═══════════════════════════════════ -->
+<!-- TIMELINE PANEL -->
 <div class="panel" id="timelinePanel">
-
   <div class="panel-header">
     <p class="panel-title">Wedding Day Timeline</p>
     <span class="panel-rule"></span>
   </div>
 
-  <!-- Budget summary bar — updates from calculator -->
   <div class="budget-bar" id="budgetBar">
     <span class="budget-bar-label">Est. budget</span>
     <span class="budget-bar-dot"></span>
@@ -643,29 +405,22 @@ body::before {
     <span class="budget-bar-label" id="budgetGuests">Set guest count in Calculator</span>
   </div>
 
-  <!-- Calc snapshot pills -->
   <div class="calc-snap" id="calcSnap"></div>
 
-  <!-- Timeline rows injected by JS -->
   <div class="tl-wrap" id="tlWrap">
     <div class="tl-spine-track"><div class="tl-spine-fill" id="spineFill"></div></div>
   </div>
 
-  <!-- Progress -->
   <div class="progress-wrap">
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <span class="progress-label" id="progressLabel">0 of 9 moments noted</span>
   </div>
-
 </div>
 
 <div class="spacer"></div>
 
-<!-- ═══════════════════════════════════
-     NOTEPAD PANEL
-     ═══════════════════════════════════ -->
+<!-- NOTEPAD PANEL -->
 <div class="panel">
-
   <div class="panel-header" style="margin-bottom:16px;">
     <p class="panel-title">Beverage Planner</p>
     <span class="panel-rule"></span>
@@ -688,28 +443,24 @@ body::before {
       <span class="save-msg" id="saveMsg"></span>
     </div>
   </div>
-
 </div>
 
 <div class="spacer"></div>
 
-<!-- ═══════════════════════════════════
-     TIER PRICING PANEL
-     ═══════════════════════════════════ -->
+<!-- TIER PRICING PANEL -->
 <div class="panel">
   <div class="panel-header" style="margin-bottom:16px;">
     <p class="panel-title">Package Pricing Reference</p>
     <span class="panel-rule"></span>
-    <p class="panel-subtitle" id="tierSubtitle" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--ink-soft);margin-top:6px;">
+    <p id="tierSubtitle" style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--ink-soft);margin-top:6px;text-align:center;">
       Estimated costs based on your guest count
     </p>
   </div>
-  <!-- Interactive bubble controls -->
+  <div class="tier-grid" id="tierGrid"></div>
+</div>
 
 <script>
-/* ════════════════════════════════════════
-   SEGMENTS
-   ════════════════════════════════════════ */
+/* ════ SEGMENTS ════ */
 var segments = [
   { id:'arrival',  label:'Arrival',       sub:'Drinks on arrival' },
   { id:'ceremony', label:'Ceremony',      sub:'The ceremony' },
@@ -722,15 +473,13 @@ var segments = [
   { id:'farewell', label:'Farewell',      sub:'Final send-off' }
 ];
 
-/* ════════════════════════════════════════
-   ICONS
-   ════════════════════════════════════════ */
+/* ════ ICONS ════ */
 function makeIcon(type, state, size) {
   size = size || 54;
   var s = state || 'default';
-  var gold  = s==='filled' ? '#d4a830' : s==='active' ? '#6aab7a' : '#c4b07a';
-  var bg    = s==='filled' ? '#2c1f0e' : s==='active' ? '#1a3322' : '#f5ecd8';
-  var rim   = s==='filled' ? '#b8860b' : s==='active' ? '#4a7c59' : '#8a6d1b';
+  var gold = s==='filled' ? '#d4a830' : s==='active' ? '#6aab7a' : '#c4b07a';
+  var bg   = s==='filled' ? '#2c1f0e' : s==='active' ? '#1a3322' : '#f5ecd8';
+  var rim  = s==='filled' ? '#b8860b' : s==='active' ? '#4a7c59' : '#8a6d1b';
 
   var art = {
     arrival:
@@ -746,8 +495,6 @@ function makeIcon(type, state, size) {
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<circle cx="22" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>'+
       '<circle cx="36" cy="27" r="9" fill="none" stroke="'+gold+'" stroke-width="1.8"/>'+
-      '<circle cx="22" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.3"/>'+
-      '<circle cx="36" cy="27" r="5" fill="none" stroke="'+gold+'" stroke-width="0.5" opacity="0.3"/>'+
       '<path d="M29 19 L29 13" stroke="'+gold+'" stroke-width="1.2" stroke-linecap="round"/>'+
       '<path d="M26 13 L29 11 L32 13" fill="none" stroke="'+gold+'" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>'+
       '<text x="29" y="43" text-anchor="middle" font-size="6" font-family="Cormorant Garamond,serif" fill="'+gold+'" letter-spacing="1.5" opacity="0.75">I DO</text>',
@@ -757,37 +504,27 @@ function makeIcon(type, state, size) {
       '<line x1="16" y1="15" x2="42" y2="15" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>'+
       '<line x1="29" y1="29" x2="29" y2="40" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>'+
       '<line x1="22" y1="40" x2="36" y2="40" stroke="'+gold+'" stroke-width="2" stroke-linecap="round"/>'+
-      '<circle cx="35" cy="13" r="3" fill="none" stroke="'+gold+'" stroke-width="1" opacity="0.65"/>'+
-      '<line x1="35" y1="10" x2="35" y2="7" stroke="'+gold+'" stroke-width="0.8" opacity="0.45"/>'+
-      '<path d="M20 20 Q29 25 38 20" fill="'+gold+'" opacity="0.1"/>',
+      '<circle cx="35" cy="13" r="3" fill="none" stroke="'+gold+'" stroke-width="1" opacity="0.65"/>',
     dinner:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<path d="M12 34 Q12 22 29 22 Q46 22 46 34" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>'+
       '<line x1="10" y1="34" x2="48" y2="34" stroke="'+gold+'" stroke-width="1.5" stroke-linecap="round"/>'+
       '<line x1="16" y1="16" x2="16" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>'+
-      '<path d="M13 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>'+
-      '<path d="M19 18 Q16 16 16 21" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>'+
       '<line x1="42" y1="16" x2="42" y2="36" stroke="'+gold+'" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>'+
       '<path d="M42 16 Q46 19 46 24 Q46 28 42 28" fill="none" stroke="'+gold+'" stroke-width="0.9" opacity="0.55"/>',
     cake:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<rect x="15" y="33" width="28" height="10" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>'+
       '<rect x="19" y="25" width="20" height="9" rx="2" fill="none" stroke="'+gold+'" stroke-width="1.5"/>'+
-      '<path d="M15 33 Q29 29 43 33" fill="none" stroke="'+gold+'" stroke-width="0.6" opacity="0.35"/>'+
-      '<path d="M19 25 Q29 22 39 25" fill="none" stroke="'+gold+'" stroke-width="0.6" opacity="0.35"/>'+
       '<line x1="29" y1="25" x2="29" y2="18" stroke="'+gold+'" stroke-width="1.2" stroke-linecap="round"/>'+
-      '<path d="M27 17 Q29 14 31 17 Q29 20 27 17Z" fill="'+gold+'" opacity="0.85"/>'+
-      '<circle cx="22" cy="30" r="1.5" fill="'+gold+'" opacity="0.45"/>'+
-      '<circle cx="36" cy="30" r="1.5" fill="'+gold+'" opacity="0.45"/>',
+      '<path d="M27 17 Q29 14 31 17 Q29 20 27 17Z" fill="'+gold+'" opacity="0.85"/>',
     toast:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<path d="M20 38 L20 20 Q20 14 24 14 L25 14 Q26 14 26 17 L26 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
       '<path d="M38 38 L38 20 Q38 14 34 14 L33 14 Q32 14 32 17 L32 32" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>'+
-      '<path d="M22 18 Q29 23 36 18" fill="none" stroke="'+gold+'" stroke-width="0.7" opacity="0.35"/>'+
       '<circle cx="22" cy="11" r="1.2" fill="'+gold+'" opacity="0.55"/>'+
       '<circle cx="29" cy="9" r="0.9" fill="'+gold+'" opacity="0.4"/>'+
-      '<circle cx="36" cy="10" r="1" fill="'+gold+'" opacity="0.5"/>'+
-      '<line x1="17" y1="38" x2="41" y2="38" stroke="'+gold+'" stroke-width="0.6" opacity="0.25"/>',
+      '<circle cx="36" cy="10" r="1" fill="'+gold+'" opacity="0.5"/>',
     dancing:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<circle cx="22" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>'+
@@ -797,26 +534,19 @@ function makeIcon(type, state, size) {
       '<circle cx="36" cy="14" r="3" fill="'+gold+'" opacity="0.75"/>'+
       '<path d="M36 17 Q36 22 36 26 Q38 30 40 34" stroke="'+gold+'" stroke-width="1.5" fill="none" stroke-linecap="round"/>'+
       '<path d="M36 22 Q32 20 30 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
-      '<path d="M36 22 Q40 20 42 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>'+
-      '<path d="M19 39 Q22 43 25 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>'+
-      '<path d="M39 39 Q36 43 33 43" stroke="'+gold+'" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.55"/>',
+      '<path d="M36 22 Q40 20 42 18" stroke="'+gold+'" stroke-width="1.2" fill="none" stroke-linecap="round"/>',
     late:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<path d="M34 12 Q24 14 20 22 Q16 32 22 40 Q28 46 36 42 Q30 38 28 30 Q26 20 34 12Z" fill="none" stroke="'+gold+'" stroke-width="1.8" stroke-linecap="round"/>'+
       '<circle cx="40" cy="14" r="1.8" fill="'+gold+'" opacity="0.8"/>'+
       '<circle cx="44" cy="22" r="1.2" fill="'+gold+'" opacity="0.6"/>'+
-      '<circle cx="43" cy="30" r="0.9" fill="'+gold+'" opacity="0.45"/>'+
-      '<circle cx="38" cy="10" r="1" fill="'+gold+'" opacity="0.35"/>',
+      '<circle cx="43" cy="30" r="0.9" fill="'+gold+'" opacity="0.45"/>',
     farewell:
       '<circle cx="29" cy="29" r="27" fill="'+bg+'" stroke="'+rim+'" stroke-width="1.5"/>'+
       '<polygon points="29,10 31,26 29,28 27,26" fill="'+gold+'" opacity="0.9"/>'+
       '<polygon points="29,48 31,32 29,30 27,32" fill="'+gold+'" opacity="0.9"/>'+
       '<polygon points="10,29 26,27 28,29 26,31" fill="'+gold+'" opacity="0.9"/>'+
       '<polygon points="48,29 32,27 30,29 32,31" fill="'+gold+'" opacity="0.9"/>'+
-      '<polygon points="15,15 26,26 25,28 23,27" fill="'+gold+'" opacity="0.5"/>'+
-      '<polygon points="43,43 32,32 33,30 35,31" fill="'+gold+'" opacity="0.5"/>'+
-      '<polygon points="43,15 32,26 30,25 31,23" fill="'+gold+'" opacity="0.5"/>'+
-      '<polygon points="15,43 26,32 28,33 27,35" fill="'+gold+'" opacity="0.5"/>'+
       '<circle cx="29" cy="29" r="5" fill="none" stroke="'+gold+'" stroke-width="1.2"/>'+
       '<circle cx="29" cy="29" r="2.5" fill="'+gold+'"/>'
   };
@@ -824,24 +554,19 @@ function makeIcon(type, state, size) {
   return '<svg viewBox="0 0 58 58" width="'+size+'" height="'+size+'" xmlns="http://www.w3.org/2000/svg">'+(art[type]||'')+'</svg>';
 }
 
-/* ════════════════════════════════════════
-   BUILD ROWS
-   ════════════════════════════════════════ */
+/* ════ BUILD TIMELINE ROWS ════ */
 var tlNotes = {};
 var wrap = document.getElementById('tlWrap');
 
 segments.forEach(function(seg, i) {
-  // Row head
   var row = document.createElement('div');
-  row.className = 'tl-row';
-  row.id = 'row-' + seg.id;
+  row.className = 'tl-row'; row.id = 'row-' + seg.id;
 
   var head = document.createElement('div');
   head.className = 'tl-row-head';
 
   var iconW = document.createElement('div');
-  iconW.className = 'tl-icon-wrap';
-  iconW.id = 'icon-' + seg.id;
+  iconW.className = 'tl-icon-wrap'; iconW.id = 'icon-' + seg.id;
   iconW.innerHTML = makeIcon(seg.id, 'default');
 
   var text = document.createElement('div');
@@ -852,76 +577,51 @@ segments.forEach(function(seg, i) {
     '<div class="tl-row-logged" id="logged-' + seg.id + '"></div>';
 
   var btn = document.createElement('button');
-  btn.className = 'tl-tap-btn';
-  btn.id = 'tapbtn-' + seg.id;
-  btn.innerHTML = '+';
-  btn.setAttribute('aria-label', 'Add note for ' + seg.label);
+  btn.className = 'tl-tap-btn'; btn.id = 'tapbtn-' + seg.id;
+  btn.innerHTML = '+'; btn.setAttribute('aria-label', 'Add note for ' + seg.label);
 
-  head.appendChild(iconW);
-  head.appendChild(text);
-  head.appendChild(btn);
+  head.appendChild(iconW); head.appendChild(text); head.appendChild(btn);
   row.appendChild(head);
 
-  // Expand area
   var expand = document.createElement('div');
-  expand.className = 'tl-expand';
-  expand.id = 'expand-' + seg.id;
+  expand.className = 'tl-expand'; expand.id = 'expand-' + seg.id;
 
   var inner = document.createElement('div');
   inner.className = 'tl-expand-inner';
 
   var loggedDisplay = document.createElement('div');
-  loggedDisplay.className = 'tl-expand-logged';
-  loggedDisplay.id = 'expandNote-' + seg.id;
+  loggedDisplay.className = 'tl-expand-logged'; loggedDisplay.id = 'expandNote-' + seg.id;
 
   var inputRow = document.createElement('div');
   inputRow.className = 'tl-input-row';
 
   var input = document.createElement('input');
-  input.className = 'tl-input';
-  input.id = 'input-' + seg.id;
+  input.className = 'tl-input'; input.id = 'input-' + seg.id;
   input.placeholder = seg.sub + '…';
   input.addEventListener('keydown', function(e) { if (e.key === 'Enter') logNote(seg.id); });
 
   var logBtn = document.createElement('button');
-  logBtn.className = 'tl-log-btn';
-  logBtn.textContent = 'Log';
+  logBtn.className = 'tl-log-btn'; logBtn.textContent = 'Log';
   logBtn.onclick = function() { logNote(seg.id); };
 
-  inputRow.appendChild(input);
-  inputRow.appendChild(logBtn);
+  inputRow.appendChild(input); inputRow.appendChild(logBtn);
 
   var editBtn = document.createElement('button');
-  editBtn.className = 'tl-edit-btn';
-  editBtn.id = 'editbtn-' + seg.id;
-  editBtn.textContent = 'Edit note';
-  editBtn.style.display = 'none';
+  editBtn.className = 'tl-edit-btn'; editBtn.id = 'editbtn-' + seg.id;
+  editBtn.textContent = 'Edit note'; editBtn.style.display = 'none';
   editBtn.onclick = function() { editNote(seg.id); };
 
-  inner.appendChild(loggedDisplay);
-  inner.appendChild(inputRow);
-  inner.appendChild(editBtn);
-  expand.appendChild(inner);
-  row.appendChild(expand);
+  inner.appendChild(loggedDisplay); inner.appendChild(inputRow); inner.appendChild(editBtn);
+  expand.appendChild(inner); row.appendChild(expand);
 
-  // Divider (not after last)
   if (i < segments.length - 1) {
-    var div = document.createElement('div');
-    div.className = 'tl-divider';
-    row.appendChild(div);
+    var div = document.createElement('div'); div.className = 'tl-divider'; row.appendChild(div);
   }
 
   wrap.appendChild(row);
 
-  // Click handlers
-  head.addEventListener('click', function(e) {
-    if (btn.contains(e.target)) return;
-    toggleExpand(seg.id);
-  });
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    toggleExpand(seg.id);
-  });
+  head.addEventListener('click', function(e) { if (btn.contains(e.target)) return; toggleExpand(seg.id); });
+  btn.addEventListener('click', function(e) { e.stopPropagation(); toggleExpand(seg.id); });
 });
 
 function toggleExpand(id) {
@@ -929,7 +629,6 @@ function toggleExpand(id) {
   var btn    = document.getElementById('tapbtn-' + id);
   var isOpen = expand.classList.contains('open');
 
-  // Close all others
   segments.forEach(function(s) {
     if (s.id !== id) {
       document.getElementById('expand-' + s.id).classList.remove('open');
@@ -943,14 +642,11 @@ function toggleExpand(id) {
     if (!tlNotes[id]) { btn.classList.remove('open'); btn.innerHTML = '+'; }
     document.getElementById('icon-' + id).innerHTML = makeIcon(id, tlNotes[id] ? 'filled' : 'default');
   } else {
-    expand.classList.add('open');
-    btn.classList.add('open');
-    btn.innerHTML = '+';
+    expand.classList.add('open'); btn.classList.add('open'); btn.innerHTML = '+';
     document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'active');
     var input = document.getElementById('input-' + id);
     if (!tlNotes[id]) {
-      input.value = '';
-      input.style.display = 'block';
+      input.value = ''; input.style.display = 'block';
       document.getElementById('editbtn-' + id).style.display = 'none';
       document.getElementById('expandNote-' + id).textContent = '';
       expand.classList.remove('has-note');
@@ -963,45 +659,24 @@ function logNote(id) {
   var input = document.getElementById('input-' + id);
   var val = input.value.trim();
   if (!val) return;
-
   tlNotes[id] = val;
-
-  // Icon
   document.getElementById('icon-' + id).innerHTML = makeIcon(id, 'filled');
-
-  // Button
   var btn = document.getElementById('tapbtn-' + id);
-  btn.classList.remove('open');
-  btn.classList.add('filled');
-  btn.innerHTML = '✓';
-
-  // Row label color
+  btn.classList.remove('open'); btn.classList.add('filled'); btn.innerHTML = '✓';
   document.getElementById('row-' + id).classList.add('filled');
-
-  // Logged preview on row
-  var logged = document.getElementById('logged-' + id);
-  logged.textContent = val;
-
-  // Expand: show note, hide input, show edit
+  document.getElementById('logged-' + id).textContent = val;
   var expand = document.getElementById('expand-' + id);
   var expandNote = document.getElementById('expandNote-' + id);
-  expandNote.textContent = val;
-  expand.classList.add('has-note');
+  expandNote.textContent = val; expand.classList.add('has-note');
   input.style.display = 'none';
   document.getElementById('editbtn-' + id).style.display = 'inline-block';
-
-  updateProgress();
-  updateBudgetBar();
-  savePlanner();
-
-  // Close after short delay
+  updateProgress(); updateBudgetBar(); savePlanner();
   setTimeout(function() { expand.classList.remove('open'); }, 600);
 }
 
 function editNote(id) {
   var input = document.getElementById('input-' + id);
-  input.value = tlNotes[id] || '';
-  input.style.display = 'block';
+  input.value = tlNotes[id] || ''; input.style.display = 'block';
   document.getElementById('editbtn-' + id).style.display = 'none';
   document.getElementById('expand-' + id).classList.remove('has-note');
   setTimeout(function() { input.focus(); }, 50);
@@ -1015,9 +690,7 @@ function updateProgress() {
   document.getElementById('progressLabel').textContent = count + ' of ' + segments.length + ' moments noted';
 }
 
-/* ════════════════════════════════════════
-   BUDGET BAR
-   ════════════════════════════════════════ */
+/* ════ BUDGET BAR ════ */
 var currentGuests = 0;
 
 function updateBudgetBar() {
@@ -1030,127 +703,10 @@ function updateBudgetBar() {
   document.getElementById('budgetGuests').textContent = 'for ' + currentGuests + ' guests across all tiers';
 }
 
-/* ════════════════════════════════════════
-   TIER PRICING
-   ════════════════════════════════════════ */
-var tierGuests   = 50;
-var tierHours    = 4;
-var tierLiquor   = 50;
-var tierWine     = 25;
-var tierBeer     = 25;
-var selectedTier = null;
+/* ════ NOTEPAD ════ */
+var pad = document.getElementById('notepad');
+var countEl = document.getElementById('charCount');
 
-var tiers = [
-  { id:'beer-wine', cls:'Budget-Friendly', name:'Beer & Wine Only', min:12, max:15,
-    desc:'House premium wines + local craft beer and premium sodas.',
-    feats:['2 Curated House Red & White Wines','3 Local Texas Craft Beers & Seltzers','Assorted Sodas & Sparkling Waters'] },
-  { id:'standard', cls:'Premium Selection', name:'Standard Full Bar', min:18, max:23, hl:true,
-    desc:'Call-brand spirits, house wines, domestic and local craft beers.',
-    feats:['All Beer & Wine features','Standard Well Spirits — Vodka, Gin, Bourbon, Rum & Tequila','Premium Tonic, Club Sodas & Fresh Lime Juice'] },
-  { id:'premium', cls:'Ultra-Premium', name:'Premium Experience', min:30, max:55,
-    desc:'Top-shelf luxury spirits, reserve wines, import selections.',
-    feats:["Belvedere, Hendrick's, Willet Pot Still Bourbon",'Curated Reserve Red, White & Sparkling Wines','Expanded Imported & Premium Texas Craft Beers'] }
-];
-
-function adjustTierVal(type, delta) {
-  if (type === 'guests') {
-    tierGuests = Math.min(500, Math.max(20, tierGuests + delta));
-  } else if (type === 'hours') {
-    tierHours = Math.min(12, Math.max(1, tierHours + delta));
-  } else if (type === 'liquor') {
-    var next = Math.min(100, Math.max(0, tierLiquor + delta));
-    var diff = next - tierLiquor;
-    tierLiquor = next;
-    tierWine = Math.max(0, Math.min(100, tierWine - Math.floor(diff / 2)));
-    tierBeer  = Math.max(0, Math.min(100, tierBeer  - Math.ceil(diff  / 2)));
-  } else if (type === 'wine') {
-    var next = Math.min(100, Math.max(0, tierWine + delta));
-    var diff = next - tierWine;
-    tierWine = next;
-    tierBeer   = Math.max(0, Math.min(100, tierBeer   - Math.floor(diff / 2)));
-    tierLiquor = Math.max(0, Math.min(100, tierLiquor - Math.ceil(diff  / 2)));
-  } else if (type === 'beer') {
-    var next = Math.min(100, Math.max(0, tierBeer + delta));
-    var diff = next - tierBeer;
-    tierBeer = next;
-    tierWine   = Math.max(0, Math.min(100, tierWine   - Math.floor(diff / 2)));
-    tierLiquor = Math.max(0, Math.min(100, tierLiquor - Math.ceil(diff  / 2)));
-  }
-  updateBubbles();
-  renderTiers();
-}
-
-function updateBubbles() {
-  document.getElementById('bubbleGuests').textContent  = tierGuests + ' guests';
-  document.getElementById('bubbleHours').textContent   = tierHours  + ' hrs';
-  document.getElementById('bubbleLiquor').textContent  = tierLiquor + '% Liquor';
-  document.getElementById('bubbleWine').textContent    = tierWine   + '% Wine';
-  document.getElementById('bubbleBeer').textContent    = tierBeer   + '% Beer';
-  var total = tierLiquor + tierWine + tierBeer;
-  var chk = document.getElementById('ratioCheck');
-  if (total === 100) {
-    chk.textContent = '✓ 100%';
-    chk.style.color = '#4a7c59';
-  } else {
-    chk.textContent = '⚠ ' + total + '% (should total 100%)';
-    chk.style.color = '#c0392b';
-  }
-}
-
-function selectTier(id) {
-  selectedTier = id;
-  // Notify parent (wedding questionnaire) of tier selection
-  window.parent.postMessage({ type: 'tier-selected', tierId: id }, '*');
-  renderTiers();
-}
-
-function renderTiers() {
-  var grid = document.getElementById('tierGrid');
-  var sub  = document.getElementById('tierSubtitle');
-  sub.textContent = 'Estimated costs for ' + tierGuests + ' guests';
-  var fmt = function(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); };
-
-  grid.innerHTML = tiers.map(function(t){
-    var minTotal     = tierGuests * t.min;
-    var maxTotal     = tierGuests * t.max;
-    var liquorMin    = fmt(minTotal * (tierLiquor / 100));
-    var liquorMax    = fmt(maxTotal * (tierLiquor / 100));
-    var wineMin      = fmt(minTotal * (tierWine   / 100));
-    var wineMax      = fmt(maxTotal * (tierWine   / 100));
-    var beerMin      = fmt(minTotal * (tierBeer   / 100));
-    var beerMax      = fmt(maxTotal * (tierBeer   / 100));
-    var perHrMin     = fmt(minTotal / tierHours);
-    var perHrMax     = fmt(maxTotal / tierHours);
-    var isSel        = selectedTier === t.id;
-
-    return '<div class="tier-card'+(t.hl?' hl':'')+(isSel?' selected':'')+'" onclick="selectTier(\''+t.id+'\')">'+
-      '<div class="tier-badge-row">'+
-        '<span class="tier-badge">'+t.cls+'</span>'+
-        (t.hl ? '<span class="tier-pop">Popular</span>' : '')+
-        '<div class="tier-check">✓</div>'+
-      '</div>'+
-      '<div><div class="tier-name">'+t.name+'</div><div class="tier-desc">'+t.desc+'</div></div>'+
-      '<ul class="tier-feats">'+t.feats.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>'+
-      '<div class="tier-pricing">'+
-        '<div class="tier-per-lbl">Per Guest</div>'+
-        '<div class="tier-per">$'+t.min+' – $'+t.max+' <span>/ guest</span></div>'+
-        '<div class="tier-total">'+
-          '<div class="tier-total-lbl">Est. Total for '+tierGuests+' Guests</div>'+
-          '<div class="tier-total-val">'+fmt(minTotal)+' – '+fmt(maxTotal)+'</div>'+
-        '</div>'+
-        '<div style="margin-top:10px;border-top:1px solid rgba(184,134,11,0.15);padding-top:10px;display:flex;flex-direction:column;gap:5px;">'+
-          (tierLiquor > 0 ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#d4a830;display:inline-block;"></span>Liquor ('+tierLiquor+'%)</span><span style="font-weight:600;color:var(--ink);">'+liquorMin+'–'+liquorMax+'</span></div>' : '')+
-          (tierWine > 0   ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#c06060;display:inline-block;"></span>Wine ('+tierWine+'%)</span><span style="font-weight:600;color:var(--ink);">'+wineMin+'–'+wineMax+'</span></div>' : '')+
-          (tierBeer > 0   ? '<div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--ink-soft);display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:#b8a820;display:inline-block;"></span>Beer ('+tierBeer+'%)</span><span style="font-weight:600;color:var(--ink);">'+beerMin+'–'+beerMax+'</span></div>' : '')+
-          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:2px;border-top:1px solid rgba(184,134,11,0.1);padding-top:5px;"><span style="color:var(--ink-soft);">Per hour ('+tierHours+' hrs)</span><span style="font-weight:600;color:var(--ink);">~'+perHrMin+'–'+perHrMax+'</span></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  }).join('');
-}
-
-updateBubbles();
-renderTiers();
 pad.addEventListener('input', function() {
   countEl.textContent = pad.value.length > 0 ? pad.value.length + ' characters' : '';
 });
@@ -1181,7 +737,6 @@ function printNotes() {
       '<strong style="color:#7a5e16;font-size:14px;">'+s.label+'</strong>'+
       '<p style="font-style:italic;color:#5a4a30;margin:4px 0 0;font-size:13px;">'+tlNotes[s.id]+'</p></div>';
   }).join('');
-
   var w = window.open('','_blank');
   w.document.write('<html><head><title>Pathfinder Beverage Planner</title>'+
     '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">'+
@@ -1218,8 +773,7 @@ function loadPlanner() {
     var data = JSON.parse(raw);
     if (data.timeline) {
       Object.keys(data.timeline).forEach(function(id) {
-        var val = data.timeline[id];
-        if (!val) return;
+        var val = data.timeline[id]; if (!val) return;
         tlNotes[id] = val;
         document.getElementById('icon-'+id).innerHTML = makeIcon(id,'filled');
         var btn = document.getElementById('tapbtn-'+id);
@@ -1246,31 +800,42 @@ function loadPlanner() {
 loadPlanner();
 pad.addEventListener('blur', function(){ if (pad.value.trim()) savePlanner(); });
 
-/* ════════════════════════════════════════
-   TIER PRICING
-   ════════════════════════════════════════ */
+/* ════ TIER PRICING ════ */
 var tierGuests = 50;
+var selectedTier = null;
 
 var tiers = [
-  { cls:'Budget-Friendly', name:'Beer & Wine Only', min:12, max:15,
+  { id:'beer-wine', cls:'Budget-Friendly', name:'Beer & Wine Only', min:12, max:15,
     desc:'House premium wines + local craft beer and premium sodas.',
     feats:['2 Curated House Red & White Wines','3 Local Texas Craft Beers & Seltzers','Assorted Sodas & Sparkling Waters'] },
-  { cls:'Premium Selection', name:'Standard Full Bar', min:18, max:23, hl:true,
+  { id:'standard', cls:'Premium Selection', name:'Standard Full Bar', min:18, max:23, hl:true,
     desc:'Call-brand spirits, house wines, domestic and local craft beers.',
     feats:['All Beer & Wine features','Standard Well Spirits — Vodka, Gin, Bourbon, Rum & Tequila','Premium Tonic, Club Sodas & Fresh Lime Juice'] },
-  { cls:'Ultra-Premium', name:'Premium Experience', min:30, max:55,
+  { id:'premium', cls:'Ultra-Premium', name:'Premium Experience', min:30, max:55,
     desc:'Top-shelf luxury spirits, reserve wines, import selections.',
     feats:["Belvedere, Hendrick's, Willet Pot Still Bourbon",'Curated Reserve Red, White & Sparkling Wines','Expanded Imported & Premium Texas Craft Beers'] }
 ];
+
+function selectTier(id) {
+  selectedTier = id;
+  window.parent.postMessage({ type: 'tier-selected', tierId: id }, '*');
+  renderTiers();
+}
 
 function renderTiers() {
   var grid = document.getElementById('tierGrid');
   var sub  = document.getElementById('tierSubtitle');
   sub.textContent = 'Estimated costs for ' + tierGuests + ' guests';
   var fmt = function(n){ return n.toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}); };
+
   grid.innerHTML = tiers.map(function(t){
-    return '<div class="tier-card'+(t.hl?' hl':'')+'">'+
-      '<div class="tier-badge-row"><span class="tier-badge">'+t.cls+'</span>'+(t.hl?'<span class="tier-pop">Popular</span>':'')+' </div>'+
+    var isSel = selectedTier === t.id;
+    return '<div class="tier-card'+(t.hl?' hl':'')+(isSel?' selected':'')+'" onclick="selectTier(\''+t.id+'\')">'+
+      '<div class="tier-badge-row">'+
+        '<span class="tier-badge">'+t.cls+'</span>'+
+        (t.hl ? '<span class="tier-pop">Popular</span>' : '')+
+        '<div class="tier-check">✓</div>'+
+      '</div>'+
       '<div><div class="tier-name">'+t.name+'</div><div class="tier-desc">'+t.desc+'</div></div>'+
       '<ul class="tier-feats">'+t.feats.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>'+
       '<div class="tier-pricing">'+
@@ -1287,9 +852,7 @@ function renderTiers() {
 
 renderTiers();
 
-/* ════════════════════════════════════════
-   POSTMESSAGE BRIDGE
-   ════════════════════════════════════════ */
+/* ════ POSTMESSAGE BRIDGE ════ */
 window.addEventListener('message', function(e) {
   var d = e.data;
   if (!d || !d.type) return;
@@ -1305,7 +868,6 @@ window.addEventListener('message', function(e) {
     tierGuests = currentGuests;
     renderTiers();
     updateBudgetBar();
-
     var snap = document.getElementById('calcSnap');
     snap.style.display = 'flex';
     snap.innerHTML =
