@@ -729,7 +729,13 @@
   transform: scale(1) translate(-14px,-140px);
   transition-delay: 0.11s;
 }
-
+/* Collapse orbitals when drawer is open */
+.compass-hub.collapsed .orb-calculator,
+.compass-hub.collapsed .orb-planner {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.35) translate(0,0) !important;
+}
 .orb-btn:hover .orb-svg {
   filter:
     sepia(0.3) saturate(0.85) brightness(1.1)
@@ -3439,12 +3445,21 @@ function closeDrawer(resetOverflow = true) {
 /* ── Wire the three buttons ── */
 document.getElementById('btnCalculator').addEventListener('click', (e) => {
   e.stopPropagation(); openDrawer('calc');
+  document.getElementById('compassHub').classList.add('collapsed');
 });
 document.getElementById('btnPlanner').addEventListener('click', (e) => {
   e.stopPropagation(); openDrawer('planner');
+  document.getElementById('compassHub').classList.add('collapsed');
 });
 document.getElementById('compassBtn').addEventListener('click', (e) => {
-  e.stopPropagation(); openDrawer('chat');
+  e.stopPropagation();
+  var hub = document.getElementById('compassHub');
+  if (hub.classList.contains('collapsed')) {
+    hub.classList.remove('collapsed');
+  } else {
+    openDrawer('chat');
+    hub.classList.add('collapsed');
+  }
 });
 
 /* ── Compass image fallback ── */
