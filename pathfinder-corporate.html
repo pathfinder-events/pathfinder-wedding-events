@@ -1240,20 +1240,23 @@
   watchPill('rose', 'Yes please', 'rose-detail-field');
   watchPill('white', 'Yes please', 'white-detail-field');
   watchPill('red', 'Yes please', 'red-detail-field');
-  1262 </script>
-
-<div class="compass-hub" id="compassHub">
-    </div>
+  </script>
 
 <script>
     document.getElementById('btnCalculator').addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log('Open Calculator');
+        document.getElementById('your-calculator-id').classList.add('visible');
     });
+
     document.getElementById('btnPlanner').addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log('Open Planner');
+        document.getElementById('your-planner-id').classList.add('visible');
     });
+
+    document.getElementById('compassBtn').addEventListener('click', (e) => {
+        window.location.href = 'your-chatbot-url.html';
+    });
+
     document.querySelector('.compass-img').onerror = function () {
         this.style.display = 'none';
         this.parentNode.style.background =
