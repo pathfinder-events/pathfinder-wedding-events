@@ -26,96 +26,6 @@
       --radius:      4px;
     }
 
-/* ═══════════════════════════════════════════════════
-   HUB WRAPPER
-   ═══════════════════════════════════════════════════ */
-.compass-hub {
-  position: fixed;
-  bottom: 36px; right: 36px;
-  width: 220px; height: 260px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-/* ═══════════════════════════════════════════════════
-   ORBITAL BUTTONS
-   ═══════════════════════════════════════════════════ */
-.orb-btn {
-  position: absolute;
-  width: 78px; height: 78px;
-  border-radius: 50%;
-  border: none; padding: 0;
-  cursor: pointer;
-  background: transparent; outline: none;
-  bottom: 11px; right: 11px;
-  opacity: 0; pointer-events: none;
-  transform: scale(0.35) translate(0,0);
-  transition:
-    opacity   0.44s cubic-bezier(0.34,1.48,0.64,1),
-    transform 0.44s cubic-bezier(0.34,1.48,0.64,1);
-}
-
-/* HOVER OPEN */
-.compass-hub.active .orb-calculator {
-  opacity: 1; pointer-events: auto;
-  transform: scale(1) translate(-100px,-108px);
-  transition-delay: 0.04s;
-}
-.compass-hub.active .orb-planner {
-  opacity: 1; pointer-events: auto;
-  transform: scale(1) translate(-14px,-140px);
-  transition-delay: 0.11s;
-}
-
-.orb-btn:hover .orb-svg {
-  filter:
-    sepia(0.3) saturate(0.85) brightness(1.1)
-    drop-shadow(0 0 9px rgba(210,170,60,0.7))
-    drop-shadow(0 0 20px rgba(210,170,60,0.3));
-}
-.orb-btn:active .orb-svg { transform: scale(0.93); }
-.orb-svg {
-  width: 78px; height: 78px;
-  border-radius: 50%; display: block;
-  transition: filter 0.22s ease, transform 0.15s ease;
-  filter: sepia(0.45) saturate(0.75) brightness(0.92)
-          drop-shadow(0 5px 16px rgba(0,0,0,0.75))
-          drop-shadow(0 1px 3px rgba(0,0,0,0.95));
-}
-
-/* ═══════════════════════════════════════════════════
-   COMPASS MAIN BUTTON
-   ═══════════════════════════════════════════════════ */
-.compass-btn {
-  position: relative;
-  width: 100px; height: 100px;
-  border-radius: 50%; border: none; padding: 0;
-  cursor: pointer; background: transparent; outline: none;
-  flex-shrink: 0;
-  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.65));
-  transition: transform 0.22s ease, filter 0.22s ease;
-  z-index: 3;
-}
-.compass-hub.active .compass-btn {
-  transform: scale(1.04);
-  filter: drop-shadow(0 10px 28px rgba(0,0,0,0.8));
-}
-.compass-btn:active { transform: scale(0.96) !important; }
-.compass-inner {
-  position: relative; width: 100%; height: 100%;
-  border-radius: 50%; overflow: hidden;
-}
-.compass-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-/* Animated needle */
-.needle-wrap {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Jost', sans-serif;
@@ -513,7 +423,6 @@
     .testimonial-quote { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; font-weight: 300; color: var(--slate); line-height: 1.7; margin-bottom: 12px; }
     .testimonial-author { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); }
     .testimonial-role { font-size: 12px; color: var(--muted); font-weight: 300; margin-top: 2px; }
-  
   </style>
 </head>
 <body>
@@ -1240,28 +1149,6 @@
   watchPill('rose', 'Yes please', 'rose-detail-field');
   watchPill('white', 'Yes please', 'white-detail-field');
   watchPill('red', 'Yes please', 'red-detail-field');
-  </script>
-
-<script>
-    document.getElementById('btnCalculator').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('your-calculator-id').classList.add('visible');
-    });
-
-    document.getElementById('btnPlanner').addEventListener('click', (e) => {
-        e.stopPropagation();
-        document.getElementById('your-planner-id').classList.add('visible');
-    });
-
-    document.getElementById('compassBtn').addEventListener('click', (e) => {
-        window.location.href = 'your-chatbot-url.html';
-    });
-
-    document.querySelector('.compass-img').onerror = function () {
-        this.style.display = 'none';
-        this.parentNode.style.background =
-        'radial-gradient(circle,#7a5a2a 0%,#3d2b0e 60%,#1a0f05 100%)';
-    };
 </script>
 </body>
 </html>
