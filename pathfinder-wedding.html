@@ -699,20 +699,7 @@
   align-items: flex-end;
   justify-content: flex-end;
 }
-@media (max-width: 768px) {
-    .compass-hub {
-        bottom: 120px;
-        right: 20px;
-    }
-    .compass-hub:hover .orb-calculator {
-        transform: scale(1) translate(-100px, 80px);
-    }
-    .compass-hub:hover .orb-planner {
-        transform: scale(1) translate(-14px, 108px);
-    }
-}
-}
-}
+
 /* ═══════════════════════════════════════════════════
    ORBITAL BUTTONS
    ═══════════════════════════════════════════════════ */
@@ -1850,7 +1837,7 @@
       method: 'POST',
       mode: 'no-cors',
       cache: 'no-cache',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(submission)
     })
     .then(() => console.log('Success! Data sent to Sheet.'))
