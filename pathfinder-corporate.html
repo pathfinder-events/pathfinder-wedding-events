@@ -341,7 +341,7 @@
 }
 @media (max-width: 600px) {
   .compass-hub { bottom: 70px; right: 12px; width: 180px; height: 210px; }
-  .compass-btn { width: 76px !important; height: 76px !important; }
+  .compass-btn { width: 100px !important; height: 100px !important; }
   .orb-btn { width: 60px !important; height: 60px !important; }
   .orb-svg { width: 60px !important; height: 60px !important; }
   .compass-hub:hover .orb-calculator { transform: scale(1) translate(-80px, -88px) !important; }
@@ -1595,9 +1595,12 @@ function pfShowFrame(mode) {
 
 function pfSendTab(tab) {
   try { pfFrame.contentWindow.postMessage({ tab: tab }, PF_APP_URL); } catch(e) {}
-  setTimeout(() => {
+  setTimeout(function() {
     try { pfFrame.contentWindow.postMessage({ tab: tab }, PF_APP_URL); } catch(e) {}
-  }, 600);
+  }, 400);
+  setTimeout(function() {
+    try { pfFrame.contentWindow.postMessage({ tab: tab }, PF_APP_URL); } catch(e) {}
+  }, 900);
 }
 
 function pfOpenApp(tab, title) {
@@ -1608,9 +1611,10 @@ function pfOpenApp(tab, title) {
   pfShowFrame('app');
   if (!pfAppReady) {
     pfFrame.src = PF_APP_URL;
-    pfFrame.onload = () => { pfAppReady = true; pfSendTab(tab); };
+    pfFrame.onload = function() { pfAppReady = true; pfSendTab(tab); };
   } else {
-    pfSendTab(tab);
+    // Small delay to ensure iframe is ready before sending tab switch
+    setTimeout(function() { pfSendTab(tab); }, 100);
   }
 }
 
@@ -1641,33 +1645,44 @@ document.addEventListener('click', function(e) {
 });
 
 // Compass → Navigator chatbot
-// Short click = toggle orbitals | Long press (500ms) = open Navigator chatbot
-let pressTimer = null;
-let pressTriggered = false;
-
-function startPress(e) {
-  pressTriggered = false;
-  pressTimer = setTimeout(function() {
-    pressTriggered = true;
-    document.getElementById('compassHub').classList.remove('open');
-    pfOpenApp('chat', '✦ Pathfinder Navigator');
-  }, 500);
-}
-
-function endPress(e) {
-  clearTimeout(pressTimer);
-  if (!pressTriggered) {
-    e.stopPropagation();
-    document.getElementById('compassHub').classList.toggle('open');
-  }
-}
-
+// Desktop: hover shows orbitals
+// Compass click: open Navigator chatbot
+// Mobile: tap compass = open Navigator, tap Calculator/Planner orbitals = open those tools
 var compassBtnEl = document.getElementById('compassBtn');
-compassBtnEl.addEventListener('mousedown', startPress);
-compassBtnEl.addEventListener('mouseup', endPress);
-compassBtnEl.addEventListener('mouseleave', function() { clearTimeout(pressTimer); });
-compassBtnEl.addEventListener('touchstart', function(e) { e.preventDefault(); startPress(e); }, { passive: false });
-compassBtnEl.addEventListener('touchend', function(e) { e.preventDefault(); endPress(e); }, { passive: false });
+var isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+if (isMobile) {
+  // On mobile, single tap compass = toggle orbitals
+  // Long press compass (600ms) = open Navigator
+  var pressTimer = null;
+  var pressTriggered = false;
+
+  compassBtnEl.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    pressTriggered = false;
+    pressTimer = setTimeout(function() {
+      pressTriggered = true;
+      document.getElementById('compassHub').classList.remove('open');
+      pfOpenApp('chat', '✦ Pathfinder Navigator');
+    }, 600);
+  }, { passive: false });
+
+  compassBtnEl.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    clearTimeout(pressTimer);
+    if (!pressTriggered) {
+      var hub = document.getElementById('compassHub');
+      hub.classList.toggle('open');
+    }
+  }, { passive: false });
+
+} else {
+  // Desktop: click compass = open Navigator chatbot
+  compassBtnEl.addEventListener('click', function(e) {
+    e.stopPropagation();
+    pfOpenApp('chat', '✦ Pathfinder Navigator');
+  });
+}
 
 // Calculator orbital → Calculator tab in Vercel app
 document.getElementById('btnCalculator').addEventListener('click', e => {
