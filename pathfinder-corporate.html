@@ -344,8 +344,8 @@
   .compass-btn { width: 76px !important; height: 76px !important; }
   .orb-btn { width: 60px !important; height: 60px !important; }
   .orb-svg { width: 60px !important; height: 60px !important; }
-  .compass-hub.open .orb-calculator { transform: scale(1) translate(-80px, -88px) !important; }
-  .compass-hub.open .orb-planner { transform: scale(1) translate(-10px, -112px) !important; }
+  .compass-hub:hover .orb-calculator { transform: scale(1) translate(-80px, -88px) !important; }
+  .compass-hub:hover .orb-planner { transform: scale(1) translate(-10px, -112px) !important; }
   .tagline-text { font-size: 11px !important; }
 }
 
@@ -368,12 +368,12 @@
 }
 
 /* HOVER OPEN */
-.compass-hub.open .orb-calculator {
+.compass-hub:hover .orb-calculator {
   opacity: 1; pointer-events: auto;
   transform: scale(1) translate(-100px,-108px);
   transition-delay: 0.04s;
 }
-.compass-hub.open .orb-planner {
+.compass-hub:hover .orb-planner {
   opacity: 1; pointer-events: auto;
   transform: scale(1) translate(-14px,-140px);
   transition-delay: 0.11s;
@@ -410,7 +410,7 @@
   transition: transform 0.22s ease, filter 0.22s ease;
   z-index: 3;
 }
-.compass-hub.open .compass-btn {
+.compass-hub:hover .compass-btn {
   transform: scale(1.04);
   filter: drop-shadow(0 10px 28px rgba(0,0,0,0.8));
 }
@@ -436,7 +436,7 @@
 .needle-svg { width: 52%; height: 52%; }
 
 /* Pulse ring on hover */
-.compass-hub.open .compass-btn::after {
+.compass-hub:hover .compass-btn::after {
   content: '';
   position: absolute; inset: -5px;
   border-radius: 50%;
@@ -461,7 +461,7 @@
   transition: opacity 0.35s ease 0.08s, transform 0.35s ease 0.08s;
   pointer-events: none;
 }
-.compass-hub.open .compass-tagline { opacity: 1; transform: translateY(0); }
+.compass-hub:hover .compass-tagline { opacity: 1; transform: translateY(0); }
 .tagline-rule {
   display: block; width: 60px; height: 1px;
   background: linear-gradient(90deg,transparent,rgba(200,160,60,0.55),transparent);
@@ -485,11 +485,11 @@
       backdrop-filter: blur(2px);
     }
     .pf-drawer {
-      position: fixed; top: 0; right: 0;
+      position: fixed; top: 0; left: 0;
       width: min(420px, 96vw); height: 100vh;
       background: #1a0f05; z-index: 999999;
       display: flex; flex-direction: column;
-      transform: translateX(100%);
+      transform: translateX(-100%);
       transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
       box-shadow: -6px 0 32px rgba(0,0,0,0.55);
     }
