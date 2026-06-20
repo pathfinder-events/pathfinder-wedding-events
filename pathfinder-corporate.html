@@ -1694,27 +1694,33 @@ compassBtnEl.addEventListener('touchend', function(e) {
   }
 }, { passive: false });
 
-// Calculator orbital → Calculator tab in Vercel app
-document.getElementById('btnCalculator').addEventListener('click', function(e) {
+// Calculator orbital
+function handleCalcClick(e) {
+  e.preventDefault();
   e.stopPropagation();
-  // Retract orbitals back behind compass
   document.getElementById('compassHub').classList.remove('open');
-  // Wait for retract animation then open drawer
   setTimeout(function() {
     pfOpenApp('calc', '✦ Drink Calculator');
   }, 350);
-});
+}
+var calcBtn = document.getElementById('btnCalculator');
+calcBtn.addEventListener('click', handleCalcClick);
+calcBtn.addEventListener('touchstart', function(e) { e.stopPropagation(); }, { passive: false });
+calcBtn.addEventListener('touchend', handleCalcClick, { passive: false });
 
-// Planner orbital → standalone planner HTML iframe
-document.getElementById('btnPlanner').addEventListener('click', function(e) {
+// Planner orbital
+function handlePlannerClick(e) {
+  e.preventDefault();
   e.stopPropagation();
-  // Retract orbitals back behind compass
   document.getElementById('compassHub').classList.remove('open');
-  // Wait for retract animation then open drawer
   setTimeout(function() {
     pfOpenPlanner();
   }, 350);
-});
+}
+var planBtn = document.getElementById('btnPlanner');
+planBtn.addEventListener('click', handlePlannerClick);
+planBtn.addEventListener('touchstart', function(e) { e.stopPropagation(); }, { passive: false });
+planBtn.addEventListener('touchend', handlePlannerClick, { passive: false });
 
 // postMessage bridges
 window.addEventListener('message', e => {
