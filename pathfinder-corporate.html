@@ -333,14 +333,14 @@
   position: fixed;
   bottom: 120px; right: 20px;
   width: 220px; height: 260px;
-  z-index: 99999;
+  z-index: 9999999;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
 }
 @media (max-width: 600px) {
-  .compass-hub { bottom: 100px; right: 12px; width: 180px; height: 210px; }
+  .compass-hub { bottom: 140px; right: 12px; width: 180px; height: 210px; }
   .compass-btn { width: 100px !important; height: 100px !important; }
   .orb-btn { width: 74px !important; height: 74px !important; }
   .orb-svg { width: 74px !important; height: 74px !important; }
@@ -511,7 +511,7 @@
       line-height: 1; padding: 4px 8px; transition: color 0.2s;
     }
     .pf-drawer-close:hover { color: #d4a840; }
-    .pf-drawer iframe { flex: 1; width: 100%; border: none; background: #fff; }
+    .pf-drawer iframe { flex: 1; width: 100%; border: none; background: #fff; transition: opacity 0.2s ease; }
     /* Hide the Vercel app's own header inside the drawer iframe */
     #pfAppFrame { margin-top: 0; }
 
@@ -1608,21 +1608,29 @@ function pfSendTab(tab) {
 
 function pfOpenApp(tab, title) {
   pfDrawerTitle.textContent = title;
-  pfBackdrop.style.display = 'block';
-  pfDrawer.classList.add('open');
-  document.body.style.overflow = 'hidden';
   pfShowFrame('app');
+  // Hide iframe content until correct tab is showing
+  pfFrame.style.opacity = '0';
   if (!pfAppReady) {
-    pfFrame.src = PF_APP_URL + "?embed=1";
+    pfFrame.src = PF_APP_URL + "?embed=1&tab=" + tab;
     pfFrame.onload = function() {
       pfAppReady = true;
-      // Tell app to hide its header via postMessage
       try { pfFrame.contentWindow.postMessage({ type: 'hide-header' }, PF_APP_URL); } catch(err) {}
       pfSendTab(tab);
+      // Show drawer and fade in iframe after tab is set
+      pfBackdrop.style.display = 'block';
+      pfDrawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() { pfFrame.style.opacity = '1'; }, 300);
     };
   } else {
-    // Small delay to ensure iframe is ready before sending tab switch
-    setTimeout(function() { pfSendTab(tab); }, 100);
+    pfSendTab(tab);
+    setTimeout(function() {
+      pfBackdrop.style.display = 'block';
+      pfDrawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      pfFrame.style.opacity = '1';
+    }, 200);
   }
 }
 
@@ -1661,33 +1669,29 @@ compassBtnEl.addEventListener('click', function(e) {
   pfOpenApp('chat', '✦ Pathfinder Navigator');
 });
 
-// Mobile: tap = toggle orbitals, long press (600ms) = open Navigator
-var _pressTimer = null;
-var _pressTriggered = false;
-
-compassBtnEl.addEventListener('touchstart', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  _pressTriggered = false;
-  _pressTimer = setTimeout(function() {
-    _pressTriggered = true;
-    document.getElementById('compassHub').classList.remove('open');
-    pfOpenApp('chat', '✦ Pathfinder Navigator');
-  }, 600);
-}, { passive: false });
+// Mobile: single tap = toggle orbitals, double tap = open Navigator
+var _lastTapTime = 0;
 
 compassBtnEl.addEventListener('touchend', function(e) {
   e.preventDefault();
   e.stopPropagation();
-  clearTimeout(_pressTimer);
-  if (!_pressTriggered) {
-    var hub = document.getElementById('compassHub');
-    hub.classList.toggle('open');
+  var now = Date.now();
+  if (now - _lastTapTime < 350) {
+    // Double tap — open Navigator
+    document.getElementById('compassHub').classList.remove('open');
+    pfOpenApp('chat', '✦ Pathfinder Navigator');
+    _lastTapTime = 0;
+  } else {
+    // Single tap — toggle orbitals
+    _lastTapTime = now;
+    setTimeout(function() {
+      if (_lastTapTime !== 0 && Date.now() - _lastTapTime >= 340) {
+        var hub = document.getElementById('compassHub');
+        hub.classList.toggle('open');
+        _lastTapTime = 0;
+      }
+    }, 360);
   }
-}, { passive: false });
-
-compassBtnEl.addEventListener('touchmove', function(e) {
-  clearTimeout(_pressTimer);
 }, { passive: false });
 
 // Calculator orbital → Calculator tab in Vercel app
