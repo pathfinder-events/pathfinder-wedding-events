@@ -364,7 +364,7 @@
   transform: scale(0.35) translate(0,0);
   transition:
     opacity   0.44s cubic-bezier(0.34,1.48,0.64,1),
-    transform 0.44s cubic-bezier(0.34,1.48,0.64,1);
+    transform 0.7s cubic-bezier(0.34,1.48,0.64,1);
 }
 
 /* HOVER OPEN */
@@ -1662,35 +1662,46 @@ document.addEventListener('click', function(e) {
 
 // Compass → Navigator chatbot
 var compassBtnEl = document.getElementById('compassBtn');
+var _touchedCompass = false;
+var _lastTapTime = 0;
 
-// Desktop: single click = open Navigator chatbot
+// Desktop: click compass = toggle orbitals if closed, open Navigator if orbitals already showing
 compassBtnEl.addEventListener('click', function(e) {
   e.stopPropagation();
-  pfOpenApp('chat', '✦ Pathfinder Navigator');
+  // Skip click if it came from a touch event (mobile)
+  if (_touchedCompass) { _touchedCompass = false; return; }
+  var hub = document.getElementById('compassHub');
+  if (hub.classList.contains('open')) {
+    // Orbitals are showing — retract and open Navigator
+    hub.classList.remove('open');
+    setTimeout(function() { pfOpenApp('chat', '✦ Pathfinder Navigator'); }, 600);
+  } else {
+    // Orbitals hidden — show them
+    hub.classList.add('open');
+  }
 });
 
 // Mobile: single tap = toggle orbitals, double tap = open Navigator
-var _lastTapTime = 0;
-
 compassBtnEl.addEventListener('touchend', function(e) {
   e.preventDefault();
   e.stopPropagation();
+  _touchedCompass = true;
   var now = Date.now();
-  if (now - _lastTapTime < 350) {
+  if (now - _lastTapTime < 400) {
     // Double tap — retract orbitals then open Navigator
     document.getElementById('compassHub').classList.remove('open');
-    setTimeout(function() { pfOpenApp('chat', '✦ Pathfinder Navigator'); }, 350);
+    setTimeout(function() { pfOpenApp('chat', '✦ Pathfinder Navigator'); }, 600);
     _lastTapTime = 0;
   } else {
-    // Single tap — toggle orbitals
+    // Single tap — toggle orbitals after brief wait to check for double tap
     _lastTapTime = now;
     setTimeout(function() {
-      if (_lastTapTime !== 0 && Date.now() - _lastTapTime >= 340) {
+      if (_lastTapTime !== 0 && Date.now() - _lastTapTime >= 390) {
         var hub = document.getElementById('compassHub');
         hub.classList.toggle('open');
         _lastTapTime = 0;
       }
-    }, 360);
+    }, 410);
   }
 }, { passive: false });
 
@@ -1701,7 +1712,7 @@ function handleCalcClick(e) {
   document.getElementById('compassHub').classList.remove('open');
   setTimeout(function() {
     pfOpenApp('calc', '✦ Drink Calculator');
-  }, 350);
+  }, 600);
 }
 var calcBtn = document.getElementById('btnCalculator');
 calcBtn.addEventListener('click', handleCalcClick);
@@ -1715,7 +1726,7 @@ function handlePlannerClick(e) {
   document.getElementById('compassHub').classList.remove('open');
   setTimeout(function() {
     pfOpenPlanner();
-  }, 350);
+  }, 600);
 }
 var planBtn = document.getElementById('btnPlanner');
 planBtn.addEventListener('click', handlePlannerClick);
