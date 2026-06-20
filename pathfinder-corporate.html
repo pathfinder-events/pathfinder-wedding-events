@@ -340,7 +340,7 @@
   justify-content: flex-end;
 }
 @media (max-width: 600px) {
-  .compass-hub { bottom: 140px; right: 12px; width: 180px; height: 210px; }
+  .compass-hub { bottom: 160px; right: 12px; width: 180px; height: 210px; }
   .compass-btn { width: 100px !important; height: 100px !important; }
   .orb-btn { width: 74px !important; height: 74px !important; }
   .orb-svg { width: 74px !important; height: 74px !important; }
@@ -1677,9 +1677,9 @@ compassBtnEl.addEventListener('touchend', function(e) {
   e.stopPropagation();
   var now = Date.now();
   if (now - _lastTapTime < 350) {
-    // Double tap — open Navigator
+    // Double tap — retract orbitals then open Navigator
     document.getElementById('compassHub').classList.remove('open');
-    pfOpenApp('chat', '✦ Pathfinder Navigator');
+    setTimeout(function() { pfOpenApp('chat', '✦ Pathfinder Navigator'); }, 350);
     _lastTapTime = 0;
   } else {
     // Single tap — toggle orbitals
@@ -1695,15 +1695,25 @@ compassBtnEl.addEventListener('touchend', function(e) {
 }, { passive: false });
 
 // Calculator orbital → Calculator tab in Vercel app
-document.getElementById('btnCalculator').addEventListener('click', e => {
+document.getElementById('btnCalculator').addEventListener('click', function(e) {
   e.stopPropagation();
-  pfOpenApp('calc', '✦ Drink Calculator');
+  // Retract orbitals back behind compass
+  document.getElementById('compassHub').classList.remove('open');
+  // Wait for retract animation then open drawer
+  setTimeout(function() {
+    pfOpenApp('calc', '✦ Drink Calculator');
+  }, 350);
 });
 
 // Planner orbital → standalone planner HTML iframe
-document.getElementById('btnPlanner').addEventListener('click', e => {
+document.getElementById('btnPlanner').addEventListener('click', function(e) {
   e.stopPropagation();
-  pfOpenPlanner();
+  // Retract orbitals back behind compass
+  document.getElementById('compassHub').classList.remove('open');
+  // Wait for retract animation then open drawer
+  setTimeout(function() {
+    pfOpenPlanner();
+  }, 350);
 });
 
 // postMessage bridges
