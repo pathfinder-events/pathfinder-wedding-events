@@ -1592,6 +1592,7 @@ const pfPlannerFrame = document.getElementById('pfPlannerFrame');
 
 let pfAppReady     = false;
 let pfPlannerReady = false;
+var lastCalcData = null;
 let pfMode         = null; // 'app' | 'planner'
 
 function pfShowFrame(mode) {
@@ -1647,6 +1648,12 @@ function pfOpenPlanner() {
   if (!pfPlannerReady) {
     pfPlannerFrame.src = PF_PLANNER_URL;
     pfPlannerReady = true;
+    pfPlannerFrame.onload = function() {
+      // Send stored calculator data to planner once it loads
+      if (lastCalcData) {
+        try { pfPlannerFrame.contentWindow.postMessage(lastCalcData, PF_PLANNER_URL); } catch(err) {}
+      }
+    };
   }
 }
 
@@ -1729,7 +1736,10 @@ window.addEventListener('message', e => {
   if (e.data.type === 'open-planner') pfOpenPlanner();
   // Calculator update → forward to planner so it can update guest count
   if (e.data.type === 'calculator-update') {
-    try { pfPlannerFrame.contentWindow.postMessage(e.data, PF_PLANNER_URL); } catch(err) {}
+    lastCalcData = e.data;
+    if (pfPlannerReady) {
+      try { pfPlannerFrame.contentWindow.postMessage(e.data, PF_PLANNER_URL); } catch(err) {}
+    }
   }
   // Product added → forward to planner notepad
   if (e.data.type === 'add-to-planner') {
