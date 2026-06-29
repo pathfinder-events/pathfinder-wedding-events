@@ -970,6 +970,7 @@ function updateTierFooter() {
   var tier = tiers.find(function(t) { return t.id === selectedTierId; });
   if (!tier) { footer.style.display = 'none'; return; }
   footer.style.display = 'block';
+  footer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   nameEl.textContent = tier.name;
   estEl.textContent = 'Estimated total for ' + tierGuests + ' guests: ' +
     formatCurrency(tierGuests * tier.min) + ' – ' + formatCurrency(tierGuests * tier.max);
