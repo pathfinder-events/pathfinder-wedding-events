@@ -1745,6 +1745,11 @@ window.addEventListener('message', e => {
   if (e.data.type === 'add-to-planner') {
     try { pfPlannerFrame.contentWindow.postMessage(e.data, PF_PLANNER_URL); } catch(err) {}
   }
+  // Scroll drawer to bottom when tier selected
+if (e.data.type === 'scroll-to-bottom') {
+  var drawer = document.getElementById('pfDrawer');
+  if (drawer) drawer.scrollTop = drawer.scrollHeight;
+}
 });
 
 document.querySelector('.compass-img').onerror = function() {
