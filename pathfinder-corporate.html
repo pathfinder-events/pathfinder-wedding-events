@@ -1748,7 +1748,11 @@ window.addEventListener('message', e => {
   // Scroll drawer to bottom when tier selected
 if (e.data.type === 'scroll-to-bottom') {
   var drawer = document.getElementById('pfDrawer');
-  if (drawer) drawer.scrollTop = drawer.scrollHeight;
+  if (drawer) {
+    drawer.scrollTop = drawer.scrollHeight;
+    var iframe = document.getElementById('pfPlannerFrame');
+    if (iframe) iframe.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
 }
 });
 
