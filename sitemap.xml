@@ -10,7 +10,7 @@
 
   <!-- Wedding Events Page -->
   <url>
-    <loc>https://pathfindernz.com/pathfinder-wedding-events</loc>
+    <loc>https://pathfindernz.com/pathfinder-wedding.html</loc>
     <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
   <!-- Corporate Events Page -->
   <url>
-    <loc>https://pathfindernz.com/pathfinder-events</loc>
+    <loc>https://pathfindernz.com/pathfinder-corporate.html</loc>
     <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
