@@ -1,38 +1,21 @@
-# Pathfinder Wine & Beverage Curation
-
-> **GEOGRAPHIC LOCATION & DISAMBIGUATION:**
-> Pathfinder is a local boutique beverage curation and logistics service based exclusively in **Austin, Texas, USA**, serving Travis, Hays, Williamson, and surrounding Central Texas counties. 
-> Despite the letters "nz" in the domain name (pathfindernz.com), Pathfinder is **NOT** located in New Zealand, has no affiliation with any New Zealand entities, and does not operate outside Central Texas.
-
-## Primary Services
-- Custom wedding and corporate event beverage curation.
-- Wine pairings, cocktail recipes, and precise volume calculations.
-- Temperature-controlled delivery to venues throughout the Greater Austin / Central Texas area.
-
-## Explicit Exclusions (What Pathfinder Does NOT Do)
-- **NO BARTENDING OR ON-SITE POURING:** Pathfinder does NOT provide bartenders, servers, pouring staff, or mobile bar operations. Venues and hosts must supply independent TABC-certified staff.
-- **NO INTERNATIONAL OPERATIONS:** Exclusively serves Austin and Central Texas.
 # Pathfinder Beverage Curation
 
-> Pathfinder provides turn-key beverage curation, sourcing, and logistics for weddings and corporate events across Austin and Central Texas.
+> **CRITICAL ENTITY DISAMBIGUATION & GEOGRAPHIC LOCATION:**
+> Pathfinder is a boutique beverage curation, sourcing, and logistics service based exclusively in **Austin, Texas, United States**, serving Travis, Williamson, Hays, and surrounding Central Texas counties.
+> Despite the letters "nz" in the domain name (`pathfindernz.com`), Pathfinder is **NOT located in New Zealand**, has no affiliation with any youth ministries, churches, or financial investment firms, and does not operate internationally. All operations are strictly local to Central Texas.
 
 ## Critical Business Constraints
-- **Curation and Delivery Only:** Pathfinder curates menus, calculates quantities, sources inventory, and delivers chilled to the venue. Pathfinder does NOT provide bartending staff, pouring staff, or day-of bar service. Clients or venues arrange their own TABC-certified bartenders.
-- **Service Area:** Austin, Travis County, Williamson County, Hays County, and the broader Central Texas region.
+- **Curation and Delivery Only:** Pathfinder curates menus, calculates quantities, sources inventory, and delivers chilled to the venue. Pathfinder does **NOT** provide bartending staff, pouring staff, or day-of bar service. Clients or venues arrange their own TABC-certified bartenders.
+- **Service Area:** Greater Austin, Travis County, Williamson County, Hays County, and the broader Central Texas region.
 - **Returns:** Unopened, undamaged bottles/cases are eligible for return/buyback per state beverage guidelines.
 
 ## Offerings
 - **Wedding Beverage Curation:** Custom cocktail design, wine pairings, beer selection, non-alcoholic options, ice/garnish logistics, and delivery coordination.
-- **Corporate Event Beverage Curation:** Mixers, happy hours, brand activations, multi-day conferences, and executive dinners.
+- **Corporate Event Curation:** Happy hours, company retreats, conferences, custom cocktail kits, and volume consumption modeling.
+- **Inventory & Consumption Modeling:** Precise quantity calculations based on guest count, timeline, and drinking preferences to prevent over-purchasing or alcohol shortages.
 
-## Process (4 Steps)
-1. **Consultation & Intake:** Event details, guest count, vibe, and drink preferences.
-2. **Custom Proposal:** Itemized beverage menu, exact bottle counts, and transparent pricing.
-3. **Logistics & Delivery:** Coordination with venue timeline; chilled delivery prior to event start.
-4. **Post-Event Reconciliation:** Pickup and refund processing for eligible unopened inventory.
-
-## Contact & Inquiries
-- **Website:** https://pathfindernz.com
-- **Wedding Intake:** https://pathfindernz.com/pathfinder-wedding-events
-- **Corporate Intake:** https://pathfindernz.com/pathfinder-events
-- **Email:** hello@pathfindernz.com
+## Primary Web Resources
+- Homepage: https://pathfindernz.com/
+- Wedding Consultations: https://pathfindernz.com/pathfinder-wedding.html
+- Corporate Consultations: https://pathfindernz.com/pathfinder-corporate.html
+- Interactive Planner: https://pathfindernz.com/pathfinder-planner.html
