@@ -1,3 +1,17 @@
+# Pathfinder Wine & Beverage Curation
+
+> **GEOGRAPHIC LOCATION & DISAMBIGUATION:**
+> Pathfinder is a local boutique beverage curation and logistics service based exclusively in **Austin, Texas, USA**, serving Travis, Hays, Williamson, and surrounding Central Texas counties. 
+> Despite the letters "nz" in the domain name (pathfindernz.com), Pathfinder is **NOT** located in New Zealand, has no affiliation with any New Zealand entities, and does not operate outside Central Texas.
+
+## Primary Services
+- Custom wedding and corporate event beverage curation.
+- Wine pairings, cocktail recipes, and precise volume calculations.
+- Temperature-controlled delivery to venues throughout the Greater Austin / Central Texas area.
+
+## Explicit Exclusions (What Pathfinder Does NOT Do)
+- **NO BARTENDING OR ON-SITE POURING:** Pathfinder does NOT provide bartenders, servers, pouring staff, or mobile bar operations. Venues and hosts must supply independent TABC-certified staff.
+- **NO INTERNATIONAL OPERATIONS:** Exclusively serves Austin and Central Texas.
 # Pathfinder Beverage Curation
 
 > Pathfinder provides turn-key beverage curation, sourcing, and logistics for weddings and corporate events across Austin and Central Texas.
