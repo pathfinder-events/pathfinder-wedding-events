@@ -535,6 +535,30 @@
     #pfAppFrame { margin-top: 0; }
 
   </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Corporate Beverage Curation",
+  "serviceType": "Corporate Beverage Curation and Delivery Logistics",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Pathfinder",
+    "url": "https://pathfindernz.com/",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Austin",
+      "addressRegion": "TX",
+      "addressCountry": "US"
+    }
+  },
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Austin and Central Texas"
+  },
+  "description": "Custom drink programs, cocktail kits, consumption modeling, and chilled delivery for corporate events across Austin and Central Texas. Pathfinder provides beverage curation and delivery only; we do not provide on-site pouring or bartending staff."
+}
+</script>
 </head>
 <body>
 
@@ -581,13 +605,13 @@
     <h2 class="step-title">Your Contact Details</h2>
     <div class="step-rule"></div>
     <p class="step-desc">Let's start with the basics so I can reach you personally to go over your estimate.</p>
-    <div class="field"><label for="full-name">Full Name *</label><input type="text" id="full-name" placeholder="Your full name" /></div>
+    <div class="field"><label for="full-name">Full Name *</label><input type="text" id="full-name" name="name" autocomplete="name" placeholder="Your full name" required /></div>
     <div class="field"><label for="company">Company / Organisation *</label><input type="text" id="company" placeholder="Your company or organisation name" /></div>
     <div class="field"><label for="job-title">Your Title / Role</label><input type="text" id="job-title" placeholder="e.g. Events Manager, Office Manager, CEO" /></div>
     <div class="two-col">
-      <div class="field"><label for="email">Email Address *</label><input type="email" id="email" placeholder="you@example.com" /></div>
-      <div class="field"><label for="phone">Cell Phone *</label><input type="tel" id="phone" placeholder="+1 (000) 000-0000" /></div>
-    </div>
+  <div class="field"><label for="email">Email Address *</label><input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required /></div>
+  <div class="field"><label for="phone">Cell Phone *</label><input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+1 (000) 000-0000" required /></div>
+</div>
     <div class="field">
       <span class="field-label">How did you hear about me?</span>
       <div class="pill-group">
